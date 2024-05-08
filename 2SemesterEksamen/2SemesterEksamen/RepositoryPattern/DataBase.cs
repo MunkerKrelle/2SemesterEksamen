@@ -1,0 +1,157 @@
+﻿using Npgsql;
+using System;
+
+namespace RepositoryPattern
+{
+    public class UserRegistrationWithPattern
+    {
+        private readonly IRepository repository;
+        private NpgsqlDataSource dataSource;
+        private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
+        private string inputUsername;
+
+        public UserRegistrationWithPattern(IRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        public void RunLoop()
+        {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+
+            DropTables();
+            CreateTables();
+
+            Console.WriteLine("WELCOME TO BIG BUCKS:\n" +
+                "1) Create a new game, 2) Load an existing one");
+            while (true)
+            {
+                string userInput = Console.ReadLine();
+                CreateNewPlayer();
+
+            }
+        }
+
+
+
+        private string CreateNewPlayer()
+        {
+            Console.WriteLine("Choose username:");
+            inputUsername = Console.ReadLine();
+            try
+            {
+                repository.InsertUser(new User
+                {
+                    username = inputUsername,
+                    capital = 1000
+                });
+
+                NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT char_name, capital FROM player WHERE (char_name = '{inputUsername}')");
+                NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Console.WriteLine($"\nYo {inputUsername}, welcome to BIG BUCKS!");
+                }
+                reader.Close();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to regiser, try a different username");
+            }
+            return inputUsername;
+        }
+
+        private void CreateTables()
+        {
+            NpgsqlCommand cmdCreateStocksTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS stocks (
+                    stock_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                    name VARCHAR(255) NOT NULL UNIQUE,
+                    price INT NOT NULL,
+                    amount INT NOT NULL,
+                    avaliable BOOL NOT NULL,
+                    purchase_history DATE
+                );");
+
+            NpgsqlCommand cmdCreatePlayerTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS player (
+                    char_name VARCHAR(255) PRIMARY KEY,
+                    capital INT DEFAULT 1000
+                );");
+
+            NpgsqlCommand cmdCreatePortfolioTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS portfolio (
+                    port_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                    name VARCHAR(255) UNIQUE,
+                    amount INT,
+                    price_purchased_at INT,
+                    total_value INT
+                );");
+
+            NpgsqlCommand cmdCreateAbilitiesTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS abilities (
+                    ability_name VARCHAR(255) PRIMARY KEY,
+                    level INT NOT NULL,
+                    cost INT NOT NULL,
+                    unlocked BOOL NOT NULL,
+                    char_name VARCHAR(255) REFERENCES player(char_name)
+                );");
+            NpgsqlCommand cmdCreateContainsTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS contains (
+                    stock_id INT REFERENCES stocks(stock_id),
+                    port_id INT REFERENCES portfolio(port_id),
+                    price_purchased_at INT NOT NULL,
+                    purchase_date INT NOT NULL
+                );");
+            NpgsqlCommand cmdCreateHasTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS has (
+                    port_id INT REFERENCES portfolio(port_id),
+                    char_name VARCHAR(255) REFERENCES player(char_name)
+                );");
+
+
+            //KALD CREATE TABLE
+            cmdCreateStocksTable.ExecuteNonQuery();
+            cmdCreatePlayerTable.ExecuteNonQuery();
+            cmdCreatePortfolioTable.ExecuteNonQuery();
+            cmdCreateAbilitiesTable.ExecuteNonQuery();
+            cmdCreateContainsTable.ExecuteNonQuery();
+            cmdCreateHasTable.ExecuteNonQuery();
+
+            Console.WriteLine("Tables created");
+        }
+
+        private void DropTables()
+        {
+            try
+            {
+                NpgsqlCommand cmdDropTables = dataSource.CreateCommand(@"
+            DROP TABLE has;
+            DROP TABLE contains;
+            DROP TABLE abilities;
+            DROP TABLE portfolio;
+            DROP TABLE player;
+            DROP TABLE stocks;
+            ");
+                cmdDropTables.ExecuteNonQuery();
+
+                Console.WriteLine("Tables dropped");
+            }
+
+            catch (Exception)
+            {
+            }
+        }
+
+        private void Insert()
+        {
+
+        }
+
+        private void Update()
+        {
+
+        }
+    }
+}

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 2SemesterEksamen.ComponentPattern
+namespace ComponentPattern
 {
     internal class ArmsDealer
 {

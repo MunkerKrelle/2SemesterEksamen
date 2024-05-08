@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace _2SemesterEksamen
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -73,5 +73,9 @@ namespace _2SemesterEksamen
 
             base.Draw(gameTime);
         }
+    }
+
+    internal interface ISubject
+    {
     }
 }
