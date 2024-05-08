@@ -1,20 +1,40 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Algoritmer;
+using _2SemesterEksamen;
+using System.Collections.Generic;
 
 namespace _2SemesterEksamen
 {
-    public class Game1 : Game
+    public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        private static GameWorld instance;
+
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameWorld();
+                }
+                return instance;
+            }
+        }
+        public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
+
+        public Dictionary<Point, Cell> Cells { get; private set; } = new Dictionary<Point, Cell>();
+
+        public Dictionary<string, Texture2D> sprites { get; private set; } = new Dictionary<string, Texture2D>();
 
         protected override void Initialize()
         {
