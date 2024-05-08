@@ -31,7 +31,6 @@ namespace _2SemesterEksamen
             }
         }
 
-        public float DeltaTime { get; private set; }
 
         public GameWorld()
         {
@@ -62,13 +61,10 @@ namespace _2SemesterEksamen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-<<<<<<< Updated upstream
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            // TODO: Add your update logic here
-=======
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
->>>>>>> Stashed changes
+            // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
