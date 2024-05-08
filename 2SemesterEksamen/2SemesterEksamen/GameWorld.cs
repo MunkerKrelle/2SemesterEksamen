@@ -1,5 +1,4 @@
-﻿using BuilderPattern;
-using CommandPattern;
+﻿using CommandPattern;
 using ComponentPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -18,6 +17,19 @@ namespace _2SemesterEksamen
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+                private static GameWorld instance;
+
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameWorld();
+                }
+                return instance;
+            }
+        }
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
