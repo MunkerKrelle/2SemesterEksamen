@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CommandPattern\" />
+    <Folder Include="ComponentPattern\" />
     <Folder Include="FactoryPattern\" />
     <Folder Include="Algoritmer\" />
     <Folder Include="StatePattern\" />
