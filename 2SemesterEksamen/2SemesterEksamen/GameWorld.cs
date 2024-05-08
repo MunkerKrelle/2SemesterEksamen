@@ -9,7 +9,6 @@ using Algoritmer;
 using _2SemesterEksamen;
 using System.Collections.Generic;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace _2SemesterEksamen
@@ -19,7 +18,7 @@ namespace _2SemesterEksamen
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
