@@ -16,7 +16,6 @@ namespace ComponentPattern
         Animator animator;
         public Player(GameObject gameObject) : base(gameObject)
         {
-            
         }
         bool isMoving;
         public void Move(Vector2 velocity)

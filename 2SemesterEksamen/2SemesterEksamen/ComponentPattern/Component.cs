@@ -7,6 +7,7 @@ namespace ComponentPattern
     public abstract class Component : ICloneable
     {
         public bool IsEnabled { get; set; }
+
         public GameObject GameObject { get; private set; }
 
         public Component(GameObject gameObject)
