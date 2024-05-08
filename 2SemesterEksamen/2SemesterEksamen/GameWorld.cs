@@ -1,12 +1,12 @@
-﻿using CommandPattern;
+﻿using Algoritmer;
+using CommandPattern;
 using ComponentPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Algoritmer;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace _2SemesterEksamen
@@ -14,8 +14,16 @@ namespace _2SemesterEksamen
     public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
+
         private SpriteBatch _spriteBatch;
+
+        private List<GameObject> gameObjects = new List<GameObject>();
+        private List<GameObject> newGameObjects = new List<GameObject>();
+
+        private List<GameObject> destroyedGameObjects = new List<GameObject>();
         public float DeltaTime { get; private set; }
+        public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+
 
         private static GameWorld instance;
 
@@ -31,8 +39,6 @@ namespace _2SemesterEksamen
             }
         }
 
-        public float DeltaTime { get; private set; }
-
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -43,7 +49,7 @@ namespace _2SemesterEksamen
         public Dictionary<Point, Cell> Cells { get; private set; } = new Dictionary<Point, Cell>();
 
         public Dictionary<string, Texture2D> sprites { get; private set; } = new Dictionary<string, Texture2D>();
-        public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -62,13 +68,8 @@ namespace _2SemesterEksamen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-<<<<<<< Updated upstream
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            // TODO: Add your update logic here
-=======
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
->>>>>>> Stashed changes
 
             base.Update(gameTime);
         }

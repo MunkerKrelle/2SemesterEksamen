@@ -1,3 +1,13 @@
-﻿
-using var game = new _2SemesterEksamen.GameWorld();
-game.Run();
+﻿using System;
+
+namespace _2SemesterEksamen
+{
+    public static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            GameWorld.Instance.Run();
+        }
+    }
+}
