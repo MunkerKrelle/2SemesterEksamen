@@ -16,7 +16,6 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CommandPattern\" />
     <Folder Include="ComponentPattern\" />
     <Folder Include="Algoritmer\" />
     <Folder Include="FactoryPattern\" />
