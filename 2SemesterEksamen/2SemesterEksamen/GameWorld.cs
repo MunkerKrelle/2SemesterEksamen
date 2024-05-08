@@ -39,6 +39,7 @@ namespace _2SemesterEksamen
             }
         }
 
+
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
