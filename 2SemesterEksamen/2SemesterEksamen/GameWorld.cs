@@ -5,14 +5,13 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Algoritmer;
-using _2SemesterEksamen;
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 
 namespace _2SemesterEksamen
 {
-    public class GameWorld : Game, ISubject
+    public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -31,6 +30,9 @@ namespace _2SemesterEksamen
                 return instance;
             }
         }
+
+        public float DeltaTime { get; private set; }
+
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -60,8 +62,13 @@ namespace _2SemesterEksamen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+<<<<<<< Updated upstream
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             // TODO: Add your update logic here
+=======
+
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+>>>>>>> Stashed changes
 
             base.Update(gameTime);
         }
@@ -74,9 +81,5 @@ namespace _2SemesterEksamen
 
             base.Draw(gameTime);
         }
-    }
-
-    internal interface ISubject
-    {
     }
 }

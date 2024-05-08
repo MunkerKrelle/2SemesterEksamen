@@ -28,7 +28,7 @@ namespace ComponentPattern
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime) //Update
         {
             timeElapsed += GameWorld.Instance.DeltaTime;
 
