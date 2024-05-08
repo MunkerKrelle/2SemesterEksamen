@@ -1,3 +1,3 @@
 ﻿
-using var game = new _2SemesterEksamen.Game1();
+using var game = new _2SemesterEksamen.GameWorld();
 game.Run();
