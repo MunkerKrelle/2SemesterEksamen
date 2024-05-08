@@ -47,15 +47,15 @@ namespace FactoryPattern
             {
                 case ENEMYTYPE.SLOW:
                     sr.SetSprite("GuardFoward");
-                    go.AddComponent<Enemy>(new SideToSideMovement(50, new Vector2(0, 1), go));
+                    //go.AddComponent<Enemy>(new SideToSideMovement(50, new Vector2(0, 1), go));
                     break;
                 case ENEMYTYPE.FAST:
                     sr.SetSprite("GuardFoward");
-                    go.AddComponent<Enemy>(new PathMovement(100, new Vector2(0, 1), go));
+                    //go.AddComponent<Enemy>(new PathMovement(100, new Vector2(0, 1), go));
                     break;
                 case ENEMYTYPE.WATCH:
                     sr.SetSprite("GuardLeft");
-                    go.AddComponent<Enemy>(new LookOutStrategy(go));
+                    //go.AddComponent<Enemy>(new LookOutStrategy(go));
                     break;
             }
 

@@ -41,7 +41,7 @@ namespace _2SemesterEksamen
         public Dictionary<Point, Cell> Cells { get; private set; } = new Dictionary<Point, Cell>();
 
         public Dictionary<string, Texture2D> sprites { get; private set; } = new Dictionary<string, Texture2D>();
-
+        public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here

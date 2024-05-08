@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ComponentPattern
