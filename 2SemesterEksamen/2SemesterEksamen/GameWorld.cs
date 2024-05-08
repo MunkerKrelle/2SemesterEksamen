@@ -16,8 +16,9 @@ namespace _2SemesterEksamen
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        public float DeltaTime { get; private set; }
 
-                private static GameWorld instance;
+        private static GameWorld instance;
 
         public static GameWorld Instance
         {
@@ -59,7 +60,7 @@ namespace _2SemesterEksamen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
