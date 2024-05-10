@@ -12,7 +12,7 @@ namespace RepositoryPattern
         private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
 
         private string charName, weaponName;
-        private int health, scrapAmount, damage, price, scrapDropped;
+        private int health, scrapAmount, damage, price, scrapDropped, defeated;
         private float speed;
         private bool buy, sell, enemyKilled;
         public UserRegistrationWithPattern(IRepository repository)
@@ -53,13 +53,17 @@ namespace RepositoryPattern
                     price INT NOT NULL
                 );");
 
-            NpgsqlCommand cmdCreateEnemyTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS enemy (
+            NpgsqlCommand cmdCreateBestiaryTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS bestiary (
                     enemy_id INT GENERATED ALWAS AS IDENTITY PRIMARY KEY,
+                    name VARCHAR(255) NOT NULL UNIQUE,
                     health INT NOT NULL,
                     damage INT NOT NULL,
                     speed FLOAT NOT NULL,
-                    scrap_dropped INT NOT NULL
+                    strengths VARCHAR(255) NOT NULL UNIQUE,
+                    weaknesses VARCHAR(255) NOT NULL UNIQUE,
+                    scrap_dropped INT NOT NULL,
+                    defeated INT NOT NULL
                 );");
 
             NpgsqlCommand cmdCreateArmsDealerTable = dataSource.CreateCommand(@"
@@ -81,7 +85,7 @@ namespace RepositoryPattern
 
             cmdCreatePlayerTable.ExecuteNonQuery();
             cmdCreateWeaponTable.ExecuteNonQuery();
-            cmdCreateEnemyTable.ExecuteNonQuery();
+            cmdCreateBestiaryTable.ExecuteNonQuery();
             cmdCreateArmsDealerTable.ExecuteNonQuery();
             cmdCreateInventoryTable.ExecuteNonQuery();
             cmdCreateHasTable.ExecuteNonQuery();
@@ -96,7 +100,7 @@ namespace RepositoryPattern
             DROP TABLE has;
             DROP TABLE trades;
             DROP TABLE player;
-            DROP TABLE enemy;
+            DROP TABLE bestiary;
             DROP TABLE arms_dealer;
             DROP TABLE weapon;
             DROP TABLE inventory;
@@ -118,14 +122,8 @@ namespace RepositoryPattern
         VALUES('{charName}', {health}, {speed}, {scrapAmount})
         ");
 
-            NpgsqlCommand cmdEnemyPlayerValues = dataSource.CreateCommand($@"
-        INSERT INTO player (health, damage, speed, scrap_dropped)
-
-        VALUES('{health}', {damage}, {speed}, {scrapDropped})
-        ");
-
             NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
-        INSERT INTO player (name, damage, price)
+        INSERT INTO weapon (name, damage, price)
 
         VALUES('Wrench', 2, 10),
               ('Steel Bat', 5, 20),
@@ -133,9 +131,20 @@ namespace RepositoryPattern
               ('Lightsaber', 25, 100)
         ");
 
+            NpgsqlCommand cmdInsertBestiaryValues = dataSource.CreateCommand($@"
+        INSERT INTO bestiary (name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated)
+
+        VALUES('Drone', 5, 1, 1,'none', 'everything', 1, 0),
+              ('Android', 10, 2, 2, 'none', 'melee', 2, 0),
+              ('Sentinel', 25, 5, 4, 'ranged', 'melee', 5, 0),
+              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weapons', 20, 0),
+              ('Cyborg', 75, 50, 10, 'bio regeneration', 'emp grenades', 50, 0)
+        ");
+
+
             cmdInsertPlayerValues.ExecuteNonQuery();
-            cmdEnemyPlayerValues.ExecuteNonQuery();
             cmdInsertWeaponValues.ExecuteNonQuery();
+            cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
         private void TradeWeapon()
@@ -190,14 +199,25 @@ namespace RepositoryPattern
         {
             if (enemyKilled)
             {
-                NpgsqlCommand cmdCollecScrap = dataSource.CreateCommand($@"
+                NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
             UPDATE player
             SET scrap_amount = scrap_amount + {scrapDropped}
             ");
 
-                cmdCollecScrap.ExecuteNonQuery();
+                cmdCollectScrap.ExecuteNonQuery();
             }
         }
+
+        //private void EnemyDefeated()
+        //{
+        //    NpgsqlCommand cmdEnemyDefeated = dataSource.CreateCommand($@"
+        //    UPDATE bestiary
+        //    SET defeated = defeated + 1
+        //    WHERE name = {ENEMYNAME}
+        //    ");
+
+        //    cmdEnemyDefeated.ExecuteNonQuery();
+        //}
 
         //private void TradeWeaponTest()
         //{
@@ -378,5 +398,17 @@ namespace RepositoryPattern
         //    Console.ReadKey();
         //}
 
+        private void ShowBestiary()
+        {
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"Name: {reader.GetValue(0)}, Health: {reader.GetValue(1)}, Damage: {reader.GetValue(2)}, " +
+                    $"Speed: {reader.GetValue(3)}, Strengths: {reader.GetValue(4)}, Weaknesses: {reader.GetValue(5)}, " +
+                    $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
+            }
+        }
     }
 }
