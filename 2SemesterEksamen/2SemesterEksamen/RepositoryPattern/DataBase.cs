@@ -208,6 +208,7 @@ namespace RepositoryPattern
             }
         }
 
+        //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
         //private void EnemyDefeated()
         //{
         //    NpgsqlCommand cmdEnemyDefeated = dataSource.CreateCommand($@"
@@ -219,6 +220,8 @@ namespace RepositoryPattern
         //    cmdEnemyDefeated.ExecuteNonQuery();
         //}
 
+
+        //BYT VÅBEN MED VAULES_______________________________________________________________________________________
         //private void TradeWeaponTest()
         //{
         //    Console.WriteLine("Buy or sell?");
@@ -342,7 +345,7 @@ namespace RepositoryPattern
         //    }
         //}
 
-        //VIRKER IKKE
+        //VIRKER IKKE SORTER_______________________________________________________________________________________
         private void SortTables()
         {
             NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
@@ -366,6 +369,8 @@ namespace RepositoryPattern
 
             Console.WriteLine("You've been sorted mate");
         }
+
+        //INSERT MED VALUES_______________________________________________________________________________________
         //private void InsertTest()
         ////VALUES SKAL VÆRE PLAYER/ENEMY/WEAPON.X
         //{
@@ -398,6 +403,7 @@ namespace RepositoryPattern
         //    Console.ReadKey();
         //}
 
+        //VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
         private void ShowBestiary()
         {
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
