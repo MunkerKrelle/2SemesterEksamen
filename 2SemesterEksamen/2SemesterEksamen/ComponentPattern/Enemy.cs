@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
 using StatePattern;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace ComponentPattern
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-            ChangeState();
+            //ChangeState();
         }       
 
         float timeSinceLastSwitch;
@@ -26,11 +27,11 @@ namespace ComponentPattern
             {
                 if (currentState is AttackState)
                 {
-                    ChangeState();
+                    //ChangeState();
                 }
                 else
                 {
-                    ChangeState();
+                    //ChangeState();
                 }
                 timeSinceLastSwitch = 0;
             }
@@ -40,7 +41,7 @@ namespace ComponentPattern
                 //EnemyPool.Instance.ReleaseObject(GameObject);
             }
         }
-
+         
         public override void OnCollisionEnter(Collider col)
         {
             base.OnCollisionEnter(col);

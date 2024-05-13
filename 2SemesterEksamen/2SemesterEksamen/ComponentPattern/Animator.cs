@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace ComponentPattern
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime) //Update
         {
             timeElapsed += GameWorld.Instance.DeltaTime;
 

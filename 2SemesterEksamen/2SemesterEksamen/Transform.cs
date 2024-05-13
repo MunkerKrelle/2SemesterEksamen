@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _2SemesterEksamen
 {
-    internal class Transform
+    public class Transform
     {
         public Vector2 Position { get; set; }
         public float Rotation { get; set; } = 0f;
