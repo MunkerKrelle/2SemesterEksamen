@@ -45,6 +45,7 @@ namespace FactoryPattern
 
             switch (type)
             {
+                //BYG VÅBEN
                 case ENEMYTYPE.SLOW:
                     sr.SetSprite("GuardFoward");
                     //go.AddComponent<Enemy>(new SideToSideMovement(50, new Vector2(0, 1), go));
