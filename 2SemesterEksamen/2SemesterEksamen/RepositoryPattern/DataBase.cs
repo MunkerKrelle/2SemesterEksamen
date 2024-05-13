@@ -43,6 +43,7 @@ namespace RepositoryPattern
                     item_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                     weapon_name VARCHAR(255),
                     damage INT NOT NULL
+                    price INT NOT NULL
                 );");
 
             NpgsqlCommand cmdCreateWeaponTable = dataSource.CreateCommand(@"
@@ -152,9 +153,9 @@ namespace RepositoryPattern
             if (buy)
             {
                 NpgsqlCommand cmdBuyWeapon = dataSource.CreateCommand($@"
-        INSERT INTO inventory (weapon_name, damage)
+        INSERT INTO inventory (weapon_name, damage, price)
 
-        VALUES('{weaponName}', {damage})
+        VALUES('{weaponName}', {damage}, {price})
         ");
 
                 NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
