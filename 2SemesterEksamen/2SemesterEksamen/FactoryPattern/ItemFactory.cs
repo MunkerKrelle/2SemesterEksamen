@@ -50,17 +50,17 @@ namespace FactoryPattern
             switch (type)
             {
                 case WEAPONTYPE.WRENCH:
-                    sr.SetSprite("wrench");
+                    sr.SetSprite("");
                     go.AddComponent<Weapon>(wrenchValues[0], wrenchValues[1], wrenchValues[2]);
                     break;
                 case WEAPONTYPE.STEELBAT:
-                    sr.SetSprite("steel bat");
+                    sr.SetSprite("");
                     break;
                 case WEAPONTYPE.KATANA:
-                    sr.SetSprite("katana");
+                    sr.SetSprite("");
                     break;
                 case WEAPONTYPE.LIGHTSABER:
-                    sr.SetSprite("lightsaber");
+                    sr.SetSprite("");
                     break;
                 default:
                     break;
