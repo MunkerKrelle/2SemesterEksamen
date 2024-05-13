@@ -35,11 +35,11 @@ namespace ComponentPattern
                 }
                 timeSinceLastSwitch = 0;
             }
-            currentState.Execute();
-            if (GameObject.Transform.Position.Y > GameWorld.Instance.GraphicsDevice.Viewport.Height)
-            {
-                //EnemyPool.Instance.ReleaseObject(GameObject);
-            }
+            //currentState.Execute();
+            //if (GameObject.Transform.Position.Y > GameWorld.Instance.GraphicsDevice.Viewport.Height)
+            //{
+            //    //EnemyPool.Instance.ReleaseObject(GameObject);
+            //}
         }
          
         public override void OnCollisionEnter(Collider col)
