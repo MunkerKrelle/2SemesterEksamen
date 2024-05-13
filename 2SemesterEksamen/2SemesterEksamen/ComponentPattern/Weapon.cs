@@ -18,7 +18,5 @@ namespace ComponentPattern
             this.damage = damage;
             this.price = price;
         }
-
-
     }
 }

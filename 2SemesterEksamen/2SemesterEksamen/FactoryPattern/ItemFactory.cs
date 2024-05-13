@@ -17,7 +17,6 @@ namespace FactoryPattern
 
 
         private static ItemFactory instance;
-        private GameObject prototype;
 
         public static ItemFactory Instance
         {
@@ -40,6 +39,7 @@ namespace FactoryPattern
 
         
         public  GameObject Create(WEAPONTYPE type)
+
         {
             GameObject go = new GameObject();
             List<string> wrenchValues = database.ReturnValues("wrench");
