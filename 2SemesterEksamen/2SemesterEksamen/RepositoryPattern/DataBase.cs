@@ -1,6 +1,7 @@
 ﻿using ComponentPattern;
 using Npgsql;
 using System;
+using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
@@ -15,6 +16,11 @@ namespace RepositoryPattern
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
         private float speed;
         private bool buy, sell, enemyKilled;
+
+        public UserRegistrationWithPattern()
+        {
+
+        }
         public UserRegistrationWithPattern(IRepository repository)
         {
             this.repository = repository;
@@ -28,7 +34,7 @@ namespace RepositoryPattern
             CreateTables();
         }
 
-        private void CreateTables()
+        public void CreateTables()
         {
             NpgsqlCommand cmdCreatePlayerTable = dataSource.CreateCommand(@"
                 CREATE TABLE IF NOT EXISTS player (
@@ -114,7 +120,7 @@ namespace RepositoryPattern
             }
         }
 
-        private void Insert()
+        public void Insert()
         //VALUES SKAL VÆRE PLAYER/ENEMY.X
         {
             NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
@@ -146,6 +152,27 @@ namespace RepositoryPattern
             cmdInsertPlayerValues.ExecuteNonQuery();
             cmdInsertWeaponValues.ExecuteNonQuery();
             cmdInsertBestiaryValues.ExecuteNonQuery();
+        }
+
+        public List<string> ReturnValues(string weaponName)
+        {
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon" +
+                                                         $"WHERE name = {weaponName}");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            List<string> values = new List<string>();
+
+            while (reader.Read())
+            {
+                string name = (reader.GetValue(0).ToString());
+                string damage = (reader.GetValue(1).ToString());
+                string price = (reader.GetValue(2).ToString());
+
+                values.Add(name);
+                values.Add(damage);
+                values.Add(price);
+            }
+
+            return values;
         }
 
         private void TradeWeapon()
