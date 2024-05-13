@@ -43,8 +43,8 @@ namespace ComponentPattern
         public override void Awake()
         {
             speed = 100; 
-            animator = GameObject.GetComponent<Animator>() as Animator;
-            animator.PlayAnimation("Forward");
+           // animator = GameObject.GetComponent<Animator>() as Animator;
+            //animator.PlayAnimation("Forward");
         }
         public void MoveByAddition(Vector2 velocity)
         {

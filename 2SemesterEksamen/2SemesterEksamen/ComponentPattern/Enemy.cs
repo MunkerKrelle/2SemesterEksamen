@@ -41,7 +41,7 @@ namespace ComponentPattern
                 //EnemyPool.Instance.ReleaseObject(GameObject);
             }
         }
-
+         
         public override void OnCollisionEnter(Collider col)
         {
             base.OnCollisionEnter(col);
