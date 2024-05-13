@@ -11,7 +11,6 @@ namespace FactoryPattern
     {
 
         private static ItemFactory instance;
-        private GameObject prototype;
 
         public static ItemFactory Instance
         {

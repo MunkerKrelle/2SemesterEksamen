@@ -10,6 +10,7 @@ namespace ComponentPattern
     {
         public ArmsDealer(GameObject gameObject) : base(gameObject)
         {
+
         }
     }
 }
