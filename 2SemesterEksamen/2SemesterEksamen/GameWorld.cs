@@ -53,7 +53,21 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            GameObject playerGo = new GameObject();
+            Player player = playerGo.AddComponent<Player>();
+            playerGo.AddComponent<SpriteRenderer>();
+            gameObjects.Add(playerGo);
+            foreach (GameObject go in gameObjects)
+            {
+                go.Awake();
+            }
+
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
+
+
 
             base.Initialize();
         }
@@ -75,6 +89,13 @@ namespace _2SemesterEksamen
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            foreach (GameObject go in gameObjects)
+            {
+                go.Update(gameTime);
+            }
+            InputHandler.Instance.Execute();
+
             base.Update(gameTime);
         }
 
@@ -82,7 +103,14 @@ namespace _2SemesterEksamen
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            foreach (GameObject go in gameObjects)
+            {
+                go.Draw(_spriteBatch);
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
