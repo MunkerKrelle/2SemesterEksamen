@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ComponentPattern
 {
-    internal class ArmsDealer
-{
-}
+    internal class ArmsDealer : Component
+    {
+        public ArmsDealer(GameObject gameObject) : base(gameObject)
+        {
+        }
+    }
 }
