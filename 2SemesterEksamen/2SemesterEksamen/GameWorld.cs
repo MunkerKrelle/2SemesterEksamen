@@ -62,7 +62,10 @@ namespace _2SemesterEksamen
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            foreach (GameObject go in gameObjects)
+            {
+                go.Start();
+            }
         }
 
         protected override void Update(GameTime gameTime)
