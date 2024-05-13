@@ -1,4 +1,5 @@
 ﻿using Algoritmer;
+using BuilderPattern;
 using CommandPattern;
 using ComponentPattern;
 using Microsoft.Xna.Framework;
@@ -53,10 +54,11 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
-            GameObject playerGo = new GameObject();
-            Player player = playerGo.AddComponent<Player>();
-            playerGo.AddComponent<SpriteRenderer>();
+            Director director = new Director(new PlayerBuilder());
+            GameObject playerGo = director.Construct();
             gameObjects.Add(playerGo);
+
+            Player player = playerGo.GetComponent<Player>() as Player;
             foreach (GameObject go in gameObjects)
             {
                 go.Awake();
@@ -89,7 +91,7 @@ namespace _2SemesterEksamen
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
