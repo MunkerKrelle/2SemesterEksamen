@@ -27,6 +27,9 @@ namespace FactoryPattern
         {
 
         }
+
+        GameObject prototype;
+
         public override GameObject Create()
         {
             return (GameObject)prototype.Clone();

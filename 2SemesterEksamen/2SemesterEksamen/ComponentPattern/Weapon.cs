@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComponentPattern
 {
-    internal class Weapon
+    public class Weapon
 {
 }
 }
