@@ -40,7 +40,6 @@ namespace _2SemesterEksamen
             }
         }
 
-
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -58,6 +57,12 @@ namespace _2SemesterEksamen
             GameObject playerGo = director.Construct();
             gameObjects.Add(playerGo);
 
+            GameObject shopKeeperGo = new GameObject();
+            ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
+            shopKeeperGo.AddComponent<SpriteRenderer>();
+            gameObjects.Add(shopKeeperGo);
+
+
             Player player = playerGo.GetComponent<Player>() as Player;
             foreach (GameObject go in gameObjects)
             {
@@ -69,7 +74,9 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
-
+            _graphics.PreferredBackBufferWidth = 1200;
+            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
