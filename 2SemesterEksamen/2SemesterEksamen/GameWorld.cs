@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -53,6 +54,9 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
+            IRepository repository = new PostgresRepository();
+            new UserRegistrationWithPattern(repository).RunLoop();
+
             GameObject playerGo = new GameObject();
             Player player = playerGo.AddComponent<Player>();
             playerGo.AddComponent<SpriteRenderer>();
@@ -62,6 +66,8 @@ namespace _2SemesterEksamen
             ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
             shopKeeperGo.AddComponent<SpriteRenderer>();
             gameObjects.Add(shopKeeperGo);
+
+            gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
 
             foreach (GameObject go in gameObjects)
             {

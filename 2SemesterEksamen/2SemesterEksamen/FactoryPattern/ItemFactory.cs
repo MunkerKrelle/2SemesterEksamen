@@ -10,12 +10,10 @@ using System.Drawing.Text;
 
 namespace FactoryPattern
 {
+    public enum WEAPONTYPE { WRENCH, STEELBAT, KATANA, LIGHTSABER }
+
     class ItemFactory : Factory
     {
-
-        public enum WEAPONTYPE { WRENCH, STEELBAT, KATANA, LIGHTSABER }
-
-
         private static ItemFactory instance;
 
         public static ItemFactory Instance
@@ -29,49 +27,50 @@ namespace FactoryPattern
                 return instance;
             }
         }
-        private ItemFactory()
-        {
-
-        }
 
         private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
-        
 
-        
-        //public  GameObject Create(WEAPONTYPE type)
 
-        //{
-        //    GameObject go = new GameObject();
-        //    List<string> wrenchValues = database.ReturnValues("wrench");
+        private GameObject prototype;
+
+        public GameObject Create(WEAPONTYPE type)
+
+        {
+            GameObject go = new GameObject();
+            List<string> wrenchValues = database.ReturnValues("Wrench");
+
 
         //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
         //    go.AddComponent<Collider>();
 
-        //    switch (type)
-        //    {
-        //        case WEAPONTYPE.WRENCH:
-        //            sr.SetSprite("");
-        //            go.AddComponent<Weapon>(wrenchValues[0], wrenchValues[1], wrenchValues[2]);
-        //            break;
-        //        case WEAPONTYPE.STEELBAT:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.KATANA:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.LIGHTSABER:
-        //            sr.SetSprite("");
-        //            break;
-        //        default:
-        //            break;
-        //    }
 
-        //    return (GameObject)prototype.Clone();
-        //}
+            switch (type)
+            {
+                case WEAPONTYPE.WRENCH:
+                    sr.SetSprite("wrench");
+                    go.AddComponent<Weapon>(go, wrenchValues[0]);
+                    break;
+                case WEAPONTYPE.STEELBAT:
+                    sr.SetSprite("");
+                    break;
+                case WEAPONTYPE.KATANA:
+                    sr.SetSprite("");
+                    break;
+                case WEAPONTYPE.LIGHTSABER:
+                    sr.SetSprite("");
+                    break;
+            }
+
+            return go;
+        }
 
         public override GameObject Create()
         {
             GameObject go = new GameObject();
+
+            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+            sr.SetSprite("wrench");
+            go.AddComponent<Weapon>(go);
             return go;
         }
     }
