@@ -22,7 +22,7 @@ namespace ComponentPattern
         //public Weapon(GameObject gameObject) : base(gameObject)
         //{ }
 
-        public void Update()
+        public override void Update(GameTime gameTime)
         {
             GameObject.Transform.Position = new Vector2(500, 500);
         }

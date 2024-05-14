@@ -67,7 +67,7 @@ namespace FactoryPattern
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite("wrench");
-            go.AddComponent<Weapon>(go);
+            go.AddComponent<Weapon>();
             return go;
         }
     }
