@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using System.Threading;
 
 
 namespace FactoryPattern
 {
-    public enum ENEMYTYPE { SLOW, FAST, WATCH }
     class EnemyFactory : Factory
     {
         private static EnemyFactory instance;
@@ -29,50 +29,22 @@ namespace FactoryPattern
                 return instance;
             }
         }
-        /// <summary>
-        /// This method creates the guards by adding them to the new gameobject that is being made, as a component.
-        /// The different Enums enable us to select which guard we want created for different purposes.
-        /// We also make sure to add a SpriteRenderer to the gameobject so the guard is drawn on screen.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public GameObject Create(ENEMYTYPE type)
-        {
-            GameObject go = new GameObject();
 
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            go.AddComponent<Collider>();
 
-            switch (type)
-            {
-                //BYG VÅBEN
-                case ENEMYTYPE.SLOW:
-                    sr.SetSprite("GuardFoward");
-                    //go.AddComponent<Enemy>(new SideToSideMovement(50, new Vector2(0, 1), go));
-                    break;
-                case ENEMYTYPE.FAST:
-                    sr.SetSprite("GuardFoward");
-                    //go.AddComponent<Enemy>(new PathMovement(100, new Vector2(0, 1), go));
-                    break;
-                case ENEMYTYPE.WATCH:
-                    sr.SetSprite("GuardLeft");
-                    //go.AddComponent<Enemy>(new LookOutStrategy(go));
-                    break;
-            }
-
-            return go;
-        }
-        /// <summary>
-        /// This is a default Create method for the factory.
-        /// </summary>
-        /// <returns></returns>
         public override GameObject Create()
         {
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite("Guard");
+            go.Transform.Position = new Vector2(100, 100);
+            sr.SetSprite("Robot1");
             go.AddComponent<Enemy>();
+
+        //    //Thread enemyThread = new Thread(searchForEnemy)
+        //    //enemyThread.IsBackground = true;
+        //    //enemyThread.Start();
+
+
             return go;
         }
     }

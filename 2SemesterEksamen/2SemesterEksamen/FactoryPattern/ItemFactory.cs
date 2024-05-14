@@ -30,6 +30,7 @@ namespace FactoryPattern
 
         private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
 
+
         private GameObject prototype;
 
         public GameObject Create(WEAPONTYPE type)
