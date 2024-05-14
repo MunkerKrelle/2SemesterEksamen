@@ -60,11 +60,9 @@ namespace _2SemesterEksamen
             gameObjects.Add(playerGo);
 
             Player player = playerGo.GetComponent<Player>() as Player;
+
             IRepository repository = new PostgresRepository();
             new UserRegistrationWithPattern(repository).RunLoop();
-
-
-            gameObjects.Add(playerGo);
 
             GameObject shopKeeperGo = new GameObject();
             ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
