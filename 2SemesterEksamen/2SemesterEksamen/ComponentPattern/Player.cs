@@ -1,5 +1,4 @@
 ﻿using _2SemesterEksamen;
-using FactoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,21 +28,21 @@ namespace ComponentPattern
 
             GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
 
-            //if (velocity.X > 0)
-            //{
-            //    animator.PlayAnimation("Right");
-            //}
-            //else if (velocity.X < 0)
-            //{
-            //    animator.PlayAnimation("Left");
-            //}
+            if (velocity.X > 0)
+            {
+                animator.PlayAnimation("Right");
+            }
+            else if (velocity.X < 0)
+            {
+                animator.PlayAnimation("Left");
+            }
         }
 
         public override void Awake()
         {
-            speed = 100; 
-           // animator = GameObject.GetComponent<Animator>() as Animator;
-            //animator.PlayAnimation("Forward");
+            speed = 200; 
+            animator = GameObject.GetComponent<Animator>() as Animator;
+            animator.PlayAnimation("Forward");
         }
         public void MoveByAddition(Vector2 velocity)
         {

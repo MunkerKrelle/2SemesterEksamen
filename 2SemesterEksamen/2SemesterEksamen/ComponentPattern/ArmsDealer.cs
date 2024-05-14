@@ -1,6 +1,5 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
-using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
