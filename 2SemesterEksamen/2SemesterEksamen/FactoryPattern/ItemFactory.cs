@@ -67,7 +67,7 @@ namespace FactoryPattern
             var wrenchValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(wrenchValues[0].Item1);
+            sr.SetSprite(wrenchValues[0].Item1.ToLower());
             go.AddComponent<Weapon>(wrenchValues[0].Item2, wrenchValues[0].Item3);
 
             return go;
