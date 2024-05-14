@@ -91,6 +91,13 @@
 /processorParam:TextureFormat=Color
 /build:steelbat.png
 
+#begin text.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:text.spritefont
+
 #begin wrench.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -64,8 +64,15 @@ namespace _2SemesterEksamen
 
             GameObject shopKeeperGo = new GameObject();
             ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
+
+            //TILFØJ UI SÅLEDES
             shopKeeperGo.AddComponent<SpriteRenderer>();
             gameObjects.Add(shopKeeperGo);
+
+
+            GameObject database = new GameObject();
+            database.AddComponent<UI>();
+            gameObjects.Add(database);
 
             gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
             gameObjects.Add(EnemyFactory.Instance.Create());

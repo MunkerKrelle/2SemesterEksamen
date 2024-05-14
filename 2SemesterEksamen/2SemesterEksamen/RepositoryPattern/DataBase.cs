@@ -10,7 +10,7 @@ namespace RepositoryPattern
     {
         private readonly IRepository repository;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
+        private string connectionString = "Host=localhost;Username=postgres;Password=Saunire.124;Database=myDatabase";
 
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
@@ -166,11 +166,11 @@ namespace RepositoryPattern
      
             while (reader.Read())
             {
-                //string name = (reader.GetValue(0).ToString()));
+                string name = (reader.GetValue(0).ToString());
                 string damage = (reader.GetValue(0).ToString());
                 string price = (reader.GetValue(1).ToString());
 
-                //values.Add(name);
+                values.Add(name);
                 values.Add(damage);
                 values.Add(price);
             }
