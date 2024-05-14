@@ -57,6 +57,9 @@ namespace _2SemesterEksamen
         {
             Director director = new Director(new PlayerBuilder());
             GameObject playerGo = director.Construct();
+            gameObjects.Add(playerGo);
+
+            Player player = playerGo.GetComponent<Player>() as Player;
             IRepository repository = new PostgresRepository();
             new UserRegistrationWithPattern(repository).RunLoop();
 
