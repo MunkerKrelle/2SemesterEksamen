@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Security.Cryptography;
+using System.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
@@ -152,7 +153,6 @@ namespace RepositoryPattern
               ('Cyborg', 75, 50, 10, 'bio regeneration', 'emp grenades', 50, 0)
         ");
 
-
             cmdInsertPlayerValues.ExecuteNonQuery();
             cmdInsertWeaponValues.ExecuteNonQuery();
             cmdInsertBestiaryValues.ExecuteNonQuery();
@@ -200,14 +200,9 @@ namespace RepositoryPattern
                 beastInfo.Add(weaknesses);
                 beastInfo.Add(scrap_dropped);
                 beastInfo.Add(defeated);
-
             }
 
-            reader.Close();
-
-
             return beastInfo;
-
         }
 
 
