@@ -55,6 +55,7 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
 
         }
+
         public override void Update(GameTime gameTime)
         {
         }
