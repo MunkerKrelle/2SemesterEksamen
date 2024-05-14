@@ -32,6 +32,7 @@ namespace RepositoryPattern
 
             DropTables();
             CreateTables();
+            Insert();
         }
 
         public void CreateTables()
@@ -48,7 +49,7 @@ namespace RepositoryPattern
                 CREATE TABLE IF NOT EXISTS inventory (
                     item_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                     weapon_name VARCHAR(255),
-                    damage INT NOT NULL
+                    damage INT NOT NULL,
                     price INT NOT NULL
                 );");
 
@@ -62,13 +63,13 @@ namespace RepositoryPattern
 
             NpgsqlCommand cmdCreateBestiaryTable = dataSource.CreateCommand(@"
                 CREATE TABLE IF NOT EXISTS bestiary (
-                    enemy_id INT GENERATED ALWAS AS IDENTITY PRIMARY KEY,
+                    enemy_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                     name VARCHAR(255) NOT NULL UNIQUE,
                     health INT NOT NULL,
                     damage INT NOT NULL,
                     speed FLOAT NOT NULL,
-                    strengths VARCHAR(255) NOT NULL UNIQUE,
-                    weaknesses VARCHAR(255) NOT NULL UNIQUE,
+                    strengths VARCHAR(255) NOT NULL,
+                    weaknesses VARCHAR(255) NOT NULL,
                     scrap_dropped INT NOT NULL,
                     defeated INT NOT NULL
                 );");
@@ -122,11 +123,12 @@ namespace RepositoryPattern
 
         public void Insert()
         //VALUES SKAL VÆRE PLAYER/ENEMY.X
+
         {
             NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
         INSERT INTO player (name, health, speed, scrap_amount)
 
-        VALUES('{charName}', {health}, {speed}, {scrapAmount})
+        VALUES('TestPlayer', 100, 50, 0)
         ");
 
             NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
@@ -156,18 +158,19 @@ namespace RepositoryPattern
 
         public List<string> ReturnValues(string weaponName)
         {
-            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon" +
-                                                         $"WHERE name = {weaponName}");
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT damage, price FROM weapon"
+                                                         );
             NpgsqlDataReader reader = cmd.ExecuteReader();
             List<string> values = new List<string>();
-
+     
             while (reader.Read())
             {
-                string name = (reader.GetValue(0).ToString());
-                string damage = (reader.GetValue(1).ToString());
-                string price = (reader.GetValue(2).ToString());
+                //string name = (reader.GetValue(0).ToString()));
+                string damage = (reader.GetValue(0).ToString());
+                string price = (reader.GetValue(1).ToString());
 
-                values.Add(name);
+                //values.Add(name);
                 values.Add(damage);
                 values.Add(price);
             }
