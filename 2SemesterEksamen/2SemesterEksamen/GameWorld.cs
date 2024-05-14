@@ -2,10 +2,12 @@
 using BuilderPattern;
 using CommandPattern;
 using ComponentPattern;
+using FactoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,6 +57,10 @@ namespace _2SemesterEksamen
         {
             Director director = new Director(new PlayerBuilder());
             GameObject playerGo = director.Construct();
+            IRepository repository = new PostgresRepository();
+            new UserRegistrationWithPattern(repository).RunLoop();
+
+
             gameObjects.Add(playerGo);
 
             GameObject shopKeeperGo = new GameObject();
@@ -62,8 +68,8 @@ namespace _2SemesterEksamen
             shopKeeperGo.AddComponent<SpriteRenderer>();
             gameObjects.Add(shopKeeperGo);
 
+            gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
 
-            Player player = playerGo.GetComponent<Player>() as Player;
             foreach (GameObject go in gameObjects)
             {
                 go.Awake();
@@ -73,6 +79,8 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
+
+            gameObjects.Add(EnemyFactory.Instance.Create());
 
             _graphics.PreferredBackBufferWidth = 1200;
             _graphics.PreferredBackBufferHeight = 800;

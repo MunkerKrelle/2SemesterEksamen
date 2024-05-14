@@ -15,33 +15,16 @@ namespace ComponentPattern
         public Enemy(GameObject gameObject) : base(gameObject)
         {
             //ChangeState();
-        }       
+        }
 
         float timeSinceLastSwitch;
         float changeTime = 1f;
 
         public override void Update(GameTime gameTime)
         {
-            timeSinceLastSwitch += GameWorld.Instance.DeltaTime;
-            if (timeSinceLastSwitch >= changeTime)
-            {
-                if (currentState is AttackState)
-                {
-                    //ChangeState();
-                }
-                else
-                {
-                    //ChangeState();
-                }
-                timeSinceLastSwitch = 0;
-            }
-            currentState.Execute();
-            if (GameObject.Transform.Position.Y > GameWorld.Instance.GraphicsDevice.Viewport.Height)
-            {
-                //EnemyPool.Instance.ReleaseObject(GameObject);
-            }
+            SearchForPlayer();
         }
-         
+
         public override void OnCollisionEnter(Collider col)
         {
             base.OnCollisionEnter(col);
@@ -58,6 +41,22 @@ namespace ComponentPattern
             currentState = state;
             currentState.Enter(this);
         }
+
+        private void SearchForPlayer()
+        {
+            //RUN ASTAR
+
+            //IF DISTANCE < WHATEVER
+            //{
+            AttackPlayer();
+            //}
+        }
+
+        private void AttackPlayer()
+        {
+            //HVERT TREDJE ISH SEKUND, PLAYER.HELATH - 2
+        }
+
     }
 }
 

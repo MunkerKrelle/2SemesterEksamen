@@ -10,13 +10,15 @@ namespace ComponentPattern
     public class Weapon : Component
     {
         public string name;
-        public int damage, price;
+        public string damage, price;
 
-        public Weapon(GameObject gameObject, string name, int damage, int price) : base(gameObject)
+        public Weapon(GameObject gameObject, string damage) : base(gameObject)
         {
-            this.name = name;
+            //this.name = name;
             this.damage = damage;
             this.price = price;
         }
+        public Weapon(GameObject gameObject) : base(gameObject)
+        { }
     }
 }
