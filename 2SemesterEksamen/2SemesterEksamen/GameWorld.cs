@@ -79,6 +79,8 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
+            gameObjects.Add(EnemyFactory.Instance.Create());
+
             _graphics.PreferredBackBufferWidth = 1200;
             _graphics.PreferredBackBufferHeight = 800;
             _graphics.ApplyChanges();

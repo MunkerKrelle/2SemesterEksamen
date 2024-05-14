@@ -30,6 +30,7 @@ namespace FactoryPattern
 
         private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
 
+
         private GameObject prototype;
 
         public GameObject Create(WEAPONTYPE type)
@@ -38,8 +39,10 @@ namespace FactoryPattern
             GameObject go = new GameObject();
             List<string> wrenchValues = database.ReturnValues("Wrench");
 
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            go.AddComponent<Collider>();
+
+        //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        //    go.AddComponent<Collider>();
+
 
             switch (type)
             {
