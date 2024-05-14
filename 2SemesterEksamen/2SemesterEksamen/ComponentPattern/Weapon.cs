@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
 
 namespace ComponentPattern
 {
@@ -11,14 +13,18 @@ namespace ComponentPattern
     {
         public string name;
         public string damage, price;
+        public int damgeValue;
 
-        public Weapon(GameObject gameObject, string damage) : base(gameObject)
-        {
-            //this.name = name;
-            this.damage = damage;
-            this.price = price;
-        }
         public Weapon(GameObject gameObject) : base(gameObject)
-        { }
+        {
+            this.damgeValue = damgeValue;
+        }
+        //public Weapon(GameObject gameObject) : base(gameObject)
+        //{ }
+
+        public void Update()
+        {
+            GameObject.Transform.Position = new Vector2(500, 500);
+        }
     }
 }

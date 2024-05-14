@@ -36,16 +36,15 @@ namespace FactoryPattern
 
         {
             GameObject go = new GameObject();
-            List<string> wrenchValues = database.ReturnValues("Wrench");
+            List<string> wrenchValues = database.ReturnValues("wrench");
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            go.AddComponent<Collider>();
 
             switch (type)
             {
                 case WEAPONTYPE.WRENCH:
                     sr.SetSprite("wrench");
-                    go.AddComponent<Weapon>(go, wrenchValues[0]);
+                    go.AddComponent<Weapon>();
                     break;
                 case WEAPONTYPE.STEELBAT:
                     sr.SetSprite("");
