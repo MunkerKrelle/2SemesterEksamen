@@ -117,10 +117,39 @@ namespace _2SemesterEksamen
                 go.Update(gameTime);
             }
             InputHandler.Instance.Execute();
-
+            CheckCollision();
             base.Update(gameTime);
         }
+        void CheckCollision()
+        {
+            foreach (GameObject go1 in gameObjects)
+            {
+                foreach (GameObject go2 in gameObjects)
+                {
+                    if (go1 == go2)
+                    {
+                        continue;
+                    }
+                    Collider col1 = go1.GetComponent<Collider>() as Collider;
+                    Collider col2 = go2.GetComponent<Collider>() as Collider;
 
+                    if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+                    {
+                        foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
+                        {
+                            foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
+                            {
+                                if (rects1.Rectangle.Intersects(rects2.Rectangle))
+                                {
+                                    go1.OnCollisionEnter(col2);
+                                    go2.OnCollisionEnter(col1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

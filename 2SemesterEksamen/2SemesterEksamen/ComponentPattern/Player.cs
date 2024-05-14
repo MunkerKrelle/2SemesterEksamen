@@ -61,6 +61,10 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
+            if (col.GameObject.GetComponent<Enemy>() != null)
+            {
+                Enemy.Instance.ReleaseObject(GameObject);
+            }
             base.OnCollisionEnter(col);
         }
 
