@@ -30,8 +30,11 @@ namespace ComponentPattern
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            weaponInfo = database.ReturnValues();
-            spriteBatch.DrawString(font, weaponInfo[0], Vector2.Zero, Color.White);
+            var bestiaryInfo = database.ShowBestiaryInfo();
+            spriteBatch.DrawString(font, ("Name: " + bestiaryInfo[0] + "    " + "Health: " + bestiaryInfo[1] + "    "+ 
+                "Damage: " + bestiaryInfo[2] + "    " + "Strengths: " + bestiaryInfo[3] + "    " + "Weaknesses: " + bestiaryInfo[4] 
+                + "    " + "Scrap Dropped: " + bestiaryInfo[5] +
+                "    " + "Defeated: " + bestiaryInfo[6]), Vector2.Zero, Color.White);
         }
     }
 }

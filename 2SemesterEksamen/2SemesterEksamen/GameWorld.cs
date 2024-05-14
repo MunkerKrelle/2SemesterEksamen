@@ -85,7 +85,7 @@ namespace _2SemesterEksamen
             database.AddComponent<UI>();
             gameObjects.Add(database);
 
-            gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
+            gameObjects.Add(ItemFactory.Instance.Create("Wrench"));
             gameObjects.Add(EnemyFactory.Instance.Create());
 
             foreach (GameObject go in gameObjects)

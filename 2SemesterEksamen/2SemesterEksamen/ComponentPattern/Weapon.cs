@@ -19,8 +19,6 @@ namespace ComponentPattern
             this.damage = damage;
             this.price = price;
         }
-        //public Weapon(GameObject gameObject) : base(gameObject)
-        //{ }
 
         public override void Update(GameTime gameTime)
         {

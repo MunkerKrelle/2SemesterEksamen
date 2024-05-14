@@ -2,6 +2,8 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Security.Cryptography;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
@@ -156,14 +158,14 @@ namespace RepositoryPattern
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
-        public List<Tuple<string,int,int>> ReturnValues(string weaponName)
+        public List<Tuple<string, int, int>> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
             var list = new List<Tuple<string, int, int>>();
-     
+
             while (reader.Read())
             {
                 list.Add(new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
@@ -171,6 +173,43 @@ namespace RepositoryPattern
 
             return list;
         }
+
+        public List<string> ShowBestiaryInfo()
+        {
+            string name, health, damage, strengths, weaknesses, scrap_dropped, defeated;
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdShowBestiary = dataSource.CreateCommand($"SELECT name, health, damage, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
+
+            NpgsqlDataReader reader = cmdShowBestiary.ExecuteReader();
+            List<string> beastInfo = new List<string>();
+
+            while (reader.Read())
+            {
+                name = reader.GetValue(0).ToString();
+                health = reader.GetValue(1).ToString();
+                damage = reader.GetValue(2).ToString();
+                strengths = reader.GetValue(3).ToString();
+                weaknesses = reader.GetValue(4).ToString();
+                scrap_dropped = reader.GetValue(5).ToString();
+                defeated = reader.GetValue(6).ToString();
+
+                beastInfo.Add(name);
+                beastInfo.Add(health);
+                beastInfo.Add(damage);
+                beastInfo.Add(strengths);
+                beastInfo.Add(weaknesses);
+                beastInfo.Add(scrap_dropped);
+                beastInfo.Add(defeated);
+
+            }
+
+            reader.Close();
+
+
+            return beastInfo;
+
+        }
+
 
         private void TradeWeapon()
         {
