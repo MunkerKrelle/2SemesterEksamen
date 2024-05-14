@@ -24,7 +24,7 @@ namespace ComponentPattern
 
         public override void Update(GameTime gameTime)
         {
-            GameObject.Transform.Position = new Vector2(500, 500);
+            //GameObject.Transform.Position = new Vector2(500, 500);
         }
     }
 }
