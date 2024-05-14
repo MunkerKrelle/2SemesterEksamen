@@ -67,7 +67,10 @@ namespace _2SemesterEksamen
             shopKeeperGo.AddComponent<SpriteRenderer>();
             gameObjects.Add(shopKeeperGo);
 
-            gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
+            gameObjects.Add(ItemFactory.Instance.Create("Wrench"));
+            gameObjects.Add(ItemFactory.Instance.Create("SteelBat"));
+            gameObjects.Add(ItemFactory.Instance.Create("Katana"));
+            gameObjects.Add(ItemFactory.Instance.Create("Lightsaber"));
             gameObjects.Add(EnemyFactory.Instance.Create());
 
             foreach (GameObject go in gameObjects)
