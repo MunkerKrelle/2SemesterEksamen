@@ -33,30 +33,42 @@ namespace FactoryPattern
 
         private GameObject prototype;
 
-        public GameObject Create(WEAPONTYPE type)
+        //public GameObject Create(WEAPONTYPE type)
 
+        //{
+        //    GameObject go = new GameObject();
+        //    var wrenchValues = database.ReturnValues("wrench");
+
+        //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+
+        //    switch (type)
+        //    {
+        //        case WEAPONTYPE.WRENCH:
+        //            sr.SetSprite(wrenchValues[0].Item1);
+        //            go.AddComponent<Weapon>(wrenchValues[0].Item2, wrenchValues[0].Item3);
+        //            break;
+        //        case WEAPONTYPE.STEELBAT:
+        //            sr.SetSprite("");
+        //            break;
+        //        case WEAPONTYPE.KATANA:
+        //            sr.SetSprite("");
+        //            break;
+        //        case WEAPONTYPE.LIGHTSABER:
+        //            sr.SetSprite("");
+        //            break;
+        //    }
+
+        //    return go;
+        //}
+
+        public GameObject Create(string weaponType)
         {
             GameObject go = new GameObject();
-            List<string> wrenchValues = database.ReturnValues("wrench");
+            var wrenchValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-
-            switch (type)
-            {
-                case WEAPONTYPE.WRENCH:
-                    sr.SetSprite("wrench");
-                    go.AddComponent<Weapon>();
-                    break;
-                case WEAPONTYPE.STEELBAT:
-                    sr.SetSprite("");
-                    break;
-                case WEAPONTYPE.KATANA:
-                    sr.SetSprite("");
-                    break;
-                case WEAPONTYPE.LIGHTSABER:
-                    sr.SetSprite("");
-                    break;
-            }
+            sr.SetSprite(wrenchValues[0].Item1);
+            go.AddComponent<Weapon>(wrenchValues[0].Item2, wrenchValues[0].Item3);
 
             return go;
         }
