@@ -135,7 +135,7 @@ namespace RepositoryPattern
         INSERT INTO weapon (name, damage, price)
 
         VALUES('Wrench', 2, 10),
-              ('Steel Bat', 5, 20),
+              ('SteelBat', 5, 20),
               ('Katana', 10, 50),
               ('Lightsaber', 25, 100)
         ");
@@ -156,26 +156,20 @@ namespace RepositoryPattern
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
-        public List<string> ReturnValues(string weaponName)
+        public List<Tuple<string,int,int>> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
-            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT damage, price FROM weapon"
-                                                         );
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
+                                                     $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            List<string> values = new List<string>();
+            var list = new List<Tuple<string, int, int>>();
      
             while (reader.Read())
             {
-                string name = (reader.GetValue(0).ToString());
-                string damage = (reader.GetValue(0).ToString());
-                string price = (reader.GetValue(1).ToString());
-
-                values.Add(name);
-                values.Add(damage);
-                values.Add(price);
+                list.Add(new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
             }
 
-            return values;
+            return list;
         }
 
         private void TradeWeapon()
