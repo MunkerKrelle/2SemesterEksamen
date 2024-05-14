@@ -1,4 +1,5 @@
 ﻿using Algoritmer;
+using BuilderPattern;
 using CommandPattern;
 using ComponentPattern;
 using FactoryPattern;
@@ -54,18 +55,19 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
+            Director director = new Director(new PlayerBuilder());
+            Director director1 = new Director(new ArmsDealerBuilder());
+            GameObject playerGo = director.Construct();
+            GameObject armsDealerGo = director1.Construct();
+            gameObjects.Add(playerGo);
+            gameObjects.Add(armsDealerGo);
+
+            Player player = playerGo.GetComponent<Player>() as Player;
+            ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
+
             IRepository repository = new PostgresRepository();
             new UserRegistrationWithPattern(repository).RunLoop();
 
-            GameObject playerGo = new GameObject();
-            Player player = playerGo.AddComponent<Player>();
-            playerGo.AddComponent<SpriteRenderer>();
-            gameObjects.Add(playerGo);
-
-            GameObject shopKeeperGo = new GameObject();
-            ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
-            shopKeeperGo.AddComponent<SpriteRenderer>();
-            gameObjects.Add(shopKeeperGo);
 
             gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
             gameObjects.Add(EnemyFactory.Instance.Create());
@@ -106,7 +108,7 @@ namespace _2SemesterEksamen
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
