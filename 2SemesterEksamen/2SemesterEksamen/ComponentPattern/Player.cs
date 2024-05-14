@@ -16,7 +16,7 @@ namespace ComponentPattern
         public Player(GameObject gameObject) : base(gameObject)
         {
         }
-        bool isMoving;
+
         public void Move(Vector2 velocity)
         {
             if (velocity != Vector2.Zero)
@@ -62,6 +62,11 @@ namespace ComponentPattern
         public override void OnCollisionEnter(Collider col)
         {
             base.OnCollisionEnter(col);
+        }
+
+        private void AttackEnemy()
+        {
+
         }
     }
 }
