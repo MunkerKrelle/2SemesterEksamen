@@ -68,6 +68,7 @@ namespace _2SemesterEksamen
             gameObjects.Add(shopKeeperGo);
 
             gameObjects.Add(ItemFactory.Instance.Create(WEAPONTYPE.WRENCH));
+            gameObjects.Add(EnemyFactory.Instance.Create());
 
             foreach (GameObject go in gameObjects)
             {
