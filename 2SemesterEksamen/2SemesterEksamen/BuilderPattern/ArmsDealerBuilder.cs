@@ -22,6 +22,7 @@ namespace BuilderPattern
             gameObject.AddComponent<ArmsDealer>();
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
+            gameObject.AddComponent<Inventory>();
            // Animator animator = gameObject.AddComponent<Animator>();
 
         }

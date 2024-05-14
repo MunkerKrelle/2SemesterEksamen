@@ -68,8 +68,6 @@ namespace _2SemesterEksamen
             IRepository repository = new PostgresRepository();
             new UserRegistrationWithPattern(repository).RunLoop();
 
-
-            gameObjects.Add(ItemFactory.Instance.Create("Wrench"));
             gameObjects.Add(ItemFactory.Instance.Create("SteelBat"));
             gameObjects.Add(ItemFactory.Instance.Create("Katana"));
             gameObjects.Add(ItemFactory.Instance.Create("Lightsaber"));
@@ -119,18 +117,59 @@ namespace _2SemesterEksamen
             InputHandler.Instance.Execute();
 
             base.Update(gameTime);
+
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            // Adding newly instantiated GameObjects
+            for (int i = 0; i < newGameObjects.Count; i++)
+            {
+                gameObjects.Add(newGameObjects[i]);
+                newGameObjects[i].Awake(); // Initializing new GameObjects
+                newGameObjects[i].Start(); // Starting new GameObjects
+            }
+
+            // Removing destroyed GameObjects
+            for (int i = 0; i < destroyedGameObjects.Count; i++)
+            {
+                gameObjects.Remove(destroyedGameObjects[i]);
+            }
+            destroyedGameObjects.Clear(); // Clearing destroyed GameObjects list
+            newGameObjects.Clear(); // Clearing new GameObjects list
+        }
+
+        /// <summary>
+        /// Adding GameObject to new GameObjects list
+        /// </summary>
+        /// <param name="go"></param>
+        public void Instantiate(GameObject go)
+        {
+            newGameObjects.Add(go);
+        }
+
+        /// <summary>
+        /// Adding GameObject to destroyed GameObjects list
+        /// </summary>
+        /// <param name="go"></param>
+        public void Destroy(GameObject go)
+        {
+            destroyedGameObjects.Add(go);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
             }
+
+           // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
 
