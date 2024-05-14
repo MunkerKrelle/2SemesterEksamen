@@ -63,7 +63,7 @@ namespace ComponentPattern
         {
             if (col.GameObject.GetComponent<Enemy>() != null)
             {
-                Enemy.Instance.ReleaseObject(GameObject);
+                
             }
             base.OnCollisionEnter(col);
         }

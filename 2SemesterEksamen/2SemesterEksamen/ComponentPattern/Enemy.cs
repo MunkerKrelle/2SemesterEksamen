@@ -11,6 +11,7 @@ namespace ComponentPattern
     {
         public float speed = 1;
 
+
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
         {
