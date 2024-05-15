@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using RepositoryPattern;
-using SharpDX.Win32;
+
 
 namespace ComponentPattern
 {
@@ -44,7 +44,9 @@ namespace ComponentPattern
         {
         }
 
-        public void SellItem(Weapon weapon) { }
+        public void SellItem(Weapon weapon) 
+        {
+        }
 
 
         public void LoadItems()
