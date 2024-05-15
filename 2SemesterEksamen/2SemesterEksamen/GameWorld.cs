@@ -55,8 +55,8 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
-            IRepository repository = new PostgresRepository();
-            new UserRegistrationWithPattern(repository).RunLoop();
+            IRepository repository = new Database();
+            new Database(repository).RunLoop();
 
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
@@ -67,6 +67,10 @@ namespace _2SemesterEksamen
 
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
+
+            GameObject database = new GameObject();
+            database.AddComponent<UI>();
+            gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
 
