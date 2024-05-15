@@ -27,7 +27,9 @@ namespace _2SemesterEksamen
         private List<GameObject> destroyedGameObjects = new List<GameObject>();
         public float DeltaTime { get; private set; }
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
-
+        
+        private int cellCount = 11;
+        private int cellSize = 100;
 
         private static GameWorld instance;
 
