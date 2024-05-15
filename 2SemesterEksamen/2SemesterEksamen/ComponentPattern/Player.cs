@@ -1,4 +1,5 @@
 ﻿using _2SemesterEksamen;
+using FactoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +13,7 @@ namespace ComponentPattern
     class Player : Component
     {
         private float speed;
+        public int health;
         Animator animator;
         public Player(GameObject gameObject) : base(gameObject)
         {
@@ -40,7 +42,8 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 200; 
+            speed = 200;
+            health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Forward");
         }
@@ -62,10 +65,13 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
-            if (col.GameObject.GetComponent<Enemy>() != null)
+            Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>(); 
+
+            if (enemy != null)
             {
-                
+                enemy.Health -= 10; 
             }
+
             base.OnCollisionEnter(col);
         }
 

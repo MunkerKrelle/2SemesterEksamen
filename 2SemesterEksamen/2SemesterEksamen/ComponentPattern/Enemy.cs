@@ -10,11 +10,17 @@ namespace ComponentPattern
     public class Enemy : Component
     {
         public float speed = 1;
-
+        protected int health;
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+        }
 
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
         {
+            this.health = 100;
             //ChangeState();
         }
 
@@ -28,6 +34,7 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
+
             base.OnCollisionEnter(col);
         }
 

@@ -33,12 +33,7 @@ namespace ComponentPattern
             texture = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
             List<Color[]> lines = new List<Color[]>();
             List<RectangleData> pixels = new List<RectangleData>();
-            for (int y = 0; y < spriteRenderer.Sprite.Height; y++)
-            {
-                Color[] colors = new Color[spriteRenderer.Sprite.Width];
-                spriteRenderer.Sprite.GetData(0, new Rectangle(0, y, spriteRenderer.Sprite.Width, 1), colors, 0, spriteRenderer.Sprite.Width);
-                lines.Add(colors);
-            }
+
 
             for (int y = 0; y < lines.Count; y++)
             {
