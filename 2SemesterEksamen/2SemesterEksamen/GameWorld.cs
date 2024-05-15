@@ -55,8 +55,8 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
-            IRepository repository = new PostgresRepository();
-            new UserRegistrationWithPattern(repository).RunLoop();
+            IRepository repository = new Database();
+            new Database(repository).RunLoop();
 
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());

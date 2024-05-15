@@ -21,7 +21,10 @@ namespace RepositoryPattern
 
         void SortTables();
 
-        List<Tuple<string, int, int>> ReturnValues(string weaponName);
+        public Tuple<string, int, int> ReturnValues(string weaponName);
+
+        public Tuple<string, int, int> ReturnValuesWithID(int weaponID);
+
 
         List<BestiaryInfo> ShowBestiaryInfo();
     }
