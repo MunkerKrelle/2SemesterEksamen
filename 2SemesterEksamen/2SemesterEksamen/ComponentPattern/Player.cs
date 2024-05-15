@@ -13,10 +13,17 @@ namespace ComponentPattern
     class Player : Component
     {
         private float speed;
-        public int health;
+        protected int health;
         Animator animator;
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+        }
+
         public Player(GameObject gameObject) : base(gameObject)
         {
+            
         }
 
         public void Move(Vector2 velocity)
@@ -61,6 +68,10 @@ namespace ComponentPattern
 
         public override void Update(GameTime gameTime)
         {
+            if (health < 0)
+            {
+                GameWorld.Instance.Destroy(GameObject);
+            }
         }
 
         public override void OnCollisionEnter(Collider col)
