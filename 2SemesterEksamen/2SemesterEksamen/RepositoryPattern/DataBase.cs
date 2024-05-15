@@ -167,7 +167,9 @@ namespace RepositoryPattern
             while (reader.Read())
             {
                 list.Add(new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
+
             }
+            reader.Close();
 
             return list;
         }

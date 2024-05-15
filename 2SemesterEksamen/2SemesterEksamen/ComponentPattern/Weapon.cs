@@ -13,6 +13,9 @@ namespace ComponentPattern
     {
         public string name;
         public int damage, price;
+        public string Name { get { return name; } }
+        public int Damage { get { return damage; } }
+        public int Price {  get { return price; } }
 
         public Weapon(GameObject gameObject, int damage, int price) : base(gameObject)
         {
