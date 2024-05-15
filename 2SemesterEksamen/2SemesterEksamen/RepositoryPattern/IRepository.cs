@@ -49,7 +49,7 @@ namespace RepositoryPattern
 
         public PostgresRepository()
         {
-            string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
+            string connectionString = "Host=localhost;Username=postgres;Password=Saunire.124;Database=myDatabase";
             dataSource = NpgsqlDataSource.Create(connectionString);
         }
 

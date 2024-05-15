@@ -1,4 +1,5 @@
-﻿using ComponentPattern;
+﻿using _2SemesterEksamen;
+using ComponentPattern;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -174,14 +175,14 @@ namespace RepositoryPattern
             return list;
         }
 
-        public List<string> ShowBestiaryInfo()
+        public List<BestiaryInfo> ShowBestiaryInfo()
         {
             string name, health, damage, strengths, weaknesses, scrap_dropped, defeated;
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmdShowBestiary = dataSource.CreateCommand($"SELECT name, health, damage, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
 
             NpgsqlDataReader reader = cmdShowBestiary.ExecuteReader();
-            List<string> beastInfo = new List<string>();
+            List<BestiaryInfo> beastInfo = new List<BestiaryInfo>();
 
             while (reader.Read())
             {
@@ -193,14 +194,20 @@ namespace RepositoryPattern
                 scrap_dropped = reader.GetValue(5).ToString();
                 defeated = reader.GetValue(6).ToString();
 
-                beastInfo.Add(name);
-                beastInfo.Add(health);
-                beastInfo.Add(damage);
-                beastInfo.Add(strengths);
-                beastInfo.Add(weaknesses);
-                beastInfo.Add(scrap_dropped);
-                beastInfo.Add(defeated);
+                BestiaryInfo info = new BestiaryInfo();
+
+                info.name = name;
+                info.health = int.Parse(health);
+                info.damage = int.Parse(damage);
+                info.strengths = strengths;
+                info.weaknesses = weaknesses;
+                info.scrap_dropped = int.Parse(scrap_dropped);
+                info.defeated = int.Parse(defeated);
+
+                beastInfo.Add(info);
             }
+
+            reader.Close();
 
             return beastInfo;
         }
