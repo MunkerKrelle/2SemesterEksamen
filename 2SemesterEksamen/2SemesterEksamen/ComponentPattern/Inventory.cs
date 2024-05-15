@@ -15,6 +15,9 @@ namespace ComponentPattern
         public List<string> gameInventory = new List<string>();
         public Dictionary<string, GameObject> dicInventory = new Dictionary<string, GameObject>();
         public GameObject item;
+        public string name;
+        public int damage;
+        public int price;
 
         public Inventory(GameObject gameObject) : base(gameObject)
         {
@@ -31,6 +34,10 @@ namespace ComponentPattern
             GameWorld.Instance.Instantiate(item);
             item.Transform.Position = new Vector2(500 + 50 * gameInventory.Count, 200);
             gameInventory.Add(itemName);
+            var itemValues = database.ReturnValues(itemName);
+            name = itemValues[0].Item1;
+            damage = itemValues[0].Item2;
+            price = itemValues[0].Item3;
         }
 
         public override void Awake()
@@ -42,17 +49,14 @@ namespace ComponentPattern
 
         public void LoadItems()
         {
-            var itemValues = database.ReturnValues(gameInventory[1]);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteFont font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
             for (int i = 0; i < gameInventory.Count; i++) 
             {
-                var wrenchValues = database.ReturnValues(gameInventory[i]);
-                spriteBatch.DrawString(font, $"{wrenchValues[0].Item1}", new Vector2(450 + 50 * i, 250), Color.White);
-                spriteBatch.DrawString(font, $"{wrenchValues[0].Item2}", new Vector2(450 + 50 * i, 300), Color.White);
-                spriteBatch.DrawString(font, $"{wrenchValues[0].Item3}", new Vector2(450 + 50 * i, 350), Color.White);
+                spriteBatch.DrawString(font, $"{name}\nDamage: {damage}\nScraps: {price}", new Vector2(500 + 100 * i, 250), Color.White);
+
             }
         }
     }

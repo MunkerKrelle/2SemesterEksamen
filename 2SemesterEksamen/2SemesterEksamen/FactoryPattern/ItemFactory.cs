@@ -78,7 +78,7 @@ namespace FactoryPattern
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite("wrench");
+            sr.SetSprite("butterflyknife");
             go.AddComponent<Weapon>();
             return go;
         }
