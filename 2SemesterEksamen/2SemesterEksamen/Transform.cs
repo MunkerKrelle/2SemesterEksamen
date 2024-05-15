@@ -48,7 +48,7 @@ namespace _2SemesterEksamen
             //b.ToPoint();
 
             Point PTPosition = new Point((int)a.X, (int)a.Y);
-            Position += new Vector2(PTPosition.X /2, PTPosition.Y/2 );
+            Position += new Vector2(PTPosition.X, PTPosition.Y);
             //Position += new Vector2(PTPosition.X * a, PTPosition.Y * a);
 
             //GameWorld.Instance.Cells[PTPosition].Position = PTPosition;

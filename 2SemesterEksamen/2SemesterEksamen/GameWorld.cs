@@ -8,9 +8,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace _2SemesterEksamen
@@ -30,6 +33,7 @@ namespace _2SemesterEksamen
         
         private int cellCount = 11;
         private int cellSize = 100;
+        private float timeElapsed;
 
         private static GameWorld instance;
 
@@ -95,6 +99,8 @@ namespace _2SemesterEksamen
             //walls.Add(WallFactory.Instance.Create());
             //walls[i].Transform.Position = new Vector2(115 * i, 0);
             player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
+            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
             SetUpCells();
 
             _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
@@ -120,13 +126,19 @@ namespace _2SemesterEksamen
                 Exit();
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            timeElapsed += DeltaTime;
 
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
             }
-            InputHandler.Instance.Execute();
+
+            if (timeElapsed >= 0.3f)
+            {
+                InputHandler.Instance.Execute();
+                timeElapsed = 0;
+            }
+
             KeyboardState keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.C))
@@ -138,13 +150,18 @@ namespace _2SemesterEksamen
 
                 //SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
                 //sr.SetSprite("1fwd");
-                
+                Cells[new Point(1, 1)].Sprite = sprites["cellGrid"];
+                //Cell cell = Cells.Values.ElementAt(0);
                 //gameObjects[22].Transform.Position = new Vector2(20, 20);
                 Player player = gameObjects[0].GetComponent<Player>() as Player;
-                //player.GameObject.Transform.PosOnCell = new Point(8, 8);
-                //player.GameObject.Transform.Position = new Vector2(1000, 80);
                 player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
 
+                //Cells.GetValueOrDefault(new Point(4, 4));
+                
+                //Cells.Values.ElementAt(5).Sprite = sprites["cellGrid"];
+
+                //player.GameObject.Transform.PosOnCell = new Point(8, 8);
+                //player.GameObject.Transform.Position = new Vector2(1000, 80);
                 //Cells[new Point(5, 5)].Sprite = Instance.Content.Load<Texture2D>("1fwd");
                 //Cells[new Point(5, 5)].Sprite = sprites["Pixel"];
                 //sr.SetSprite("cellGrid");
@@ -183,13 +200,25 @@ namespace _2SemesterEksamen
             {
                 for (int x = 1; x < cellCount; x++)
                 {
-                    if (x != 8)
-                    {
-                        Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
+                    //if (x != 8)
+                    //{
+                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
                     GameObject cellGrid = new GameObject();
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
                     sr.SetSprite("cellGrid");
+                    Cells[new Point(x, y)].Sprite = sprites["cellGrid"];
+                        //if (x == 1 && y == 1)
+                        //{
+                            
+                        //}
+                   
+                        //Cells.Values.ElementAt(5).Sprite = sprites["cellGrid"];
+                        //sr.Sprite = sprites["cellGrid"];
+                    //Point meTest = new Point(x, y);
+                    //Cells[meTest].Sprite = sprites["cellGrid"];
+
+
                     cellGrid.Transform.Scale = new Vector2(1, 1);
                     Point pos = new Point(x, y);
                     //Cells[new Point(x, y)].Sprite = Instance.Content.Load<Texture2D>("Pixel");
@@ -198,7 +227,7 @@ namespace _2SemesterEksamen
                         //cellGrid.Transform.PosOnCell = new Point(x * 100, y * 100);
                         //SpriteRenderer sr1 = (SpriteRenderer)gameObjects[0].GetComponent<SpriteRenderer>();
                         //sr.GameObject.Transform.PosOnCell = new Point(x, y);
-                    }
+                    //}
                 }
             }
         }
