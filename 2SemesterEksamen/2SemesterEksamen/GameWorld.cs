@@ -11,6 +11,7 @@ using RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace _2SemesterEksamen
 {
@@ -81,7 +82,28 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
             gameObjects.Add(EnemyFactory.Instance.Create());
-
+            //var treeSprite = GameWorld.Instance.sprites["Pixel"];
+            //walls.Add(WallFactory.Instance.Create());
+            //walls[i].Transform.Position = new Vector2(115 * i, 0);
+            for (int y = 1; y < cellCount; y++)
+            {
+                for (int x = 1; x < cellCount; x++)
+                {
+                    //if (x != 6) 
+                    //{
+                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
+                    GameObject cellGrid = new GameObject();
+                    SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
+                    gameObjects.Add(cellGrid);
+                    sr.SetSprite("cellGrid");
+                    cellGrid.Transform.Scale = new Vector2(1, 1);
+                    Point pos = new Point(x, y);
+                    //Cells[new Point(x, y)].Sprite = Instance.Content.Load<Texture2D>("Pixel");
+                    //Cells[pos].Sprite = sprites["Pixel"];
+                    cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
+                    //}
+                }
+            }
             _graphics.PreferredBackBufferWidth = 1200;
             _graphics.PreferredBackBufferHeight = 800;
             _graphics.ApplyChanges();
