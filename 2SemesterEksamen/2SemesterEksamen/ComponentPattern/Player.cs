@@ -69,7 +69,11 @@ namespace ComponentPattern
 
             if (enemy != null)
             {
-                enemy.Health -= 10; 
+                enemy.Health -= 1; 
+            }
+            if (enemy.Health < 0)
+            {
+                
             }
 
             base.OnCollisionEnter(col);
