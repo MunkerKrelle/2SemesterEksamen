@@ -70,8 +70,7 @@ namespace _2SemesterEksamen
             gameObjects.Add(armsDealerGo);
 
             Player player = playerGo.GetComponent<Player>() as Player;
-            //player.GameObject.Transform.Position = new Vector2(80, 80);
-            //player.GameObject.Transform.PosOnCell = new Point(5,5);
+           
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
             gameObjects.Add(EnemyFactory.Instance.Create());
@@ -80,6 +79,11 @@ namespace _2SemesterEksamen
             {
                 go.Awake();
             }
+
+            //InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
+            //InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
+            //InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
+            //InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -90,7 +94,7 @@ namespace _2SemesterEksamen
             //var treeSprite = GameWorld.Instance.sprites["Pixel"];
             //walls.Add(WallFactory.Instance.Create());
             //walls[i].Transform.Position = new Vector2(115 * i, 0);
-            
+            player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
             SetUpCells();
 
             _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
@@ -179,9 +183,9 @@ namespace _2SemesterEksamen
             {
                 for (int x = 1; x < cellCount; x++)
                 {
-                    //if (x != 6) 
-                    //{
-                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
+                    if (x != 8)
+                    {
+                        Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
                     GameObject cellGrid = new GameObject();
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
@@ -191,10 +195,10 @@ namespace _2SemesterEksamen
                     //Cells[new Point(x, y)].Sprite = Instance.Content.Load<Texture2D>("Pixel");
                     //Cells[pos].Sprite = sprites["Pixel"];
                     cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
-                    //cellGrid.Transform.PosOnCell = new Point(x * 100, y * 100);
-                    //SpriteRenderer sr1 = (SpriteRenderer)gameObjects[0].GetComponent<SpriteRenderer>();
-                    //sr.GameObject.Transform.PosOnCell = new Point(x, y);
-                    //}
+                        //cellGrid.Transform.PosOnCell = new Point(x * 100, y * 100);
+                        //SpriteRenderer sr1 = (SpriteRenderer)gameObjects[0].GetComponent<SpriteRenderer>();
+                        //sr.GameObject.Transform.PosOnCell = new Point(x, y);
+                    }
                 }
             }
         }

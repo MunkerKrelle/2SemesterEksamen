@@ -1,4 +1,5 @@
-﻿using ComponentPattern;
+﻿using Algoritmer;
+using ComponentPattern;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,28 @@ namespace _2SemesterEksamen
 
             Point PTPosition = new Point((int)a.X, (int)b.Y);
             Position = new Vector2(PTPosition.X,PTPosition.Y);
+            //maybe add cell moving here?
+
+            //Position = new Vector2(a.ToPoint(), b.ToPoint());
+            //Position = new Vector2(1100,300);
+            //Position.X = a;
+            //PosOnCell = new Point(a, b).ToVector2();
+        }
+
+        public void CellMovement2(Vector2 a)
+        {
+            //PosOnCell.ToVector2();
+
+            //a.ToPoint();
+            //b.ToPoint();
+
+            Point PTPosition = new Point((int)a.X, (int)a.Y);
+            Position += new Vector2(PTPosition.X /2, PTPosition.Y/2 );
+            //Position += new Vector2(PTPosition.X * a, PTPosition.Y * a);
+
+            //GameWorld.Instance.Cells[PTPosition].Position = PTPosition;
+            //GameWorld.Instance.Cells[PTPosition].Sprite = ;
+            //maybe add cell moving here?
 
             //Position = new Vector2(a.ToPoint(), b.ToPoint());
             //Position = new Vector2(1100,300);
