@@ -61,6 +61,7 @@ namespace _2SemesterEksamen
             IRepository repository = new PostgresRepository();
             new UserRegistrationWithPattern(repository).RunLoop();
 
+            
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
             GameObject playerGo = director.Construct();
@@ -87,27 +88,11 @@ namespace _2SemesterEksamen
             //var treeSprite = GameWorld.Instance.sprites["Pixel"];
             //walls.Add(WallFactory.Instance.Create());
             //walls[i].Transform.Position = new Vector2(115 * i, 0);
-            for (int y = 1; y < cellCount; y++)
-            {
-                for (int x = 1; x < cellCount; x++)
-                {
-                    //if (x != 6) 
-                    //{
-                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
-                    GameObject cellGrid = new GameObject();
-                    SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
-                    gameObjects.Add(cellGrid);
-                    sr.SetSprite("cellGrid");
-                    cellGrid.Transform.Scale = new Vector2(1, 1);
-                    Point pos = new Point(x, y);
-                    //Cells[new Point(x, y)].Sprite = Instance.Content.Load<Texture2D>("Pixel");
-                    //Cells[pos].Sprite = sprites["Pixel"];
-                    cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
-                    //}
-                }
-            }
-            _graphics.PreferredBackBufferWidth = 1200;
-            _graphics.PreferredBackBufferHeight = 800;
+            
+            SetUpCells();
+
+            _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = cellCount * cellSize + 1;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -140,6 +125,29 @@ namespace _2SemesterEksamen
             base.Update(gameTime);
 
             Cleanup();
+        }
+
+        private void SetUpCells() 
+        {
+            for (int y = 1; y < cellCount; y++)
+            {
+                for (int x = 1; x < cellCount; x++)
+                {
+                    //if (x != 6) 
+                    //{
+                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
+                    GameObject cellGrid = new GameObject();
+                    SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
+                    gameObjects.Add(cellGrid);
+                    sr.SetSprite("cellGrid");
+                    cellGrid.Transform.Scale = new Vector2(1, 1);
+                    Point pos = new Point(x, y);
+                    //Cells[new Point(x, y)].Sprite = Instance.Content.Load<Texture2D>("Pixel");
+                    //Cells[pos].Sprite = sprites["Pixel"];
+                    cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
+                    //}
+                }
+            }
         }
 
         private void Cleanup()

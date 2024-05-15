@@ -71,14 +71,14 @@ namespace Algoritmer
         /// </summary>
         public void LoadContent()
         {
-            Sprite = GameWorld.Instance.sprites["Pixel"];
+            //Sprite = GameWorld.Instance.sprites["Pixel"];
 
-            // Initialiserer rektanglerne til at repræsentere cellens kanter og baggrund
-            topLine = new Rectangle(Position.X * Width, Position.Y * Height, Width, 1);
-            bottomLine = new Rectangle(Position.X * Width, (Position.Y * Height) + Height, Width, 1);
-            rightLine = new Rectangle((Position.X * Width) + Width, Position.Y * Height, 1, Height);
-            leftLine = new Rectangle(Position.X * Width, Position.Y * Height, 1, Height);
-            background = new Rectangle(Position.X * Width, Position.Y * Height, Width, Height);
+            //// Initialiserer rektanglerne til at repræsentere cellens kanter og baggrund
+            //topLine = new Rectangle(Position.X * Width, Position.Y * Height, Width, 1);
+            //bottomLine = new Rectangle(Position.X * Width, (Position.Y * Height) + Height, Width, 1);
+            //rightLine = new Rectangle((Position.X * Width) + Width, Position.Y * Height, 1, Height);
+            //leftLine = new Rectangle(Position.X * Width, Position.Y * Height, 1, Height);
+            //background = new Rectangle(Position.X * Width, Position.Y * Height, Width, Height);
         }
 
         // Metode til at opdatere
@@ -93,13 +93,13 @@ namespace Algoritmer
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, background, spriteColor);
+            //spriteBatch.Draw(Sprite, background, spriteColor);
 
-            // Tegner cellens kanter
-            spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], topLine, edgeColor);
-            spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], bottomLine, edgeColor);
-            spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], rightLine, edgeColor);
-            spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], leftLine, edgeColor);
+            //// Tegner cellens kanter
+            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], topLine, edgeColor);
+            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], bottomLine, edgeColor);
+            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], rightLine, edgeColor);
+            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], leftLine, edgeColor);
 
             // Tekst der viser cellens position, F, H og G værdier
             string cellString = $"{Position.X.ToString()},{Position.Y.ToString()}\n F:{F} \n h:{H}\n g: {G}";
