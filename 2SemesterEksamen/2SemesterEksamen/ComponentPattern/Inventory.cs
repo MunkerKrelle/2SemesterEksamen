@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using RepositoryPattern;
 using SharpDX.Win32;
 using System;
+using System.DirectoryServices;
 
 namespace ComponentPattern
 {
@@ -15,6 +16,7 @@ namespace ComponentPattern
         public GameObject item;
         public List<Weapon> weaponsList = new List<Weapon>();
         public Weapon weapon;
+        public int scraps;
 
         public bool Active { get; set; }
 
@@ -25,10 +27,10 @@ namespace ComponentPattern
 
         public void RemoveItem(Weapon weapon)
         {
-
+            weaponsList.Remove(weapon);
         }
 
-        public void GenerateItem(int itemID)
+        public void GenerateRandomItem(int itemID)
         {
             Active = true;
             item = ItemFactory.Instance.Create(itemID);
@@ -37,8 +39,6 @@ namespace ComponentPattern
             item.Transform.Position = new Vector2(430 + 100 * weaponsList.Count, 280);
             weapon = item.GetComponent<Weapon>() as Weapon;
             weaponsList.Add(weapon);
-
-
         }
 
         public void AddItem(string itemName)
@@ -54,8 +54,19 @@ namespace ComponentPattern
         {
         }
 
-        public void SellItem(Weapon weapon) { }
+        public void SellItem(Weapon weapon)
+        {
+            scraps += weapon.Price;
+            weaponsList.Remove(weapon);
+        }
 
+        public void BuyItem(Weapon weapon)
+        {
+            if (weapon.Price <= scraps)
+            {
+                weaponsList.Add(weapon);
+            }
+        }
 
         public void LoadItems()
         {
@@ -84,7 +95,6 @@ namespace ComponentPattern
                 for (int i = 0; i < weaponsList.Count; i++)
                 {
                     spriteBatch.DrawString(font, $"{weaponsList[i].Name}\nDamage: {weaponsList[i].Damage}\nScraps: {weaponsList[i].Price}", new Vector2(weaponsList[i].GameObject.Transform.Position.X - 50, weaponsList[i].GameObject.Transform.Position.Y + 50), Color.White);
-
                 }
             }
         }

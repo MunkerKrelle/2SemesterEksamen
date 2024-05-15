@@ -43,10 +43,10 @@ namespace BuilderPattern
             gameObject.AddComponent<Collider>();
             RandomItem();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            inventory.GenerateItem(RandomItem());
-            inventory.GenerateItem(RandomItem());
-            inventory.GenerateItem(RandomItem());
-            inventory.GenerateItem(RandomItem());
+            inventory.GenerateRandomItem(RandomItem());
+            inventory.GenerateRandomItem(RandomItem());
+            inventory.GenerateRandomItem(RandomItem());
+            inventory.GenerateRandomItem(RandomItem());
             //inventory.AddItem("Bat");
             //inventory.AddItem("Katana");
             //inventory.AddItem("Chainsword");

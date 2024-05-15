@@ -11,8 +11,8 @@ namespace ComponentPattern
 {
     public class Weapon : Component
     {
-        public string name;
-        public int damage, price;
+        private string name;
+        private int damage, price;
         public string Name { get { return name; } }
         public int Damage { get { return damage; } }
         public int Price {  get { return price; } }

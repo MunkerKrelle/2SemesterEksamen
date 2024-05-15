@@ -157,6 +157,18 @@
 /processorParam:TextureFormat=Color
 /build:Annihilator.png
 
+#begin Annihilator.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Annihilator.png
+
 #begin Bat.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -167,7 +179,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Bat.png;bat.png
+/build:Bat.png
 
 #begin Butterflyknife.png
 /importer:TextureImporter
@@ -179,7 +191,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Butterflyknife.png;butterflyknife.png
+/build:Butterflyknife.png
 
 #begin Chainsword.png
 /importer:TextureImporter
@@ -191,7 +203,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Chainsword.png;chainsword.png
+/build:Chainsword.png
+
+#begin Crimsonblade.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crimsonblade.png
 
 #begin Crimsonblade.png
 /importer:TextureImporter
@@ -223,6 +247,18 @@
 /processorParam:TextureFormat=Color
 /build:Hammer.png
 
+#begin Hammer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Hammer.png
+
 #begin Katana.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -233,7 +269,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Katana.png;katana.png
+/build:Katana.png
+
+#begin Nunchaku.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Nunchaku.png
 
 #begin Nunchaku.png
 /importer:TextureImporter
