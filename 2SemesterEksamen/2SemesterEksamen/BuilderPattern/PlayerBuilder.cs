@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using ComponentPattern;
 using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
+using CommandPattern;
+using Microsoft.Xna.Framework.Input;
 namespace BuilderPattern
 {
     class PlayerBuilder : IBuilder
@@ -22,7 +25,13 @@ namespace BuilderPattern
             gameObject.AddComponent<Player>();
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
+            Inventory inventory = gameObject.AddComponent<Inventory>();
+            //inventory.AddItem("Butterflyknife");
+            //inventory.AddItem("Bat");
+            //inventory.AddItem("Katana");
+            //inventory.AddItem("Chainsword");
             Animator animator = gameObject.AddComponent<Animator>();
+            InputHandler.Instance.AddUpdateCommand(Keys.I, new InventoryCommand(inventory));
             animator.AddAnimation(BuildAnimation("Forward", new string[] { "1fwd", "2fwd", "3fwd" }));
             animator.AddAnimation(BuildAnimation("Right", new string[] { "1rght", "2rght", "3rght" }));
             animator.AddAnimation(BuildAnimation("Left", new string[] { "1lft", "2lft", "3lft" }));

@@ -55,6 +55,9 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
+            IRepository repository = new PostgresRepository();
+            new UserRegistrationWithPattern(repository).RunLoop();
+
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
             GameObject playerGo = director.Construct();
@@ -65,34 +68,17 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            IRepository repository = new Database();
-            new Database(repository).RunLoop();
-
-
-            gameObjects.Add(ItemFactory.Instance.Create("Wrench"));
-            gameObjects.Add(ItemFactory.Instance.Create("SteelBat"));
-            gameObjects.Add(ItemFactory.Instance.Create("Katana"));
-            gameObjects.Add(ItemFactory.Instance.Create("Lightsaber"));
-            GameObject shopKeeperGo = new GameObject();
-            ArmsDealer shopKeeper = shopKeeperGo.AddComponent<ArmsDealer>();
-
-            //TILFØJ UI SÅLEDES
-            shopKeeperGo.AddComponent<SpriteRenderer>();
-            gameObjects.Add(shopKeeperGo);
-
-
             GameObject database = new GameObject();
             database.AddComponent<UI>();
             gameObjects.Add(database);
 
-            gameObjects.Add(ItemFactory.Instance.Create("Wrench"));
             gameObjects.Add(EnemyFactory.Instance.Create());
 
             foreach (GameObject go in gameObjects)
             {
                 go.Awake();
             }
-
+            
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
@@ -132,18 +118,59 @@ namespace _2SemesterEksamen
             InputHandler.Instance.Execute();
 
             base.Update(gameTime);
+
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            // Adding newly instantiated GameObjects
+            for (int i = 0; i < newGameObjects.Count; i++)
+            {
+                gameObjects.Add(newGameObjects[i]);
+                newGameObjects[i].Awake(); // Initializing new GameObjects
+                newGameObjects[i].Start(); // Starting new GameObjects
+            }
+
+            // Removing destroyed GameObjects
+            for (int i = 0; i < destroyedGameObjects.Count; i++)
+            {
+                gameObjects.Remove(destroyedGameObjects[i]);
+            }
+            destroyedGameObjects.Clear(); // Clearing destroyed GameObjects list
+            newGameObjects.Clear(); // Clearing new GameObjects list
+        }
+
+        /// <summary>
+        /// Adding GameObject to new GameObjects list
+        /// </summary>
+        /// <param name="go"></param>
+        public void Instantiate(GameObject go)
+        {
+            newGameObjects.Add(go);
+        }
+
+        /// <summary>
+        /// Adding GameObject to destroyed GameObjects list
+        /// </summary>
+        /// <param name="go"></param>
+        public void Destroy(GameObject go)
+        {
+            destroyedGameObjects.Add(go);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
             }
+
+           // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
 

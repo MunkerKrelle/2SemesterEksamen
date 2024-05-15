@@ -138,10 +138,15 @@ namespace RepositoryPattern
             NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
         INSERT INTO weapon (name, damage, price)
 
-        VALUES('Wrench', 2, 10),
-              ('SteelBat', 5, 20),
+        VALUES('Butterflyknife', 2, 10),
+              ('Bat', 5, 20),
               ('Katana', 10, 50),
-              ('Lightsaber', 25, 100)
+              ('Chainsword', 25, 100),
+              ('Hammer', 8, 25),
+              ('Crimsonblade', 50, 300),
+              ('Nunchaku', 30, 150),
+              ('Annihilator', 100, 500)
+
         ");
 
             NpgsqlCommand cmdInsertBestiaryValues = dataSource.CreateCommand($@"
@@ -150,7 +155,7 @@ namespace RepositoryPattern
         VALUES('Drone', 5, 1, 1,'none', 'everything', 1, 0),
               ('Android', 10, 2, 2, 'none', 'melee', 2, 0),
               ('Sentinel', 25, 5, 4, 'ranged', 'melee', 5, 0),
-              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weapons', 20, 0),
+              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weaponsList', 20, 0),
               ('Cyborg', 75, 50, 10, 'bio regeneration', 'emp grenades', 50, 0)
         ");
 
@@ -159,18 +164,38 @@ namespace RepositoryPattern
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
-        public List<Tuple<string, int, int>> ReturnValues(string weaponName)
+        public Tuple<string,int,int> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            var list = new List<Tuple<string, int, int>>();
+            Tuple<string, int, int> list = null;
+     
+            while (reader.Read())
+            {
+                list = (new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
+
+            }
+            reader.Close();
+
+            return list;
+        }
+
+        public Tuple<string, int, int> ReturnValuesWithID(int weaponID)
+        {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT weapon_id, name, damage, price FROM weapon " +
+                                                     $"WHERE (weapon_id = '{weaponID}')");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            Tuple<string, int, int> list = null;
 
             while (reader.Read())
             {
-                list.Add(new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
+                list = (new Tuple<string, int, int>(reader.GetValue(1).ToString(), (int)reader.GetValue(2), (int)reader.GetValue(3)));
+
             }
+            reader.Close();
 
             return list;
         }
