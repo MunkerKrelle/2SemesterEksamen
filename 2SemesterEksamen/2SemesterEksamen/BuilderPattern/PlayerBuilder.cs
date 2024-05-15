@@ -23,9 +23,9 @@ namespace BuilderPattern
             gameObject.AddComponent<Player>();
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
-            Inventory inventory = gameObject.AddComponent<Inventory>();
-            inventory.AddItem("Wrench");
-            inventory.AddItem("SteelBat");
+            ////Inventory inventory = gameObject.AddComponent<Inventory>();
+            ////inventory.AddItem("Butterflyknife");
+            ////inventory.AddItem("Bat");
             Animator animator = gameObject.AddComponent<Animator>();
             animator.AddAnimation(BuildAnimation("Forward", new string[] { "1fwd", "2fwd", "3fwd" }));
             animator.AddAnimation(BuildAnimation("Right", new string[] { "1rght", "2rght", "3rght" }));

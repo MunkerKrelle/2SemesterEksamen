@@ -134,10 +134,10 @@ namespace RepositoryPattern
             NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
         INSERT INTO weapon (name, damage, price)
 
-        VALUES('Wrench', 2, 10),
-              ('SteelBat', 5, 20),
+        VALUES('Butterflyknife', 2, 10),
+              ('Bat', 5, 20),
               ('Katana', 10, 50),
-              ('Lightsaber', 25, 100)
+              ('Chainsword', 25, 100)
         ");
 
             NpgsqlCommand cmdInsertBestiaryValues = dataSource.CreateCommand($@"
