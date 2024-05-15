@@ -9,6 +9,8 @@ namespace BuilderPattern
     class ArmsDealerBuilder : IBuilder
     {
         private GameObject gameObject;
+        private Random rnd = new Random();
+        private List<int> list = new List<int>() { 0 };
 
         public void BuildGameObject()
         {
@@ -17,13 +19,38 @@ namespace BuilderPattern
             BuildComponents();
         }
 
+        private int RandomItem()
+        {
+            while (true)
+            {
+                int tryNumber = rnd.Next(8);
+                if (!list.Contains(tryNumber))
+                {
+                    list.Add(tryNumber);
+                    return tryNumber;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
         private void BuildComponents()
         {
             gameObject.AddComponent<ArmsDealer>();
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
-            //gameObject.AddComponent<Inventory>();
-           // Animator animator = gameObject.AddComponent<Animator>();
+            RandomItem();
+            Inventory inventory = gameObject.AddComponent<Inventory>();
+            inventory.GenerateItem(RandomItem());
+            inventory.GenerateItem(RandomItem());
+            inventory.GenerateItem(RandomItem());
+            inventory.GenerateItem(RandomItem());
+            //inventory.AddItem("Bat");
+            //inventory.AddItem("Katana");
+            //inventory.AddItem("Chainsword");
+            // Animator animator = gameObject.AddComponent<Animator>();
 
         }
         //private Animation BuildAnimation(string animationName, string[] spriteNames)
@@ -44,5 +71,5 @@ namespace BuilderPattern
             return gameObject;
         }
     }
-    
+
 }

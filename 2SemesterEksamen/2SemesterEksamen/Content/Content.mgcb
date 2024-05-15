@@ -145,6 +145,18 @@
 /processorParam:TextureFormat=Color
 /build:4rght.png
 
+#begin Annihilator.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Annihilator.png
+
 #begin Bat.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -181,11 +193,35 @@
 /processorParam:TextureFormat=Color
 /build:Chainsword.png;chainsword.png
 
+#begin Crimsonblade.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crimsonblade.png
+
 #begin File.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:File.fx
+
+#begin Hammer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Hammer.png
 
 #begin Katana.png
 /importer:TextureImporter
@@ -198,6 +234,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Katana.png;katana.png
+
+#begin Nunchaku.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Nunchaku.png
 
 #begin Robot1.png
 /importer:TextureImporter
