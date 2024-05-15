@@ -65,8 +65,8 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            IRepository repository = new PostgresRepository();
-            new UserRegistrationWithPattern(repository).RunLoop();
+            IRepository repository = new Database();
+            new Database(repository).RunLoop();
 
 
             gameObjects.Add(ItemFactory.Instance.Create("Wrench"));

@@ -15,7 +15,7 @@ namespace ComponentPattern
     internal class UI : Component
     {
         public SpriteFont font;
-        private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
+        private Database database = new Database();
         List<BestiaryInfo> bestiaryInfo = new List<BestiaryInfo>();
 
         public UI(GameObject gameObject) : base(gameObject)

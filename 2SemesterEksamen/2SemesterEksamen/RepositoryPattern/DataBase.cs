@@ -10,7 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
 {
-    public class UserRegistrationWithPattern
+    public class Database : IRepository
     {
         private readonly IRepository repository;
         private NpgsqlDataSource dataSource;
@@ -21,11 +21,11 @@ namespace RepositoryPattern
         private float speed;
         private bool buy, sell, enemyKilled;
 
-        public UserRegistrationWithPattern()
+        public Database()
         {
-
         }
-        public UserRegistrationWithPattern(IRepository repository)
+
+        public Database(IRepository repository)
         {
             this.repository = repository;
         }
@@ -104,7 +104,7 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
-        private void DropTables()
+        public void DropTables()
         {
             try
             {
@@ -213,7 +213,7 @@ namespace RepositoryPattern
         }
 
 
-        private void TradeWeapon()
+        public void TradeWeapon()
         {
             if (buy)
             {
@@ -288,7 +288,7 @@ namespace RepositoryPattern
         //}      
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
-        private void SortTables()
+        public void SortTables()
         {
             NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
         SELECT * 

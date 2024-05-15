@@ -28,7 +28,7 @@ namespace FactoryPattern
             }
         }
 
-        private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
+        private Database database = new Database();
 
 
         private GameObject prototype;
