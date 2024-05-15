@@ -261,18 +261,19 @@ namespace RepositoryPattern
             }
         }
 
-        private void CollectScrap()
-        {
-            if (enemyKilled)
-            {
-                NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
-            UPDATE player
-            SET scrap_amount = scrap_amount + {scrapDropped}
-            ");
+        //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
+        //private void CollectScrap()
+        //{
+        //    if (interact)
+        //    {
+        //        NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
+        //    UPDATE player
+        //    SET scrap_amount = scrap_amount + {scrapDropped}
+        //    ");
 
-                cmdCollectScrap.ExecuteNonQuery();
-            }
-        }
+        //        cmdCollectScrap.ExecuteNonQuery();
+        //    }
+        //}
 
         //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
         //private void EnemyDefeated()
@@ -284,23 +285,7 @@ namespace RepositoryPattern
         //    ");
 
         //    cmdEnemyDefeated.ExecuteNonQuery();
-        //}
-
-
-        //BYT VÅBEN MED VAULES_______________________________________________________________________________________
-        //private void TradeWeaponTest()
-        //{
-        //    Console.WriteLine("Buy or sell?");
-        //    answer = Console.ReadLine();
-
-        //    //BUY
-        //    if (answer.ToLower() == "buy")
-        //    {
-        //        Console.WriteLine("Which weapon do you want to buy?");
-        //        weaponName = Console.ReadLine();
-
-
-        
+        //}      
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
         private void SortTables()
