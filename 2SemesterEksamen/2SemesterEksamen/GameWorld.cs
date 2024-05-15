@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
+using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +27,18 @@ namespace _2SemesterEksamen
         private List<GameObject> destroyedGameObjects = new List<GameObject>();
         public float DeltaTime { get; private set; }
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+
+        private static List<Button> buttons = new List<Button>();
+        Button specificButton;
+
+        public static MouseState mouseState;
+        public static MouseState newState;
+        public static bool isPressed;
+
+        public static SpriteFont font;
+        Vector2 originText;
+        string fontText = "Quit";
+        Vector2 fontLength;
 
 
         private static GameWorld instance;
@@ -68,6 +81,9 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
+            buttons.Add(new Button(new Vector2(500, 200), "Quit", Exit));
+            buttons.Add(new Button(new Vector2(200, 200), "Quit", null));
+
             gameObjects.Add(EnemyFactory.Instance.Create());
 
             foreach (GameObject go in gameObjects)
@@ -97,6 +113,11 @@ namespace _2SemesterEksamen
             {
                 go.Start();
             }
+            foreach (var button in buttons)
+            {
+                button.LoadContent(Content);
+            }
+            font = Content.Load<SpriteFont>("text2");
         }
 
         protected override void Update(GameTime gameTime)
@@ -113,6 +134,22 @@ namespace _2SemesterEksamen
             }
             InputHandler.Instance.Execute();
             CheckCollision();
+
+            mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                isPressed = true;
+            }
+            else
+            {
+                isPressed = false;
+            }
+
+            foreach (var button in buttons)
+            {
+                button.Update();
+            }
             base.Update(gameTime);
 
             Cleanup();
@@ -194,8 +231,9 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-
-           // _spriteBatch.Draw(); //Draw background
+            buttons[0].Draw(_spriteBatch, gameTime);
+            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.White, 0, originText, 1f, SpriteEffects.None, 1f);
+            // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
 
