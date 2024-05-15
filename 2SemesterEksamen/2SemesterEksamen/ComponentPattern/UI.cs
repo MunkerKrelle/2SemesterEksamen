@@ -17,6 +17,7 @@ namespace ComponentPattern
         public SpriteFont font;
         private NpgsqlDataSource datasource;
         private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
+        List<BestiaryInfo> bestiaryInfo = new List<BestiaryInfo>();
 
         public UI(GameObject gameObject) : base(gameObject)
         {
@@ -30,17 +31,28 @@ namespace ComponentPattern
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            List<BestiaryInfo> bestiaryInfo = new List<BestiaryInfo>();
             bestiaryInfo = database.ShowBestiaryInfo();
 
-            spriteBatch.DrawString(font, bestiaryInfo[0].ToString(), Vector2.Zero, Color.White);
-            
+            int offset = 0;
 
-                      //DRONE
-            //        spriteBatch.DrawString(font, ("Name: " + bestiaryInfo[0] + "    " + "Health: " + bestiaryInfo[1] + "    "+ 
-            //            "Damage: " + bestiaryInfo[2] + "    " + "Strengths: " + bestiaryInfo[3] + "    " + "Weaknesses: " + bestiaryInfo[4] 
-            //            + "    " + "Scrap Dropped: " + bestiaryInfo[5] +
-            //            "    " + "Defeated: " + bestiaryInfo[6]), new Vector2(0, 200), Color.White);
+            foreach (BestiaryInfo value in bestiaryInfo)
+            {
+                offset += 50;
+                //spriteBatch.DrawString(font, value.name, Vector2.Zero, Color.White);
+
+                spriteBatch.DrawString(font, ("Name: " + value.name + "    " + "Health: " + value.health + "    " +
+    "Damage: " + value.damage + "    " + "Strengths: " + value.strengths + "    " + "Weaknesses: " + value.weaknesses
+    + "    " + "Scrap Dropped: " + value.scrap_dropped +
+    "    " + "Defeated: " + value.defeated), new Vector2(0, 200 + offset), Color.White);
+
+            }
+
+
+            ////DRONE
+            //spriteBatch.DrawString(font, ("Name: " + bestiaryInfo[0] + "    " + "Health: " + bestiaryInfo[1] + "    " +
+            //    "Damage: " + bestiaryInfo[2] + "    " + "Strengths: " + bestiaryInfo[3] + "    " + "Weaknesses: " + bestiaryInfo[4]
+            //    + "    " + "Scrap Dropped: " + bestiaryInfo[5] +
+            //    "    " + "Defeated: " + bestiaryInfo[6]), new Vector2(0, 200), Color.White);
 
             //        //ANDROID
             //        spriteBatch.DrawString(font, ("Name: " + bestiaryInfo[7] + "    " + "Health: " + bestiaryInfo[8] + "    " +
