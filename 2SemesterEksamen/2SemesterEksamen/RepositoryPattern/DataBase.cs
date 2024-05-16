@@ -14,7 +14,7 @@ namespace RepositoryPattern
     {
         private readonly IRepository repository;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=Saunire.124;Database=myDatabase";
+        private string connectionString = "Host=localhost;Username=postgres;Password=sargon;Database=eksamen";
 
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
