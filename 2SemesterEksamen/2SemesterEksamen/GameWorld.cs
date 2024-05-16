@@ -150,7 +150,7 @@ namespace _2SemesterEksamen
 
                 //SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
                 //sr.SetSprite("1fwd");
-                Cells[new Point(1, 1)].Sprite = sprites["cellGrid"];
+                Cells[new Point(1, 1)].Sprite = sprites["1fwd"];
                 //Cell cell = Cells.Values.ElementAt(0);
                 //gameObjects[22].Transform.Position = new Vector2(20, 20);
                 Player player = gameObjects[0].GetComponent<Player>() as Player;
