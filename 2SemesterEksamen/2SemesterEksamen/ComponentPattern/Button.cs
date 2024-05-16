@@ -21,7 +21,7 @@ namespace ComponentPattern
         Color colorCode = Color.White;
         Vector2 originSprite, originText;
         public bool active = true;
-        string bunttonText;
+        string buttonText;
         Delegate actionFunction;
         protected Vector2 SpriteSize
         {
@@ -34,7 +34,7 @@ namespace ComponentPattern
         public Button(Vector2 buttonPosition, string buttonText, Delegate actionFunction, GameObject gameObject) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
-            this.bunttonText = buttonText;
+            this.buttonText = buttonText;
             this.actionFunction = actionFunction;
         }
 
@@ -84,13 +84,13 @@ namespace ComponentPattern
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Vector2 fontLength = GameWorld.font.MeasureString(bunttonText);
+            Vector2 fontLength = GameWorld.font.MeasureString(buttonText);
 
             originSprite = new Vector2(buttonTexture.Width / 2f, buttonTexture.Height / 2f);
             originText = new Vector2(fontLength.X / 2f, fontLength.Y / 2f);
 
             spriteBatch.Draw(buttonTexture, rectangleForButtons, null, colorCode, 0, originSprite, SpriteEffects.None, 0.98f);
-            spriteBatch.DrawString(GameWorld.font, bunttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 0.1f);
+            spriteBatch.DrawString(GameWorld.font, buttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 0.1f);
 
         }   
     }

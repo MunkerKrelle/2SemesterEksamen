@@ -76,13 +76,19 @@ namespace _2SemesterEksamen
             GameObject playerGo = director.Construct();
             GameObject armsDealerGo = director1.Construct();
             gameObjects.Add(playerGo);
-            gameObjects.Add(armsDealerGo);
+            gameObjects.Add(armsDealerGo); 
+
+            GameObject buttonGo = new GameObject();
+            Button button = buttonGo.AddComponent<Button>();
+            buttonGo.AddComponent<SpriteRenderer>();
+            gameObjects.Add(buttonGo);
+
 
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(500, 200), "Quit", Exit));
-            buttons.Add(new Button(new Vector2(200, 200), "Quit", null));
+            buttons.Add(new Button(new Vector2(500, 200), "Quit", Exit, buttonGo));
+            buttons.Add(new Button(new Vector2(200, 200), "Quit", null, buttonGo));
 
             gameObjects.Add(EnemyFactory.Instance.Create());
 
