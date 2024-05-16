@@ -35,7 +35,8 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
+            //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
+            GameObject.Transform.CellMovement2(velocity);
 
             if (velocity.X > 0)
             {
@@ -62,7 +63,7 @@ namespace ComponentPattern
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("1fwd");
-            GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
+            //GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
 
         }
 
