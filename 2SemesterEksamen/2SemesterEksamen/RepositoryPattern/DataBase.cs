@@ -1,12 +1,16 @@
-﻿using ComponentPattern;
+﻿using _2SemesterEksamen;
+using ComponentPattern;
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Security.Cryptography;
+using System.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
 {
-    public class UserRegistrationWithPattern
+    public class Database : IRepository
     {
         private readonly IRepository repository;
         private NpgsqlDataSource dataSource;
@@ -17,11 +21,11 @@ namespace RepositoryPattern
         private float speed;
         private bool buy, sell, enemyKilled;
 
-        public UserRegistrationWithPattern()
+        public Database()
         {
-
         }
-        public UserRegistrationWithPattern(IRepository repository)
+
+        public Database(IRepository repository)
         {
             this.repository = repository;
         }
@@ -100,7 +104,7 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
-        private void DropTables()
+        public void DropTables()
         {
             try
             {
@@ -137,7 +141,12 @@ namespace RepositoryPattern
         VALUES('Butterflyknife', 2, 10),
               ('Bat', 5, 20),
               ('Katana', 10, 50),
-              ('Chainsword', 25, 100)
+              ('Chainsword', 25, 100),
+              ('Hammer', 8, 25),
+              ('Crimsonblade', 50, 300),
+              ('Nunchaku', 30, 150),
+              ('Annihilator', 100, 500)
+
         ");
 
             NpgsqlCommand cmdInsertBestiaryValues = dataSource.CreateCommand($@"
@@ -146,27 +155,26 @@ namespace RepositoryPattern
         VALUES('Drone', 5, 1, 1,'none', 'everything', 1, 0),
               ('Android', 10, 2, 2, 'none', 'melee', 2, 0),
               ('Sentinel', 25, 5, 4, 'ranged', 'melee', 5, 0),
-              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weapons', 20, 0),
+              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weaponsList', 20, 0),
               ('Cyborg', 75, 50, 10, 'bio regeneration', 'emp grenades', 50, 0)
         ");
-
 
             cmdInsertPlayerValues.ExecuteNonQuery();
             cmdInsertWeaponValues.ExecuteNonQuery();
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
-        public List<Tuple<string,int,int>> ReturnValues(string weaponName)
+        public Tuple<string,int,int> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            var list = new List<Tuple<string, int, int>>();
+            Tuple<string, int, int> list = null;
      
             while (reader.Read())
             {
-                list.Add(new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
+                list = (new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
 
             }
             reader.Close();
@@ -174,7 +182,63 @@ namespace RepositoryPattern
             return list;
         }
 
-        private void TradeWeapon()
+        public Tuple<string, int, int> ReturnValuesWithID(int weaponID)
+        {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT weapon_id, name, damage, price FROM weapon " +
+                                                     $"WHERE (weapon_id = '{weaponID}')");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            Tuple<string, int, int> list = null;
+
+            while (reader.Read())
+            {
+                list = (new Tuple<string, int, int>(reader.GetValue(1).ToString(), (int)reader.GetValue(2), (int)reader.GetValue(3)));
+
+            }
+            reader.Close();
+
+            return list;
+        }
+
+        public List<BestiaryInfo> ShowBestiaryInfo()
+        {
+            string name, health, damage, strengths, weaknesses, scrap_dropped, defeated;
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdShowBestiary = dataSource.CreateCommand($"SELECT name, health, damage, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
+
+            NpgsqlDataReader reader = cmdShowBestiary.ExecuteReader();
+            List<BestiaryInfo> beastInfo = new List<BestiaryInfo>();
+
+            while (reader.Read())
+            {
+                name = reader.GetValue(0).ToString();
+                health = reader.GetValue(1).ToString();
+                damage = reader.GetValue(2).ToString();
+                strengths = reader.GetValue(3).ToString();
+                weaknesses = reader.GetValue(4).ToString();
+                scrap_dropped = reader.GetValue(5).ToString();
+                defeated = reader.GetValue(6).ToString();
+
+                BestiaryInfo info = new BestiaryInfo();
+
+                info.name = name;
+                info.health = int.Parse(health);
+                info.damage = int.Parse(damage);
+                info.strengths = strengths;
+                info.weaknesses = weaknesses;
+                info.scrap_dropped = int.Parse(scrap_dropped);
+                info.defeated = int.Parse(defeated);
+
+                beastInfo.Add(info);
+            }
+
+            reader.Close();
+
+            return beastInfo;
+        }
+
+
+        public void TradeWeapon()
         {
             if (buy)
             {
@@ -222,18 +286,19 @@ namespace RepositoryPattern
             }
         }
 
-        private void CollectScrap()
-        {
-            if (enemyKilled)
-            {
-                NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
-            UPDATE player
-            SET scrap_amount = scrap_amount + {scrapDropped}
-            ");
+        //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
+        //private void CollectScrap()
+        //{
+        //    if (interact)
+        //    {
+        //        NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
+        //    UPDATE player
+        //    SET scrap_amount = scrap_amount + {scrapDropped}
+        //    ");
 
-                cmdCollectScrap.ExecuteNonQuery();
-            }
-        }
+        //        cmdCollectScrap.ExecuteNonQuery();
+        //    }
+        //}
 
         //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
         //private void EnemyDefeated()
@@ -245,135 +310,10 @@ namespace RepositoryPattern
         //    ");
 
         //    cmdEnemyDefeated.ExecuteNonQuery();
-        //}
-
-
-        //BYT VÅBEN MED VAULES_______________________________________________________________________________________
-        //private void TradeWeaponTest()
-        //{
-        //    Console.WriteLine("Buy or sell?");
-        //    answer = Console.ReadLine();
-
-        //    //BUY
-        //    if (answer.ToLower() == "buy")
-        //    {
-        //        Console.WriteLine("Which weapon do you want to buy?");
-        //        weaponName = Console.ReadLine();
-
-
-        //        //BUY KATANA
-        //        if (weaponName == "katana")
-        //        {
-        //            NpgsqlCommand cmdBuyWeapon = dataSource.CreateCommand($@"
-        //INSERT INTO inventory (weapon_name, damage)
-
-        //VALUES('{katana.Name}', {katana.Damage})
-        //");
-        //            NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        //DELETE FROM weapon
-        //WHERE name = '{katana.Name}'
-        //");
-
-        //            NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        //UPDATE player
-        //SET scrap_amount = scrap_amount - {katana.Price}
-        //");
-
-        //            cmdBuyWeapon.ExecuteNonQuery();
-        //            cmdDeleteFromTable.ExecuteNonQuery();
-        //            cmdUpdateScrapAmount.ExecuteNonQuery();
-
-        //            Console.WriteLine("Katana has been bought");
-        //        }
-
-        //        //BUY WRENCH
-        //        else if (weaponName == "wrench")
-        //        {
-        //            NpgsqlCommand cmdBuyWeapon = dataSource.CreateCommand($@"
-        //INSERT INTO inventory (weapon_name, damage)
-
-        //VALUES('{wrench.Name}', {wrench.Damage})
-        //");
-        //            NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        //DELETE FROM weapon
-        //WHERE name = '{wrench.Name}'
-        //");
-
-        //            NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        //UPDATE player
-        //SET scrap_amount = scrap_amount - {wrench.Price}
-        //");
-
-        //            cmdBuyWeapon.ExecuteNonQuery();
-        //            cmdDeleteFromTable.ExecuteNonQuery();
-        //            cmdUpdateScrapAmount.ExecuteNonQuery();
-
-        //            Console.WriteLine("Wrench has been bought");
-        //        }
-
-        //    }
-
-        //    //SELL
-        //    else if (answer.ToLower() == "sell")
-        //    {
-        //        Console.WriteLine("Which weapon do you want to sell?");
-        //        weaponName = Console.ReadLine();
-
-
-        //        //SELL KATANA
-        //        if (weaponName == "katana")
-        //        {
-        //            NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
-        //INSERT INTO weapon (name, damage, price)
-
-        //VALUES('{katana.Name}', {katana.Damage}, {katana.Price})
-        //");
-        //            NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        //DELETE FROM inventory
-        //WHERE weapon_name = '{katana.Name}'
-        //");
-
-        //            NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        //UPDATE player
-        //SET scrap_amount = scrap_amount + {katana.Price}
-        //");
-
-        //            cmdSellWeapon.ExecuteNonQuery();
-        //            cmdDeleteFromTable.ExecuteNonQuery();
-        //            cmdUpdateScrapAmount.ExecuteNonQuery();
-
-        //            Console.WriteLine("Katana has been sold");
-        //        }
-
-        //        //SELL WRENCH
-        //        else if (weaponName == "wrench")
-        //        {
-        //            NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
-        //INSERT INTO weapon (name, damage)
-
-        //VALUES('{wrench.Name}', {wrench.Damage})
-        //");
-        //            NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        //DELETE FROM inventory
-        //WHERE weapon_name = '{wrench.Name}'
-        //");
-
-        //            NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        //UPDATE player
-        //SET scrap_amount = scrap_amount + {wrench.Price}
-        //");
-
-        //            cmdSellWeapon.ExecuteNonQuery();
-        //            cmdDeleteFromTable.ExecuteNonQuery();
-        //            cmdUpdateScrapAmount.ExecuteNonQuery();
-
-        //            Console.WriteLine("Wrench has been sold");
-        //        }
-        //    }
-        //}
+        //}      
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
-        private void SortTables()
+        public void SortTables()
         {
             NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
         SELECT * 
@@ -395,53 +335,6 @@ namespace RepositoryPattern
             cmdSortWeaponTable.ExecuteNonQuery();
 
             Console.WriteLine("You've been sorted mate");
-        }
-
-        //INSERT MED VALUES_______________________________________________________________________________________
-        //private void InsertTest()
-        ////VALUES SKAL VÆRE PLAYER/ENEMY/WEAPON.X
-        //{
-        //    NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
-        //INSERT INTO player (name, health, speed, scrap_amount)
-
-        //VALUES('{lars.Name}', {lars.Health}, {lars.Speed}, {lars.ScrapAmount})
-        //");
-
-        //    NpgsqlCommand cmdEnemyEnemyValues = dataSource.CreateCommand($@"
-        //INSERT INTO enemy (health, damage, speed, scrap_dropped)
-
-        //VALUES('{enemy.Health}', {enemy.Damage}, {enemy.Speed}, {enemy.ScrapDropped})
-        //");
-
-        //    NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
-        //INSERT INTO weapon (name, damage, price)
-
-        //VALUES('{wrench.Name}', {wrench.Damage}, {wrench.Price}),
-        //      ('Steel Bat', 5, 20),
-        //      ('{katana.Name}', {katana.Damage}, {katana.Price}),
-        //      ('Lightsaber', 25, 100)
-        //");
-
-        //    cmdInsertPlayerValues.ExecuteNonQuery();
-        //    cmdEnemyEnemyValues.ExecuteNonQuery();
-        //    cmdInsertWeaponValues.ExecuteNonQuery();
-
-        //    Console.WriteLine("Values Inserted. Press enter to exit");
-        //    Console.ReadKey();
-        //}
-
-        //VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
-        private void ShowBestiary()
-        {
-            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
-            NpgsqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Console.WriteLine($"Name: {reader.GetValue(0)}, Health: {reader.GetValue(1)}, Damage: {reader.GetValue(2)}, " +
-                    $"Speed: {reader.GetValue(3)}, Strengths: {reader.GetValue(4)}, Weaknesses: {reader.GetValue(5)}, " +
-                    $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
-            }
         }
     }
 }

@@ -28,7 +28,7 @@ namespace FactoryPattern
             }
         }
 
-        private UserRegistrationWithPattern database = new UserRegistrationWithPattern();
+        private Database database = new Database();
 
 
         private GameObject prototype;
@@ -37,15 +37,15 @@ namespace FactoryPattern
 
         //{
         //    GameObject go = new GameObject();
-        //    var wrenchValues = database.ReturnValues("wrench");
+        //    var itemValues = database.ReturnValues("wrench");
 
         //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
 
         //    switch (type)
         //    {
         //        case WEAPONTYPE.WRENCH:
-        //            sr.SetSprite(wrenchValues[0].Item1);
-        //            go.AddComponent<Weapon>(wrenchValues[0].Item2, wrenchValues[0].Item3);
+        //            sr.SetSprite(itemValues[0].Item1);
+        //            go.AddComponent<Weapon>(itemValues[0].Item2, itemValues[0].Item3);
         //            break;
         //        case WEAPONTYPE.STEELBAT:
         //            sr.SetSprite("");
@@ -64,11 +64,23 @@ namespace FactoryPattern
         public GameObject Create(string weaponType)
         {
             GameObject go = new GameObject();
-            var wrenchValues = database.ReturnValues(weaponType);
+            var itemValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(wrenchValues[0].Item1.ToLower());
-            go.AddComponent<Weapon>(wrenchValues[0].Item2, wrenchValues[0].Item3);
+            sr.SetSprite(itemValues.Item1.ToLower());
+            go.AddComponent<Weapon>(itemValues.Item2, itemValues.Item3);
+
+            return go;
+        }
+
+        public GameObject Create(int weaponID)
+        {
+            GameObject go = new GameObject();
+            var itemValues = database.ReturnValuesWithID(weaponID);
+
+            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+            sr.SetSprite(itemValues.Item1);
+            go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
         }
