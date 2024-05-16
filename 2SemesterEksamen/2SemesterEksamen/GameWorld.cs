@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
-using SharpDX.Direct3D9;
+using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,10 +30,23 @@ namespace _2SemesterEksamen
         private List<GameObject> destroyedGameObjects = new List<GameObject>();
         public float DeltaTime { get; private set; }
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+
+        private static List<Button> buttons = new List<Button>();
+        Button specificButton;
+
+        public static MouseState mouseState;
+        public static MouseState newState;
+        public static bool isPressed;
         
         private int cellCount = 11;
         private int cellSize = 100;
         private float timeElapsed;
+
+        public static SpriteFont font;
+        Vector2 originText;
+        string fontText = "";
+        Vector2 fontLength;
+
 
         private static GameWorld instance;
 
@@ -71,11 +84,16 @@ namespace _2SemesterEksamen
             GameObject playerGo = director.Construct();
             GameObject armsDealerGo = director1.Construct();
             gameObjects.Add(playerGo);
-            gameObjects.Add(armsDealerGo);
+            gameObjects.Add(armsDealerGo); 
+
+
 
             Player player = playerGo.GetComponent<Player>() as Player;
            
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
+
+            buttons.Add(new Button(new Vector2(500, 200), "Respawn", Exit));
+
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -88,10 +106,6 @@ namespace _2SemesterEksamen
                 go.Awake();
             }
 
-            //InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -103,9 +117,9 @@ namespace _2SemesterEksamen
             //walls.Add(WallFactory.Instance.Create());
             //walls[i].Transform.Position = new Vector2(115 * i, 0);
             player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
-            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
-            SetUpCells();
+           // sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+           // SetUpCells();
 
             _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = cellCount * cellSize + 1;   // set this value to the desired height of your window
@@ -122,6 +136,11 @@ namespace _2SemesterEksamen
             {
                 go.Start();
             }
+            foreach (var button in buttons)
+            {
+                button.LoadContent(Content);
+            }
+            font = Content.Load<SpriteFont>("text2");
         }
 
         protected override void Update(GameTime gameTime)
@@ -161,7 +180,7 @@ namespace _2SemesterEksamen
                 player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
 
                 //Cells.GetValueOrDefault(new Point(4, 4));
-                
+
                 //Cells.Values.ElementAt(5).Sprite = sprites["cellGrid"];
 
                 //player.GameObject.Transform.PosOnCell = new Point(8, 8);
@@ -173,8 +192,26 @@ namespace _2SemesterEksamen
                 //gameObjects[100].
                 //var test = gameObjects[55].GetComponent<SpriteRenderer>();
                 //test.Sprite = sprites["Pixel"];
-
             }
+                InputHandler.Instance.Execute();
+                CheckCollision();
+
+                mouseState = Mouse.GetState();
+            
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                isPressed = true;
+            }
+            else
+            {
+                isPressed = false;
+            }
+
+            foreach (var button in buttons)
+            {
+                button.Update();
+            }
+            
             if (keyState.IsKeyDown(Keys.V))
             {
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
@@ -272,7 +309,36 @@ namespace _2SemesterEksamen
         {
             destroyedGameObjects.Add(go);
         }
+        void CheckCollision()
+        {
+            foreach (GameObject go1 in gameObjects)
+            {
+                foreach (GameObject go2 in gameObjects)
+                {
+                    if (go1 == go2)
+                    {
+                        continue;
+                    }
+                    Collider col1 = go1.GetComponent<Collider>() as Collider;
+                    Collider col2 = go2.GetComponent<Collider>() as Collider;
 
+                    if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+                    {
+                        foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
+                        {
+                            foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
+                            {
+                                if (rects1.Rectangle.Intersects(rects2.Rectangle))
+                                {
+                                    go1.OnCollisionEnter(col2);
+                                    go2.OnCollisionEnter(col1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -283,8 +349,9 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-
-           // _spriteBatch.Draw(); //Draw background
+            buttons[0].Draw(_spriteBatch, gameTime);
+            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
+            // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
 

@@ -9,6 +9,7 @@ using SharpDX.Win32;
 using System;
 using System.DirectoryServices;
 
+
 namespace ComponentPattern
 {
     public class Inventory : Component
