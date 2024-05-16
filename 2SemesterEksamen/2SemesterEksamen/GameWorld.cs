@@ -44,7 +44,7 @@ namespace _2SemesterEksamen
 
         public static SpriteFont font;
         Vector2 originText;
-        string fontText = "Quit";
+        string fontText = "";
         Vector2 fontLength;
 
 
@@ -86,18 +86,14 @@ namespace _2SemesterEksamen
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo); 
 
-            GameObject buttonGo = new GameObject();
-            Button button = buttonGo.AddComponent<Button>();
-            buttonGo.AddComponent<SpriteRenderer>();
-            gameObjects.Add(buttonGo);
 
 
             Player player = playerGo.GetComponent<Player>() as Player;
            
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(500, 200), "Quit", Exit, buttonGo));
-            buttons.Add(new Button(new Vector2(200, 200), "Quit", null, buttonGo));
+            buttons.Add(new Button(new Vector2(500, 200), "Respawn", Exit));
+
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -110,10 +106,6 @@ namespace _2SemesterEksamen
                 go.Awake();
             }
 
-            //InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
-            //InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -125,9 +117,9 @@ namespace _2SemesterEksamen
             //walls.Add(WallFactory.Instance.Create());
             //walls[i].Transform.Position = new Vector2(115 * i, 0);
             player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
-            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
-            SetUpCells();
+           // sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+           // SetUpCells();
 
             _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = cellCount * cellSize + 1;   // set this value to the desired height of your window
@@ -188,7 +180,7 @@ namespace _2SemesterEksamen
                 player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
 
                 //Cells.GetValueOrDefault(new Point(4, 4));
-                
+
                 //Cells.Values.ElementAt(5).Sprite = sprites["cellGrid"];
 
                 //player.GameObject.Transform.PosOnCell = new Point(8, 8);
@@ -200,11 +192,12 @@ namespace _2SemesterEksamen
                 //gameObjects[100].
                 //var test = gameObjects[55].GetComponent<SpriteRenderer>();
                 //test.Sprite = sprites["Pixel"];
-            InputHandler.Instance.Execute();
-            CheckCollision();
+            }
+                InputHandler.Instance.Execute();
+                CheckCollision();
 
-            mouseState = Mouse.GetState();
-
+                mouseState = Mouse.GetState();
+            
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 isPressed = true;
@@ -218,7 +211,7 @@ namespace _2SemesterEksamen
             {
                 button.Update();
             }
-            }
+            
             if (keyState.IsKeyDown(Keys.V))
             {
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
@@ -357,7 +350,7 @@ namespace _2SemesterEksamen
                 go.Draw(_spriteBatch);
             }
             buttons[0].Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.White, 0, originText, 1f, SpriteEffects.None, 1f);
+            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
             // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();

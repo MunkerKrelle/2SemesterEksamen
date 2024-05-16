@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComponentPattern
+namespace _2SemesterEksamen
 {
-    internal class Button : Component
+    internal class Button 
     {
         private Vector2 minPosition;
         private Vector2 maxPosition;
@@ -31,7 +31,7 @@ namespace ComponentPattern
             }
         }
 
-        public Button(Vector2 buttonPosition, string buttonText, Delegate actionFunction, GameObject gameObject) : base(gameObject)
+        public Button(Vector2 buttonPosition, string buttonText, Delegate actionFunction)
         {
             this.buttonPosition = buttonPosition;
             this.buttonText = buttonText;
@@ -90,8 +90,8 @@ namespace ComponentPattern
             originText = new Vector2(fontLength.X / 2f, fontLength.Y / 2f);
 
             spriteBatch.Draw(buttonTexture, rectangleForButtons, null, colorCode, 0, originSprite, SpriteEffects.None, 0.98f);
-            spriteBatch.DrawString(GameWorld.font, buttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 0.1f);
+            spriteBatch.DrawString(GameWorld.font, buttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
-        }   
+        }
     }
 }
