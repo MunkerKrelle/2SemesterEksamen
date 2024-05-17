@@ -30,19 +30,18 @@ namespace FactoryPattern
             }
         }
 
-
-        public override GameObject Create()
+        public override GameObject Create() 
         {
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            go.Transform.Position = new Vector2(100, 100);
-            sr.SetSprite("Robot1");
+            go.Transform.Position = new Vector2(0, 0);
+            sr.SetSprite("Robot1", 0.9f);
             go.AddComponent<Enemy>();
 
-        //    //Thread enemyThread = new Thread(searchForEnemy)
-        //    //enemyThread.IsBackground = true;
-        //    //enemyThread.Start();
+            //Thread enemyThread = new Thread(searchForEnemy);
+            //enemyThread.IsBackground = true;
+            //enemyThread.Start();
 
 
             return go;
