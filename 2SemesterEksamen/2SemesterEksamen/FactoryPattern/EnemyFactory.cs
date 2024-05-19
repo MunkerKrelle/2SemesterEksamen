@@ -38,10 +38,13 @@ namespace FactoryPattern
             go.Transform.Position = new Vector2(0, 0);
             sr.SetSprite("Robot1", 0.9f);
             go.AddComponent<Enemy>();
+            Enemy meGo = (Enemy)go.GetComponent<Enemy>();
+            
 
-            //Thread enemyThread = new Thread(searchForEnemy);
-            //enemyThread.IsBackground = true;
-            //enemyThread.Start();
+
+            Thread enemyThread = new Thread(meGo.SearchForPlayer);
+            enemyThread.IsBackground = true;
+            enemyThread.Start();
 
 
             return go;

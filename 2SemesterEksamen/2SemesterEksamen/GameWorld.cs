@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace _2SemesterEksamen
 {
@@ -153,6 +154,9 @@ namespace _2SemesterEksamen
             {
                 InputHandler.Instance.Execute();
                 //index++;
+                Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                //enemy.GetPlayerPosition(gameObjects[100].Transform.Position);
+                enemy.GetPlayerPosition(gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position));
                 timeElapsed = 0;
             }
           
@@ -249,10 +253,11 @@ namespace _2SemesterEksamen
 
                 
                 //Enemy enemy = gameObjects.Last().GetComponent<Enemy>() as Enemy;
-                Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-                //enemy.GetPlayerPosition(gameObjects[100].Transform.Position);
-                enemy.GetPlayerPosition(gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position));
-                timeElapsed = 0;
+                //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                ////enemy.GetPlayerPosition(gameObjects[100].Transform.Position);
+                //enemy.GetPlayerPosition(gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position));
+
+                //timeElapsed = 0;
                 //SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
                 //sr.SetSprite("cellGrid");
                 //SpriteRenderer sr2 = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
@@ -292,28 +297,29 @@ namespace _2SemesterEksamen
         {
             Astar astar = new Astar(Cells);
 
-            //if (index > targetPointList.Count - 1)
-            //{
-            //    return;
-            //}
+            if (index > targetPointList.Count - 1)
+            {
+                return;
+            }
             if (index == 0)
             {
-                var path = astar.FindPath(targetPointList[0], targetPointList[index]);
-                foreach (var VARIABLE in path)
-                {
-                    for (int i = 0; i < Cells.Count; i++)
-                    {
-                        //if (Cells.ElementAt(i).Key == new Point (3,5))
-                        //if (Cells.ElementAt(i).Key == targetPointList[index])
-                        if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                        {
-                            SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                            //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
-                            sr2.SetSprite("1fwd", 0.1f);
-                            //break;
-                        }
-                    }
-                }
+                //var path = astar.FindPath(targetPointList[0], targetPointList[index]);
+                //foreach (var VARIABLE in path)
+                //{
+                //    for (int i = 0; i < Cells.Count; i++)
+                //    {
+                //        //if (Cells.ElementAt(i).Key == new Point (3,5))
+                //        //if (Cells.ElementAt(i).Key == targetPointList[index])
+                //        if (Cells.ElementAt(i).Key == VARIABLE.Position)
+                //        {
+                //            //gameObjects[i].Transform.Position = new Vector2(1500, 1500);
+                //            //SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
+                //            ////Cells[targetPointList[index]].Sprite = sprites["1fwd"];
+                //            //sr2.SetSprite("1fwd", 0.1f);
+                //            //break;
+                //        }
+                //    }
+                //}
                 index++;
             }
 
@@ -341,25 +347,27 @@ namespace _2SemesterEksamen
                             //if (Cells.ElementAt(i).Key == targetPointList[index])
                             if (Cells.ElementAt(i).Key == VARIABLE.Position)
                             {
-                            
 
-                                SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                                sr2.SetSprite("1fwd", 0.1f);
-                          
+                            //gameObjects[i].Transform.Position = new Vector2(1500, 1500);
+                            
+                            SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
+                            sr2.SetSprite("1fwd", 0.1f);
+
                             //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
 
                             //break;
+                            }
+                        
                         }
-                        }
-
-
-                    }
-                    index++;
                 }
-            if (index < targetPointList.Count)
-            {
-                RunAStar();
+                index++;
             }
+            
+            //if (index < targetPointList.Count)
+            //{
+            //    RunAStar();
+            //}
+            //index = 0;
         }
 
         private void SetUpCells() 

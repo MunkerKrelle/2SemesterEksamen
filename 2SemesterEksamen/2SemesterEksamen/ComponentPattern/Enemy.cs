@@ -4,6 +4,7 @@ using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace ComponentPattern
 {
@@ -44,13 +45,14 @@ namespace ComponentPattern
             currentState.Enter(this);
         }
 
-        private void SearchForPlayer()
+        public void SearchForPlayer()
         {
             //RUN ASTAR
             
 
             if (startAstarBool == true)
             {
+                startAstarBool = false;
                 //Point player1 = new Point(1, 1);
                 //Point player2 = new Point(5, 5);
                 //Point enemy1 = new Point(3, 7);
@@ -68,11 +70,17 @@ namespace ComponentPattern
 
 
                 Point player1 = new Point(5, 5);
-                //Point player2 = new Point(9, 10);
+
                 Point player2 = new Point(targetPointPos.X, targetPointPos.Y);
+                Point enemy1 = new Point(1, 9);
+                Point enemy2 = new Point(9, 9);
+                Point enemy3 = new Point(9, 1);
 
                 GameWorld.targetPointList.Add(player1);
                 GameWorld.targetPointList.Add(player2);
+                GameWorld.targetPointList.Add(enemy1);
+                GameWorld.targetPointList.Add(enemy2);
+                GameWorld.targetPointList.Add(enemy3);
 
                 //Point enemy1 = new Point(1, 2);
                 //Point enemy2 = new Point(1, 3);
@@ -80,8 +88,12 @@ namespace ComponentPattern
                 //GameWorld.targetPointList.Add(enemy1);
                 //GameWorld.targetPointList.Add(enemy2);
 
-                startAstarBool = false;
-                GameWorld.Instance.RunAStar();
+                Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
+                enemyThread.IsBackground = true;
+                enemyThread.Start();
+                //Thread.Sleep(1000);
+
+
             }
             //IF DISTANCE < WHATEVER
             //{

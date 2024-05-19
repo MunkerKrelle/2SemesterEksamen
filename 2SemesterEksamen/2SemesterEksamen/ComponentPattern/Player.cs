@@ -53,6 +53,7 @@ namespace ComponentPattern
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("1fwd", 1);
+            GameObject.Transform.Position = new Vector2(300,300);
             //GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
 
         }
