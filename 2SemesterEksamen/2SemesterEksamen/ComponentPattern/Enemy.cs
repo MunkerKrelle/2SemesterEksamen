@@ -10,8 +10,8 @@ namespace ComponentPattern
     public class Enemy : Component
     {
         public float speed = 1;
-        private bool startAstarBool = true;
-        private Vector2 targetPos;
+        private bool startAstarBool = false;
+        private Point targetPointPos;
 
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
@@ -51,20 +51,34 @@ namespace ComponentPattern
 
             if (startAstarBool == true)
             {
-                Point player1 = new Point(1, 1);
-                Point player2 = new Point(5, 5);
-                Point enemy1 = new Point(3, 7);
-                Point enemy2 = new Point(2, 6);
-                Point enemy3 = new Point(8, 9);
-                Point enemy4 = new Point(10, 10);
+                //Point player1 = new Point(1, 1);
+                //Point player2 = new Point(5, 5);
+                //Point enemy1 = new Point(3, 7);
+                //Point enemy2 = new Point(2, 6);
+                //Point enemy3 = new Point(8, 9);
+                //Point enemy4 = new Point(10, 10);
+
+                //GameWorld.targetPointList.Add(player1);
+                //GameWorld.targetPointList.Add(player2);
+
+                //GameWorld.targetPointList.Add(enemy1);
+                //GameWorld.targetPointList.Add(enemy2);
+                //GameWorld.targetPointList.Add(enemy3);
+                //GameWorld.targetPointList.Add(enemy4);
+
+
+                Point player1 = new Point(5, 5);
+                //Point player2 = new Point(9, 10);
+                Point player2 = new Point(targetPointPos.X, targetPointPos.Y);
 
                 GameWorld.targetPointList.Add(player1);
                 GameWorld.targetPointList.Add(player2);
 
-                GameWorld.targetPointList.Add(enemy1);
-                GameWorld.targetPointList.Add(enemy2);
-                GameWorld.targetPointList.Add(enemy3);
-                GameWorld.targetPointList.Add(enemy4);
+                //Point enemy1 = new Point(1, 2);
+                //Point enemy2 = new Point(1, 3);
+
+                //GameWorld.targetPointList.Add(enemy1);
+                //GameWorld.targetPointList.Add(enemy2);
 
                 startAstarBool = false;
                 GameWorld.Instance.RunAStar();
@@ -80,9 +94,10 @@ namespace ComponentPattern
             //HVERT TREDJE ISH SEKUND, PLAYER.HELATH - 2
         }
 
-        public void GetPlayerPosition(Vector2 playerPos) 
+        public void GetPlayerPosition(Point playerPoint) 
         {
-            targetPos = playerPos;
+            targetPointPos = playerPoint;
+            startAstarBool = true;
         }
 
     }

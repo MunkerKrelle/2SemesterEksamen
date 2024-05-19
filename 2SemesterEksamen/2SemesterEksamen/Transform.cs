@@ -23,15 +23,17 @@ namespace _2SemesterEksamen
             }
         }
 
-        public void CellMovement(Vector2 a, Vector2 b) 
+        public Point CellMovement(Vector2 a) 
         {
             //PosOnCell.ToVector2();
             
             //a.ToPoint();
             //b.ToPoint();
 
-            Point PTPosition = new Point((int)a.X, (int)b.Y);
-            Position = new Vector2(PTPosition.X,PTPosition.Y);
+            Point PTPosition = new Point((int)a.X / 100, (int)a.Y / 100);
+            return PTPosition;
+            //Position = new Vector2(PTPosition.X,PTPosition.Y);
+            //PosOnCell = new Point(PTPosition.X / 100, PTPosition.Y / 100);
             //maybe add cell moving here?
 
             //Position = new Vector2(a.ToPoint(), b.ToPoint());
