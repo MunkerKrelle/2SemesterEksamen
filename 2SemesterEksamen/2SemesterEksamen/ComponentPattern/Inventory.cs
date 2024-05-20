@@ -36,7 +36,6 @@ namespace ComponentPattern
             item = ItemFactory.Instance.Create(itemID);
             GameWorld.Instance.Instantiate(item);
             item.Transform.Scale = new Vector2(0.4f, 0.4f);
-            item.Transform.Position = new Vector2(430 + 100 * weaponsList.Count, 280);
             weapon = item.GetComponent<Weapon>() as Weapon;
             weaponsList.Add(weapon);
         }
@@ -46,7 +45,6 @@ namespace ComponentPattern
             item = ItemFactory.Instance.Create(itemName);
             GameWorld.Instance.Instantiate(item);
             item.Transform.Scale = new Vector2(0.4f, 0.4f);
-            item.Transform.Position = new Vector2(630 + 100 * weaponsList.Count, 280);
             weaponsList.Add(item.GetComponent<Weapon>() as Weapon);
         }
 
