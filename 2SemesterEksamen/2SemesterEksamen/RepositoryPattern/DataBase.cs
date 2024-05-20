@@ -466,5 +466,57 @@ namespace RepositoryPattern
                     $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
             }
         }
+
+        public Tuple<int, string> CreateNewShop(int weaponID)
+        {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdFindWeapons = dataSource.CreateCommand($"SELECT weapon_id, name FROM weapon " +
+                                                     $"WHERE (weapon_id = '{weaponID}')");
+            NpgsqlDataReader reader = cmdFindWeapons.ExecuteReader();
+            Tuple<int, string> list = null;
+
+            while (reader.Read())
+            {
+                list = new Tuple <int, string>((int)reader.GetValue(0), reader.GetValue(1).ToString());
+                weaponID = (int)reader.GetValue(0);
+                charName = reader.GetValue(1).ToString();
+
+            }
+            reader.Close();
+
+            NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
+        INSERT INTO trades (weapon_id, name)
+
+        VALUES('{weaponID}', '{charName}')
+        ");
+
+            return list;
+
+        }
+
+        public void ResetShop()
+        {
+            NpgsqlCommand cmdDropTradesTable = dataSource.CreateCommand(@"
+            DROP TABLE trades;
+            ");
+            cmdDropTradesTable.ExecuteNonQuery();
+
+            NpgsqlCommand cmdCreateTradesTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS trades (
+                    name VARCHAR(255) REFERENCES arms_dealer(name),
+                    weapon_ID INT REFERENCES weapon(weapon_id)
+                );");
+            cmdCreateTradesTable.ExecuteNonQuery();
+        }
+
+        public void AddToInventory()
+        {
+
+        }
+
+        public void RemoveFromInventory()
+        {
+
+        }
     }
 }
