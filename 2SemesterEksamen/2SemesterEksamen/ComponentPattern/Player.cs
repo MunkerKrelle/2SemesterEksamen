@@ -34,7 +34,7 @@ namespace ComponentPattern
         }
 
         bool isMoving;
-
+        
         public void Move(Vector2 velocity)
         {
             if (velocity != Vector2.Zero)
@@ -45,8 +45,7 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
-            GameObject.Transform.PlayerPointMove(velocity);
+            GameObject.Transform.CellMovement2(velocity);
 
             if (velocity.X > 0)
             {
@@ -69,17 +68,17 @@ namespace ComponentPattern
             inventory.Active = true;
             inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
-
+        
         public void MoveByAddition(Vector2 velocity)
         {
             GameObject.Transform.Position += velocity;
         }
-
+        
         public override void Start()
         {
-            GameObject.Transform.Position = new Vector2(300, 300);
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-            sr.SetSprite("Player/Idle/Idle1", 1);
+            sr.SetSprite("Player/Idle/Idle1");
+            GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
 
         }
 

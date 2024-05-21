@@ -1,12 +1,9 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1;
 using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 
 namespace ComponentPattern
 {
@@ -19,8 +16,6 @@ namespace ComponentPattern
             get { return enemyhealth; }
             set { enemyhealth = value; }
         }
-        private bool startAstarBool = false;
-        private Point targetPointPos;
 
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
@@ -64,30 +59,10 @@ namespace ComponentPattern
             currentState.Enter(this);
         }
 
-        public void SearchForPlayer()
+        private void SearchForPlayer()
         {
             //RUN ASTAR
 
-            KeyboardState keyState = Keyboard.GetState();
-
-            if (keyState.IsKeyDown(Keys.G) && (startAstarBool == false))
-            {
-                startAstarBool = true;
-                Point player1 = new Point(5, 5);
-                Point player2 = new Point(targetPointPos.X, targetPointPos.Y); 
-                GameWorld.targetPointList.Add(player1);
-                GameWorld.targetPointList.Add(player2);
-                Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
-                enemyThread.IsBackground = true;
-                enemyThread.Start();
-                //Thread.Sleep(1000);
-            }
-
-            if (keyState.IsKeyDown(Keys.H)) 
-            {
-                startAstarBool = false;
-                GameWorld.targetPointList.Clear();
-            }
             //IF DISTANCE < WHATEVER
             //{
             AttackPlayer();
@@ -97,11 +72,6 @@ namespace ComponentPattern
         private void AttackPlayer()
         {
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
-        }
-
-        public void GetPlayerPosition(Point playerPoint) 
-        {
-            targetPointPos = playerPoint;
         }
 
     }
