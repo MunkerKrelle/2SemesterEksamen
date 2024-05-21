@@ -38,6 +38,8 @@ namespace FactoryPattern
             go.Transform.Position = new Vector2(0, 0);
             sr.SetSprite("Robot1", 0.9f);
             go.AddComponent<Enemy>();
+            go.AddComponent<Collider>();
+
             Enemy meGo = (Enemy)go.GetComponent<Enemy>();
             
 

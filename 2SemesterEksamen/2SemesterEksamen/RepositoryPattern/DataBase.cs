@@ -14,7 +14,7 @@ namespace RepositoryPattern
     {
         private readonly IRepository repository;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=sargon;Database=eksamen";
+        private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
 
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
@@ -335,6 +335,105 @@ namespace RepositoryPattern
             cmdSortWeaponTable.ExecuteNonQuery();
 
             Console.WriteLine("You've been sorted mate");
+        }
+
+        //INSERT MED VALUES_______________________________________________________________________________________
+        //private void InsertTest()
+        ////VALUES SKAL VÆRE PLAYER/ENEMY/WEAPON.X
+        //{
+        //    NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
+        //INSERT INTO player (name, health, speed, scrap_amount)
+
+        //VALUES('{lars.Name}', {lars.Health}, {lars.Speed}, {lars.ScrapAmount})
+        //");
+
+        //    NpgsqlCommand cmdEnemyEnemyValues = dataSource.CreateCommand($@"
+        //INSERT INTO enemy (health, damage, speed, scrap_dropped)
+
+        //VALUES('{enemy.Health}', {enemy.Damage}, {enemy.Speed}, {enemy.ScrapDropped})
+        //");
+
+        //    NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
+        //INSERT INTO weapon (name, damage, price)
+
+        //VALUES('{wrench.Name}', {wrench.Damage}, {wrench.Price}),
+        //      ('Steel Bat', 5, 20),
+        //      ('{katana.Name}', {katana.Damage}, {katana.Price}),
+        //      ('Lightsaber', 25, 100)
+        //");
+
+        //    cmdInsertPlayerValues.ExecuteNonQuery();
+        //    cmdEnemyEnemyValues.ExecuteNonQuery();
+        //    cmdInsertWeaponValues.ExecuteNonQuery();
+
+        //    Console.WriteLine("Values Inserted. Press enter to exit");
+        //    Console.ReadKey();
+        //}
+
+        //VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
+        private void ShowBestiary()
+        {
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"Name: {reader.GetValue(0)}, Health: {reader.GetValue(1)}, Damage: {reader.GetValue(2)}, " +
+                    $"Speed: {reader.GetValue(3)}, Strengths: {reader.GetValue(4)}, Weaknesses: {reader.GetValue(5)}, " +
+                    $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
+            }
+        }
+
+        public Tuple<int, string> CreateNewShop(int weaponID)
+        {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdFindWeapons = dataSource.CreateCommand($"SELECT weapon_id, name FROM weapon " +
+                                                     $"WHERE (weapon_id = '{weaponID}')");
+            NpgsqlDataReader reader = cmdFindWeapons.ExecuteReader();
+            Tuple<int, string> list = null;
+
+            while (reader.Read())
+            {
+                list = new Tuple <int, string>((int)reader.GetValue(0), reader.GetValue(1).ToString());
+                weaponID = (int)reader.GetValue(0);
+                charName = reader.GetValue(1).ToString();
+
+            }
+            reader.Close();
+
+            NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
+        INSERT INTO trades (weapon_id, name)
+
+        VALUES('{weaponID}', '{charName}')
+        ");
+
+            return list;
+
+        }
+
+        public void ResetShop()
+        {
+            NpgsqlCommand cmdDropTradesTable = dataSource.CreateCommand(@"
+            DROP TABLE trades;
+            ");
+            cmdDropTradesTable.ExecuteNonQuery();
+
+            NpgsqlCommand cmdCreateTradesTable = dataSource.CreateCommand(@"
+                CREATE TABLE IF NOT EXISTS trades (
+                    name VARCHAR(255) REFERENCES arms_dealer(name),
+                    weapon_ID INT REFERENCES weapon(weapon_id)
+                );");
+            cmdCreateTradesTable.ExecuteNonQuery();
+        }
+
+        public void AddToInventory()
+        {
+
+        }
+
+        public void RemoveFromInventory()
+        {
+
         }
     }
 }

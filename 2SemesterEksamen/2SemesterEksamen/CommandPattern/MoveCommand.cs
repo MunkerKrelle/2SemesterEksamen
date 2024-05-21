@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CommandPattern
 {
+
     internal class MoveCommand : ICommand
     {
         private Player player;

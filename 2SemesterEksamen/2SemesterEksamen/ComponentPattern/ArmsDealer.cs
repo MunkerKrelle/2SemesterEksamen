@@ -28,5 +28,9 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, sr.Sprite.Height * 0.4f);
 
         }
+        public override void OnCollisionEnter(Collider col)
+        {
+            base.OnCollisionEnter(col);
+        }
     }
 }

@@ -13,12 +13,19 @@ namespace ComponentPattern
     public class Enemy : Component
     {
         public float speed = 1;
+        protected int enemyhealth;
+        public int Health
+        {
+            get { return enemyhealth; }
+            set { enemyhealth = value; }
+        }
         private bool startAstarBool = false;
         private Point targetPointPos;
 
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
         {
+            enemyhealth = 100;
             //ChangeState();
         }
 
@@ -28,10 +35,20 @@ namespace ComponentPattern
         public override void Update(GameTime gameTime)
         {
             SearchForPlayer();
+            if (Health < 0)
+            {
+                GameWorld.Instance.Destroy(GameObject);
+            }
         }
 
         public override void OnCollisionEnter(Collider col)
         {
+            Player player = (Player)col.GameObject.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.Health -= 1;
+            }
             base.OnCollisionEnter(col);
         }
 
@@ -117,7 +134,7 @@ namespace ComponentPattern
 
         private void AttackPlayer()
         {
-            //HVERT TREDJE ISH SEKUND, PLAYER.HELATH - 2
+            //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
         }
 
         public void GetPlayerPosition(Point playerPoint) 
