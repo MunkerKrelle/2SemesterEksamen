@@ -214,16 +214,20 @@ namespace _2SemesterEksamen
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
+                    Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     for (int i = 0; i < Cells.Count; i++)
                         {
                             if (Cells.ElementAt(i).Key == VARIABLE.Position)
                             {
                             SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
                             sr2.SetSprite("1fwd", 0.1f);
+                            //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                            //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
                             //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
                             //break;
-                            }
                         }
+                    }
                 }
                 index++;
             }
