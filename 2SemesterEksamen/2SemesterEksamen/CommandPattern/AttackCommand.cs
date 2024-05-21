@@ -16,7 +16,7 @@ namespace CommandPattern
         }
         public void Execute()
         {
-            //player.Attack();
+            player.Attack();
         }
 
         public void Undo()

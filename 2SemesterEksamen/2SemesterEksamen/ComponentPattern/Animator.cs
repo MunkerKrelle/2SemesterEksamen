@@ -38,6 +38,7 @@ namespace ComponentPattern
             {
                 timeElapsed = 0;
                 CurrentIndex = 0;
+                PlayAnimation("Idle");
             }
             spriteRenderer.Sprite = currentAnimation.Sprites[CurrentIndex];
             base.Update(gameTime);
