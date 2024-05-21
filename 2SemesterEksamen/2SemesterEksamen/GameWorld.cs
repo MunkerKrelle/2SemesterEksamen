@@ -91,7 +91,7 @@ namespace _2SemesterEksamen
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
             buttons.Add(new Button(new Vector2(100, 200), "test", Exit));
-            respawnButton = new Button(new Vector2(500, 300), "Respawn", (Action)RespawnPlayer);
+            respawnButton = new Button(new Vector2(500, 300), "Respawn", RespawnPlayer);
             respawnButton.active = false; 
 
             GameObject database = new GameObject();
@@ -111,7 +111,7 @@ namespace _2SemesterEksamen
 
             gameObjects.Add(EnemyFactory.Instance.Create());
 
-            player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
+            //player.GameObject.Transform.CellMovement(new Vector2(1050), new Vector2(1050));
 
             foreach (GameObject go in gameObjects)
             {
@@ -161,16 +161,16 @@ namespace _2SemesterEksamen
 
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.C))
-            {
+            //if (keyState.IsKeyDown(Keys.C))
+            //{
 
-                Cells[new Point(1, 1)].Sprite = sprites["1fwd"];
+            //    Cells[new Point(1, 1)].Sprite = sprites["1fwd"];
 
-                Player player = gameObjects[0].GetComponent<Player>() as Player;
-                player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
+            //    Player player = gameObjects[0].GetComponent<Player>() as Player;
+            //    player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
 
 
-            }
+            //}
                 InputHandler.Instance.Execute();
                 CheckCollision();
 
