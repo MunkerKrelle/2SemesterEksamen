@@ -20,7 +20,7 @@ namespace ComponentPattern
         private Animation currentAnimation;
 
         public Animator(GameObject gameObject) : base(gameObject)
-        {            
+        {
         }
 
         public override void Start()

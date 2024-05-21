@@ -9,30 +9,42 @@ namespace ComponentPattern
 {
     public class Collider : Component
     {
-        public Lazy<List<RectangleData>> rectangles = new Lazy<List<RectangleData>>();
+        public List<RectangleData> rectangles = new List<RectangleData>();
         private Texture2D texture;
 
         private SpriteRenderer spriteRenderer;
 
+        public Rectangle CollisionBox
+        {
+            get
+            {
+                return new Rectangle
+                    (
+                        (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
+                        (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
+                        spriteRenderer.Sprite.Width,
+                        spriteRenderer.Sprite.Height
+                    );
+            }
+        }
         public Collider(GameObject gameObject) : base(gameObject)
         {
         }
 
         private void UpdatePixelCollider()
         {
-            if (rectangles.IsValueCreated)
+            for (int i = 0; i < rectangles.Count; i++)
             {
-                for (int i = 0; i < rectangles.Value.Count; i++)
-                {
-                    rectangles.Value[i].UpdatePosition(GameObject, spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
-                }
+                rectangles[i].UpdatePosition(GameObject, spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
             }
         }
-        public List<RectangleData> CreateRectangles()
+        private void CreateRectangles()
         {
+
             texture = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
+
             List<Color[]> lines = new List<Color[]>();
-            List<RectangleData> pixels = new List<RectangleData>();
+
             for (int y = 0; y < spriteRenderer.Sprite.Height; y++)
             {
                 Color[] colors = new Color[spriteRenderer.Sprite.Width];
@@ -57,27 +69,13 @@ namespace ComponentPattern
 
                             RectangleData rd = new RectangleData(x, y);
 
-                            pixels.Add(rd);
+                            rectangles.Add(rd);
                         }
                     }
                 }
             }
-            return pixels;
         }
 
-        public Rectangle CollisionBox
-        {
-            get
-            {
-                return new Rectangle
-                    (
-                        (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
-                        (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
-                        spriteRenderer.Sprite.Width,
-                        spriteRenderer.Sprite.Height
-                    );
-            }
-        }
         public override void Update(GameTime gameTime)
         {
             UpdatePixelCollider();
@@ -86,18 +84,15 @@ namespace ComponentPattern
         {
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();
             texture = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
-            rectangles= new Lazy<List<RectangleData>>(()=> CreateRectangles());
+            CreateRectangles();
 
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (rectangles.IsValueCreated)
+            foreach (RectangleData rd in rectangles)
             {
-                foreach (RectangleData rd in rectangles.Value)
-                {
-                    DrawRectangle(rd.Rectangle, spriteBatch);
-                }
+                DrawRectangle(rd.Rectangle, spriteBatch);
             }
             DrawRectangle(CollisionBox, spriteBatch);
         }
@@ -137,6 +132,3 @@ namespace ComponentPattern
         }
     }
 }
-
-
-

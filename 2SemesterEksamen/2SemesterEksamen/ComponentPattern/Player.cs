@@ -1,11 +1,8 @@
 ﻿using _2SemesterEksamen;
-using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+using StatePattern;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 namespace ComponentPattern
@@ -18,12 +15,19 @@ namespace ComponentPattern
         public int Health
         {
             get { return health; }
-            set { health = value; }
+            set
+            {
+                health = value;
+                if (health <= 0)
+                {
+                    health = 0;
+                    OnDeath();
+                }
+            }
         }
 
         public Player(GameObject gameObject) : base(gameObject)
         {
-            
         }
 
         public void Move(Vector2 velocity)
@@ -35,7 +39,6 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             GameObject.Transform.CellMovement2(velocity);
 
             if (velocity.X > 0)
@@ -50,21 +53,16 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 200;
+            speed = 10;
             health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Forward");
         }
-        public void MoveByAddition(Vector2 velocity)
-        {
-            GameObject.Transform.Position += velocity;
-        }
+
         public override void Start()
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("1fwd");
-            //GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
-
         }
 
         public override void Update(GameTime gameTime)
@@ -77,19 +75,28 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
-            Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>(); 
+            Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
             if (enemy != null)
             {
-                enemy.Health -= 5; 
+                Health -= 5;
             }
 
             base.OnCollisionEnter(col);
         }
 
-        private void AttackEnemy()
+        private void OnDeath()
         {
+            GameWorld.Instance.Destroy(GameObject);
+            GameWorld.Instance.ShowRespawnButton();
+        }
 
+        public void Respawn(Vector2 startPosition)
+        {
+            Health = 100;
+            GameObject.Transform.Position = startPosition;
+            GameWorld.Instance.Instantiate(GameObject);
         }
     }
 }
+

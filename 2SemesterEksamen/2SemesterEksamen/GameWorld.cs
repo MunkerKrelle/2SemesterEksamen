@@ -32,7 +32,7 @@ namespace _2SemesterEksamen
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
         private static List<Button> buttons = new List<Button>();
-        Button specificButton;
+        Button respawnButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
@@ -47,8 +47,9 @@ namespace _2SemesterEksamen
         string fontText = "";
         Vector2 fontLength;
 
-
         private static GameWorld instance;
+        private GameObject playerGo;
+        private Vector2 playerStartPosition = new Vector2(800, 700); // Example start position
 
         public static GameWorld Instance
         {
@@ -78,22 +79,20 @@ namespace _2SemesterEksamen
             IRepository repository = new Database();
             new Database(repository).RunLoop();
 
-            
+
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
-            GameObject playerGo = director.Construct();
+            playerGo = director.Construct();
             GameObject armsDealerGo = director1.Construct();
             gameObjects.Add(playerGo);
-            gameObjects.Add(armsDealerGo); 
-
-
+            gameObjects.Add(armsDealerGo);
 
             Player player = playerGo.GetComponent<Player>() as Player;
-           
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(500, 200), "Respawn", Exit));
-
+            buttons.Add(new Button(new Vector2(100, 200), "test", Exit));
+            respawnButton = new Button(new Vector2(500, 300), "Respawn", (Action)RespawnPlayer);
+            respawnButton.active = false; 
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -140,6 +139,7 @@ namespace _2SemesterEksamen
             {
                 button.LoadContent(Content);
             }
+            respawnButton.LoadContent(Content);
             font = Content.Load<SpriteFont>("text2");
         }
 
@@ -211,7 +211,11 @@ namespace _2SemesterEksamen
             {
                 button.Update();
             }
-            
+            if (respawnButton.active)
+            {
+                respawnButton.Update();
+            }
+
             if (keyState.IsKeyDown(Keys.V))
             {
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
@@ -324,9 +328,9 @@ namespace _2SemesterEksamen
 
                     if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
                     {
-                        foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
+                        foreach (Collider.RectangleData rects1 in col1.rectangles)
                         {
-                            foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
+                            foreach (Collider.RectangleData rects2 in col2.rectangles)
                             {
                                 if (rects1.Rectangle.Intersects(rects2.Rectangle))
                                 {
@@ -339,6 +343,19 @@ namespace _2SemesterEksamen
                 }
             }
         }
+        public void ShowRespawnButton()
+        {
+            respawnButton.active = true;
+        }
+
+        private void RespawnPlayer()
+        {
+            playerGo = new GameObject();
+            Player player = playerGo.AddComponent<Player>() as Player;
+            player.Respawn(playerStartPosition);
+            gameObjects.Add(playerGo);
+            respawnButton.active = false; // Hide the respawn button
+        }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -348,6 +365,10 @@ namespace _2SemesterEksamen
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
+            }
+            if (respawnButton.active)
+            {
+                respawnButton.Draw(_spriteBatch, gameTime);
             }
             buttons[0].Draw(_spriteBatch, gameTime);
             _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
