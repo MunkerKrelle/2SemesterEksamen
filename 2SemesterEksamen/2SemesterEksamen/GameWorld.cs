@@ -164,8 +164,8 @@ namespace _2SemesterEksamen
 
             if (timeElapsed >= 0.3f)
             {
-            Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-            enemy.GetPlayerPosition(gameObjects[100].Transform.VectorToPointConverter(gameObjects[100].Transform.Position));
+            Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
+            enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
             timeElapsed = 0;
             }
 
@@ -174,7 +174,7 @@ namespace _2SemesterEksamen
             if (keyState.IsKeyDown(Keys.C) && timeElapsed >= 0.3f)
             {
                 // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
-                SpriteRenderer sr = (SpriteRenderer)gameObjects[100].GetComponent<SpriteRenderer>();
+                SpriteRenderer sr = (SpriteRenderer)gameObjects[101].GetComponent<SpriteRenderer>();
                 sr.SetSprite("1fwd");
             }
 
@@ -196,18 +196,35 @@ namespace _2SemesterEksamen
             {
                 return;
             }
-            
-            //if (keyState.IsKeyDown(Keys.V))
-            //{
-            //    SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
-            //    sr.SetSprite("cellGrid");
-            //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
-            //    sr2.SetSprite("1fwd");
-            //    Player player = gameObjects[0].GetComponent<Player>() as Player;
-            //    //player.GameObject.Transform.PosOnCell = new Point(8, 8);
-            //    //player.GameObject.Transform.Position = new Vector2(1000, 80);
-            //    player.GameObject.Transform.CellMovement(new Vector2(1200), new Vector2(500));
-            //}
+
+            if (index == 0)
+            {
+                index++;
+            }
+
+            if (index > 0 && index <= targetPointList.Count)
+            {
+                var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
+                foreach (var VARIABLE in path)
+                {
+                    Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
+                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    for (int i = 0; i < Cells.Count; i++)
+                        {
+                            if (Cells.ElementAt(i).Key == VARIABLE.Position)
+                            {
+                            SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
+                            sr2.SetSprite("1fwd");
+                            sr2.GameObject.Transform.Layer = 0.1f;
+                            //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                            //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
+                            //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
+                            //break;
+                        }
+                    }
+                }
+                index++;
+            }
 
             if (index < targetPointList.Count)
             {
@@ -227,7 +244,7 @@ namespace _2SemesterEksamen
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
                     sr.SetSprite("cellGrid");
-                    cellGrid.Transform.Layer = 1f;
+                    cellGrid.Transform.Layer = 0f;
                     Cells[new Point(x, y)].Sprite = sprites["cellGrid"];                     
                     cellGrid.Transform.Scale = new Vector2(1, 1);
                     Point pos = new Point(x, y);                    
