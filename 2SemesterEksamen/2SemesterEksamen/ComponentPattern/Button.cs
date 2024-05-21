@@ -8,66 +8,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _2SemesterEksamen
+namespace ComponentPattern
 {
-    internal class Button 
+    internal class Button : Component
     {
         private Vector2 minPosition;
         private Vector2 maxPosition;
+        private SpriteRenderer sr;
         private Vector2 buttonPosition;
-        Texture2D buttonTexture;
-        private float scale = 1f;
-        Rectangle rectangleForButtons;
-        Color colorCode = Color.White;
-        Vector2 originSprite, originText;
+        private Rectangle rectangleForButtons;
+        private Color colorCode = Color.White;
+        private Vector2 originSprite, originText;
         public bool active = true;
         string buttonText;
-        Delegate actionFunction;
-        protected Vector2 SpriteSize
-        {
-            get
-            {
-                return new Vector2(buttonTexture.Width * scale, buttonTexture.Height * scale);
-            }
-        }
+        public Delegate actionFunction;
 
-        public Button(Vector2 buttonPosition, string buttonText, Delegate actionFunction)
+        public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Delegate actionFunction) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
             this.buttonText = buttonText;
             this.actionFunction = actionFunction;
         }
 
-        public void Update()
+        public override void Update(GameTime gameTime)
         {
             MouseOnButton();
             MousePressed();
         }
         public void PositionUpdate()
         {
-            minPosition.X = buttonPosition.X - (rectangleForButtons.Width / 2);
-            minPosition.Y = buttonPosition.Y - (rectangleForButtons.Height / 2);
-            maxPosition.X = buttonPosition.X + (rectangleForButtons.Width / 2);
-            maxPosition.Y = buttonPosition.Y + (rectangleForButtons.Height / 2);
+            minPosition.X = GameObject.Transform.Position.X - sr.Sprite.Width / 2;
+            minPosition.Y = GameObject.Transform.Position.Y - sr.Sprite.Height / 2;
+            maxPosition.X = GameObject.Transform.Position.X + sr.Sprite.Width / 2;
+            maxPosition.Y = GameObject.Transform.Position.Y + sr.Sprite.Height / 2;
         }
-        public void LoadContent(ContentManager content)
+        public override void Awake()
         {
-            buttonTexture = content.Load<Texture2D>("button");
-
-            rectangleForButtons = new Rectangle((int)buttonPosition.X, (int)buttonPosition.Y, buttonTexture.Width / 2, buttonTexture.Height / 2);
-
+            sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
+            GameObject.Transform.Position = buttonPosition;
             PositionUpdate();
         }
         public void MouseOnButton()
         {
-
             if (GameWorld.mouseState.X > minPosition.X && GameWorld.mouseState.Y > minPosition.Y && GameWorld.mouseState.X < maxPosition.X && GameWorld.mouseState.Y < maxPosition.Y)
             {
-                colorCode = Color.LightGray;
+                GameObject.Transform.Color = Color.LightGray;
             }
             else
             {
-                colorCode = Color.White;
+                GameObject.Transform.Color = Color.White;
             }
         }
         public void MousePressed()
@@ -82,15 +71,16 @@ namespace _2SemesterEksamen
             }
 
         }
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 fontLength = GameWorld.font.MeasureString(buttonText);
 
-            originSprite = new Vector2(buttonTexture.Width / 2f, buttonTexture.Height / 2f);
             originText = new Vector2(fontLength.X / 2f, fontLength.Y / 2f);
 
-            spriteBatch.Draw(buttonTexture, rectangleForButtons, null, colorCode, 0, originSprite, SpriteEffects.None, 0.98f);
             spriteBatch.DrawString(GameWorld.font, buttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
+
+            spriteBatch.DrawString(GameWorld.font, $"{minPosition}", new Vector2(500, 300), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.font, $"{maxPosition}", new Vector2(500, 330), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
         }
     }

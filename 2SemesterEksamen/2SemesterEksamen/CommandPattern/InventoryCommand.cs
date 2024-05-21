@@ -16,14 +16,14 @@ namespace CommandPattern
         }
         public void Execute()
         {
-            inventory.LoadItems();
-            if (inventory.Active)
-            {
-                inventory.Active = false;
-            } else
-            {
-                inventory.Active = true;
-            }
+            //inventory.LoadItems();
+            //if (inventory.Active)
+            //{
+            //    inventory.Active = false;
+            //} else
+            //{
+            //    inventory.Active = true;
+            //}
         }
 
         public void Undo()

@@ -67,7 +67,8 @@ namespace FactoryPattern
             var itemValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(itemValues.Item1, 0.7f);
+            sr.SetSprite(itemValues.Item1);
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
@@ -79,7 +80,8 @@ namespace FactoryPattern
             var itemValues = database.ReturnValuesWithID(weaponID);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(itemValues.Item1, 0.7f);
+            sr.SetSprite(itemValues.Item1);
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
@@ -90,7 +92,8 @@ namespace FactoryPattern
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite("butterflyknife",0.7f);
+            sr.SetSprite("butterflyknife");
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>();
             return go;
         }

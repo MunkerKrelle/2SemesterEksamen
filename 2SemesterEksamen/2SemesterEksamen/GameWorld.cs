@@ -89,7 +89,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(500, 200), "Respawn", Exit));
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -132,10 +132,6 @@ namespace _2SemesterEksamen
             {
                 go.Start();
             }
-            foreach (var button in buttons)
-            {
-                button.LoadContent(Content);
-            }
             font = Content.Load<SpriteFont>("text2");
         }
 
@@ -160,10 +156,7 @@ namespace _2SemesterEksamen
             {
                 isPressed = false;
             }
-            foreach (var button in buttons)
-                {
-                    button.Update();
-                }
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
@@ -182,7 +175,7 @@ namespace _2SemesterEksamen
             {
                 // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[100].GetComponent<SpriteRenderer>();
-                sr.SetSprite("1fwd", 1);
+                sr.SetSprite("1fwd");
             }
 
             if (keyState.IsKeyDown(Keys.B) && timeElapsed >= 0.3f)
@@ -249,7 +242,8 @@ namespace _2SemesterEksamen
                     GameObject cellGrid = new GameObject();
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
-                    sr.SetSprite("cellGrid",0);
+                    sr.SetSprite("cellGrid");
+                    cellGrid.Transform.Layer = 1f;
                     Cells[new Point(x, y)].Sprite = sprites["cellGrid"];                     
                     cellGrid.Transform.Scale = new Vector2(1, 1);
                     Point pos = new Point(x, y);                    
@@ -334,8 +328,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-            buttons[0].Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
+            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
             // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
