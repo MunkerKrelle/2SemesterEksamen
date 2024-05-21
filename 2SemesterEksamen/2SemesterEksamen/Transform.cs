@@ -23,44 +23,16 @@ namespace _2SemesterEksamen
             }
         }
 
-        public Point CellMovement(Vector2 a) 
+        public Point VectorToPointConverter(Vector2 a) 
         {
-            //PosOnCell.ToVector2();
-            
-            //a.ToPoint();
-            //b.ToPoint();
-
             Point PTPosition = new Point((int)a.X / 100, (int)a.Y / 100);
             return PTPosition;
-            //Position = new Vector2(PTPosition.X,PTPosition.Y);
-            //PosOnCell = new Point(PTPosition.X / 100, PTPosition.Y / 100);
-            //maybe add cell moving here?
-
-            //Position = new Vector2(a.ToPoint(), b.ToPoint());
-            //Position = new Vector2(1100,300);
-            //Position.X = a;
-            //PosOnCell = new Point(a, b).ToVector2();
         }
 
-        public void CellMovement2(Vector2 a)
+        public void PlayerPointMove(Vector2 a)
         {
-            //PosOnCell.ToVector2();
-
-            //a.ToPoint();
-            //b.ToPoint();
-
             Point PTPosition = new Point((int)a.X, (int)a.Y);
             Position += new Vector2(PTPosition.X, PTPosition.Y);
-            //Position += new Vector2(PTPosition.X * a, PTPosition.Y * a);
-
-            //GameWorld.Instance.Cells[PTPosition].Position = PTPosition;
-            //GameWorld.Instance.Cells[PTPosition].Sprite = ;
-            //maybe add cell moving here?
-
-            //Position = new Vector2(a.ToPoint(), b.ToPoint());
-            //Position = new Vector2(1100,300);
-            //Position.X = a;
-            //PosOnCell = new Point(a, b).ToVector2();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace ComponentPattern
             velocity *= speed;
 
             //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
-            GameObject.Transform.CellMovement2(velocity);
+            GameObject.Transform.PlayerPointMove(velocity);
 
             if (velocity.X > 0)
             {
@@ -74,7 +74,7 @@ namespace ComponentPattern
         {
             GameObject.Transform.Position = new Vector2(300, 300);
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-            sr.SetSprite("Player/Idle/Idle1");
+            sr.SetSprite("Player/Idle/Idle1", 1);
 
         }
 

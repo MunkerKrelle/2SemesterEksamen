@@ -70,55 +70,17 @@ namespace ComponentPattern
 
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.G) && (startAstarBool == false)) 
+            if (keyState.IsKeyDown(Keys.G) && (startAstarBool == false))
             {
-                //if (startAstarBool == true)
-                //{
-                    startAstarBool = true;
-                    //Point player1 = new Point(1, 1);
-                    //Point player2 = new Point(5, 5);
-                    //Point enemy1 = new Point(3, 7);
-                    //Point enemy2 = new Point(2, 6);
-                    //Point enemy3 = new Point(8, 9);
-                    //Point enemy4 = new Point(10, 10);
-
-                    //GameWorld.targetPointList.Add(player1);
-                    //GameWorld.targetPointList.Add(player2);
-
-                    //GameWorld.targetPointList.Add(enemy1);
-                    //GameWorld.targetPointList.Add(enemy2);
-                    //GameWorld.targetPointList.Add(enemy3);
-                    //GameWorld.targetPointList.Add(enemy4);
-                    //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-                    ////enemy.GetPlayerPosition(gameObjects[100].Transform.Position);
-                    //enemy.GetPlayerPosition(gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position));
-                    //timeElapsed = 0;
-
-
-                    Point player1 = new Point(5, 5);
-
-                    Point player2 = new Point(targetPointPos.X, targetPointPos.Y);
-                    //Point enemy1 = new Point(1, 9);
-                    //Point enemy2 = new Point(9, 9);
-                    //Point enemy3 = new Point(9, 1);
-
-                    GameWorld.targetPointList.Add(player1);
-                    GameWorld.targetPointList.Add(player2);
-                    //GameWorld.targetPointList.Add(enemy1);
-                    //GameWorld.targetPointList.Add(enemy2);
-                    //GameWorld.targetPointList.Add(enemy3);
-
-                    //Point enemy1 = new Point(1, 2);
-                    //Point enemy2 = new Point(1, 3);
-
-                    //GameWorld.targetPointList.Add(enemy1);
-                    //GameWorld.targetPointList.Add(enemy2);
-
-                    Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
-                    enemyThread.IsBackground = true;
-                    enemyThread.Start();
-                    //Thread.Sleep(1000);
-                //}
+                startAstarBool = true;
+                Point player1 = new Point(5, 5);
+                Point player2 = new Point(targetPointPos.X, targetPointPos.Y); 
+                GameWorld.targetPointList.Add(player1);
+                GameWorld.targetPointList.Add(player2);
+                Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
+                enemyThread.IsBackground = true;
+                enemyThread.Start();
+                //Thread.Sleep(1000);
             }
 
             if (keyState.IsKeyDown(Keys.H)) 
@@ -140,7 +102,6 @@ namespace ComponentPattern
         public void GetPlayerPosition(Point playerPoint) 
         {
             targetPointPos = playerPoint;
-            //startAstarBool = true;
         }
 
     }

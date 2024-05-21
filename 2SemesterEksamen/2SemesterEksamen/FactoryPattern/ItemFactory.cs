@@ -67,7 +67,7 @@ namespace FactoryPattern
             var itemValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(itemValues.Item1);
+            sr.SetSprite(itemValues.Item1, 0.7f);
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
