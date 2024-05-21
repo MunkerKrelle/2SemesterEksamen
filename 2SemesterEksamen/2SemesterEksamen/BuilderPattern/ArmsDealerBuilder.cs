@@ -38,7 +38,7 @@ namespace BuilderPattern
 
         private void BuildComponents()
         {
-            gameObject.AddComponent<ArmsDealer>();
+            gameObject.AddComponent<ArmsDealer>(); 
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
             RandomItem();
