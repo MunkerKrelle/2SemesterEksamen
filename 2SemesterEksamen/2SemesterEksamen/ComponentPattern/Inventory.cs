@@ -67,35 +67,16 @@ namespace ComponentPattern
             }
         }
 
-        public void LoadItems()
-        {
-            if (Active)
-            {
-                for (int i = 0; i < weaponsList.Count; i++)
-                {
-                    weaponsList[i].GameObject.Transform.Position = new Vector2(-1000, -1000);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < weaponsList.Count; i++)
-                {
-
-                    weaponsList[i].GameObject.Transform.Position = new Vector2(430 + 100 * i, 280);
-                }
-            }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            if (Active)
-            {
-                SpriteFont font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
-                for (int i = 0; i < weaponsList.Count; i++)
-                {
-                    spriteBatch.DrawString(font, $"{weaponsList[i].Name}\nDamage: {weaponsList[i].Damage}\nScraps: {weaponsList[i].Price}", new Vector2(weaponsList[i].GameObject.Transform.Position.X - 50, weaponsList[i].GameObject.Transform.Position.Y + 50), Color.White);
-                }
-            }
-        }
+        //public override void Draw(SpriteBatch spriteBatch)
+        //{
+        //    if (Active)
+        //    {
+        //        SpriteFont font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
+        //        for (int i = 0; i < weaponsList.Count; i++)
+        //        {
+        //            spriteBatch.DrawString(font, $"{weaponsList[i].Name}\nDamage: {weaponsList[i].Damage}\nScraps: {weaponsList[i].Price}", new Vector2(weaponsList[i].GameObject.Transform.Position.X - 50, weaponsList[i].GameObject.Transform.Position.Y + 50), Color.White);
+        //        }
+        //    }
+        //}
     }
 }

@@ -19,6 +19,8 @@ namespace BuilderPattern
             BuildComponents();
         }
 
+
+
         private int RandomItem()
         {
             while (true)
@@ -47,9 +49,6 @@ namespace BuilderPattern
             inventory.GenerateRandomItem(RandomItem());
             inventory.GenerateRandomItem(RandomItem());
             inventory.GenerateRandomItem(RandomItem());
-            //inventory.AddItem("Bat");
-            //inventory.AddItem("Katana");
-            //inventory.AddItem("Chainsword");
             // Animator animator = gameObject.AddComponent<Animator>();
 
         }

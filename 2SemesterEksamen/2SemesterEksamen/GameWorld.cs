@@ -89,7 +89,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(500, 200), "Respawn", Exit));
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -131,10 +131,6 @@ namespace _2SemesterEksamen
             foreach (GameObject go in gameObjects)
             {
                 go.Start();
-            }
-            foreach (var button in buttons)
-            {
-                button.LoadContent(Content);
             }
             font = Content.Load<SpriteFont>("text2");
         }
@@ -203,29 +199,17 @@ namespace _2SemesterEksamen
             {
                 return;
             }
-
-            if (index == 0)
+            
+            if (keyState.IsKeyDown(Keys.V))
             {
-                index++;
-            }
-
-            if (index > 0 && index <= targetPointList.Count)
-            {
-                var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
-                foreach (var VARIABLE in path)
-                {
-                    for (int i = 0; i < Cells.Count; i++)
-                        {
-                            if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                            {
-                            SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                            sr2.SetSprite("1fwd", 0.1f);
-                            //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
-                            //break;
-                            }
-                        }
-                }
-                index++;
+                SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
+                sr.SetSprite("cellGrid");
+                SpriteRenderer sr2 = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
+                sr2.SetSprite("1fwd");
+                Player player = gameObjects[0].GetComponent<Player>() as Player;
+                //player.GameObject.Transform.PosOnCell = new Point(8, 8);
+                //player.GameObject.Transform.Position = new Vector2(1000, 80);
+                player.GameObject.Transform.CellMovement(new Vector2(1200), new Vector2(500));
             }
 
             if (index < targetPointList.Count)
@@ -330,8 +314,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-            buttons[0].Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
+            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
             // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();
