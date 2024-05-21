@@ -156,10 +156,7 @@ namespace _2SemesterEksamen
             {
                 isPressed = false;
             }
-            foreach (var button in buttons)
-                {
-                    button.Update();
-                }
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
@@ -178,7 +175,7 @@ namespace _2SemesterEksamen
             {
                 // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[100].GetComponent<SpriteRenderer>();
-                sr.SetSprite("1fwd", 1);
+                sr.SetSprite("1fwd");
             }
 
             if (keyState.IsKeyDown(Keys.B) && timeElapsed >= 0.3f)
@@ -200,17 +197,17 @@ namespace _2SemesterEksamen
                 return;
             }
             
-            if (keyState.IsKeyDown(Keys.V))
-            {
-                SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
-                sr.SetSprite("cellGrid");
-                SpriteRenderer sr2 = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
-                sr2.SetSprite("1fwd");
-                Player player = gameObjects[0].GetComponent<Player>() as Player;
-                //player.GameObject.Transform.PosOnCell = new Point(8, 8);
-                //player.GameObject.Transform.Position = new Vector2(1000, 80);
-                player.GameObject.Transform.CellMovement(new Vector2(1200), new Vector2(500));
-            }
+            //if (keyState.IsKeyDown(Keys.V))
+            //{
+            //    SpriteRenderer sr = (SpriteRenderer)gameObjects[37].GetComponent<SpriteRenderer>();
+            //    sr.SetSprite("cellGrid");
+            //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
+            //    sr2.SetSprite("1fwd");
+            //    Player player = gameObjects[0].GetComponent<Player>() as Player;
+            //    //player.GameObject.Transform.PosOnCell = new Point(8, 8);
+            //    //player.GameObject.Transform.Position = new Vector2(1000, 80);
+            //    player.GameObject.Transform.CellMovement(new Vector2(1200), new Vector2(500));
+            //}
 
             if (index < targetPointList.Count)
             {
@@ -229,7 +226,8 @@ namespace _2SemesterEksamen
                     GameObject cellGrid = new GameObject();
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
-                    sr.SetSprite("cellGrid",0);
+                    sr.SetSprite("cellGrid");
+                    cellGrid.Transform.Layer = 1f;
                     Cells[new Point(x, y)].Sprite = sprites["cellGrid"];                     
                     cellGrid.Transform.Scale = new Vector2(1, 1);
                     Point pos = new Point(x, y);                    

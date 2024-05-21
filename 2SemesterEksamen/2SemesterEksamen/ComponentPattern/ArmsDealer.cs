@@ -41,7 +41,7 @@ namespace ComponentPattern
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("ShopKeeper");
-            GameObject.Transform.Transformer(new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, sr.Sprite.Height * 0.4f), 0f, new Vector2(0.4f, 0.4f), Color.White, 0.8f)
+            GameObject.Transform.Transformer(new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, sr.Sprite.Height * 0.4f), 0f, new Vector2(0.4f, 0.4f), Color.White, 0.8f);
         }
         public override void OnCollisionEnter(Collider col)
         {
