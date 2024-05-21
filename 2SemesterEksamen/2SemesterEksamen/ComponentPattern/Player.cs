@@ -22,14 +22,14 @@ namespace ComponentPattern
             get { return health; }
             set { health = value; }
         }
-        
+
         public Player(GameObject gameObject) : base(gameObject)
         {
-            
+
         }
 
         bool isMoving;
-        
+
         public void Move(Vector2 velocity)
         {
             if (velocity != Vector2.Zero)
@@ -55,7 +55,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 400;
+            speed = 10;
             health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
@@ -64,12 +64,12 @@ namespace ComponentPattern
             inventory.Active = true;
             inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
-        
+
         public void MoveByAddition(Vector2 velocity)
         {
             GameObject.Transform.Position += velocity;
         }
-        
+
         public override void Start()
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
@@ -89,6 +89,7 @@ namespace ComponentPattern
             if (inventory.weaponsList.Count >= 0)
             {
                 animator.PlayAnimation("Attack");
+            }
             if (health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
@@ -97,11 +98,11 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
-            Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>(); 
+            Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
             if (enemy != null)
             {
-                enemy.Health -= 5; 
+                enemy.Health -= 5;
             }
 
             base.OnCollisionEnter(col);
