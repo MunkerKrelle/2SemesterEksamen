@@ -93,6 +93,7 @@ namespace ComponentPattern
             if (inventory.weaponsList.Count >= 0)
             {
                 animator.PlayAnimation("Attack");
+            }
             if (health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
