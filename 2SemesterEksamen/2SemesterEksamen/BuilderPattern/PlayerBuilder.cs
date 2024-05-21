@@ -26,15 +26,16 @@ namespace BuilderPattern
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            //inventory.AddItem("Butterflyknife");
+            inventory.AddItem("Butterflyknife");
             //inventory.AddItem("Bat");
             //inventory.AddItem("Katana");
             //inventory.AddItem("Chainsword");
             Animator animator = gameObject.AddComponent<Animator>();
             InputHandler.Instance.AddUpdateCommand(Keys.I, new InventoryCommand(inventory));
-            animator.AddAnimation(BuildAnimation("Forward", new string[] { "1fwd", "2fwd", "3fwd" }));
-            animator.AddAnimation(BuildAnimation("Right", new string[] { "1rght", "2rght", "3rght" }));
-            animator.AddAnimation(BuildAnimation("Left", new string[] { "1lft", "2lft", "3lft" }));
+            animator.AddAnimation(BuildAnimation("Idle", new string[] { "Player/Idle/Idle1", "Player/Idle/Idle2", "Player/Idle/Idle3", "Player/Idle/Idle4" }));
+            animator.AddAnimation(BuildAnimation("Right", new string[] { "Player/Run/Run1", "Player/Run/Run2", "Player/Run/Run3", "Player/Run/Run4", "Player/Run/Run5", "Player/Run/Run6" }));
+            animator.AddAnimation(BuildAnimation("Left", new string[] { "Player/Run/RunLeft1", "Player/Run/RunLeft2", "Player/Run/RunLeft3", "Player/Run/RunLeft4", "Player/Run/RunLeft5", "Player/Run/RunLeft6" }));
+            animator.AddAnimation(BuildAnimation("Attack", new string[] { "Player/Attack/Attack1", "Player/Attack/Attack2", "Player/Attack/Attack3", "Player/Attack/Attack4", "Player/Attack/Attack5", "Player/Attack/Attack6" }));
 
         }
         private Animation BuildAnimation(string animationName, string[] spriteNames)

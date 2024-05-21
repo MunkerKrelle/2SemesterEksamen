@@ -1,4 +1,5 @@
 ﻿using _2SemesterEksamen;
+using CommandPattern;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -15,22 +16,26 @@ namespace ComponentPattern
         private float speed;
         protected int health;
         Animator animator;
+        Inventory inventory;
         public int Health
         {
             get { return health; }
             set { health = value; }
         }
-
+        
         public Player(GameObject gameObject) : base(gameObject)
         {
             
         }
 
+        bool isMoving;
+        
         public void Move(Vector2 velocity)
         {
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
+                isMoving = true;
             }
 
             velocity *= speed;
@@ -50,25 +55,40 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 200;
+            speed = 400;
             health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
-            animator.PlayAnimation("Forward");
+            animator.PlayAnimation("Idle");
+            GameObject.Transform.Scale = new Vector2(3f, 3f);
+            inventory = GameObject.GetComponent<Inventory>() as Inventory;
+            inventory.Active = true;
+            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
+        
         public void MoveByAddition(Vector2 velocity)
         {
             GameObject.Transform.Position += velocity;
         }
+        
         public override void Start()
         {
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-            sr.SetSprite("1fwd");
-            //GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
+            sr.SetSprite("Player/Idle/Idle1");
+            GameObject.Transform.Position = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth / 2, GameWorld.Instance.Graphics.PreferredBackBufferHeight - sr.Sprite.Height / 3);
 
         }
 
         public override void Update(GameTime gameTime)
         {
+            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+        }
+
+        public void Attack()
+        {
+            Inventory inventory = GameObject.GetComponent<Inventory>() as Inventory;
+            if (inventory.weaponsList.Count >= 0)
+            {
+                animator.PlayAnimation("Attack");
             if (health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
