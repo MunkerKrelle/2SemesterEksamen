@@ -71,20 +71,13 @@ namespace Algoritmer
         /// </summary>
         public void LoadContent()
         {
-            //Sprite = GameWorld.Instance.sprites["Pixel"];
 
-            //// Initialiserer rektanglerne til at repræsentere cellens kanter og baggrund
-            //topLine = new Rectangle(Position.X * Width, Position.Y * Height, Width, 1);
-            //bottomLine = new Rectangle(Position.X * Width, (Position.Y * Height) + Height, Width, 1);
-            //rightLine = new Rectangle((Position.X * Width) + Width, Position.Y * Height, 1, Height);
-            //leftLine = new Rectangle(Position.X * Width, Position.Y * Height, 1, Height);
-            //background = new Rectangle(Position.X * Width, Position.Y * Height, Width, Height);
         }
 
         // Metode til at opdatere
         public void Update()
         {
-            // Intet at opdatere i denne klasse
+
         }
 
         /// <summary>
@@ -93,18 +86,12 @@ namespace Algoritmer
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(Sprite, background, spriteColor);
 
-            //// Tegner cellens kanter
-            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], topLine, edgeColor);
-            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], bottomLine, edgeColor);
-            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], rightLine, edgeColor);
-            //spriteBatch.Draw(GameWorld.Instance.sprites["Pixel"], leftLine, edgeColor);
+
 
             // Tekst der viser cellens position, F, H og G værdier
             string cellString = $"{Position.X.ToString()},{Position.Y.ToString()}\n F:{F} \n h:{H}\n g: {G}";
-            //if (GameWorld.debug)
-            //    spriteBatch.DrawString(GameWorld.Instance.SpriteFont, cellString, new Vector2(topLine.X, topLine.Y), Color.Black);
+
         }
 
         /// <summary>

@@ -90,7 +90,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            buttons.Add(new Button(new Vector2(100, 200), "test", Exit));
+           // buttons.Add(new Button(new Vector2(100, 200), "test", Exit));
             respawnButton = new Button(new Vector2(500, 300), "Respawn", RespawnPlayer);
             respawnButton.active = false; 
 
@@ -334,7 +334,7 @@ namespace _2SemesterEksamen
             {
                 respawnButton.Draw(_spriteBatch, gameTime);
             }
-            buttons[0].Draw(_spriteBatch, gameTime);
+            //buttons[0].Draw(_spriteBatch, gameTime);
             _spriteBatch.DrawString(font, $"{mouseState.X}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
             // _spriteBatch.Draw(); //Draw background
 
