@@ -146,8 +146,8 @@ namespace Algoritmer
         private List<Cell> GetNeighbors(Cell curCell)
         {
             List<Cell> neighbors = new List<Cell>(8);
-            var wallSprite = GameWorld.Instance.sprites["Wall"];
-            var treeSprite = GameWorld.Instance.sprites["Tree"];
+            //var wallSprite = GameWorld.Instance.sprites["Wall"];
+            //var treeSprite = GameWorld.Instance.sprites["Tree"];
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
@@ -170,46 +170,46 @@ namespace Algoritmer
                     }
 
                     //Kan ikke være en væg eller et træ
-                    if (GameWorld.Instance.sprites["Wall"] == curNeighbor.Sprite)
-                    {
-                        continue;
-                    }
-                    if (GameWorld.Instance.sprites["Tree"] == curNeighbor.Sprite)
-                    {
-                        continue;
-                    }
+                    //if (GameWorld.Instance.sprites["Wall"] == curNeighbor.Sprite)
+                    //{
+                    //    continue;
+                    //}
+                    //if (GameWorld.Instance.sprites["Tree"] == curNeighbor.Sprite)
+                    //{
+                    //    continue;
+                    //}
 
                     //Checker for hjørner
                     switch (i)
                     {
-                        //Øverst venstre
-                        case -1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
-                        //Øverst højre
-                        case 1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
-                        //Nederst venstre
-                        case -1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
-                        //Nederst højre 
-                        case 1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
-                            continue;
+                        //    //Øverst venstre
+                        //    case -1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
+                        //    //Øverst højre
+                        //    case 1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
+                        //    //Nederst venstre
+                        //    case -1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
+                        //    //Nederst højre 
+                        //    case 1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == wallSprite || cells[curCell.Position + new Point(0, j)].Sprite == wallSprite):
+                        //        continue;
                         default:
                             neighbors.Add(curNeighbor);
                             break;
                     }
-                    switch (i)
-                    {
-                        //Øverst venstre
-                        case -1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
-                        //Øverst højre
-                        case 1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
-                        //Nederst venstre
-                        case -1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
-                        //Nederst højre
-                        case 1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
-                            continue;
-                        default:
-                            neighbors.Add(curNeighbor);
-                            break;
-                    }
+                    //switch (i)
+                    //{
+                    //    //Øverst venstre
+                    //    case -1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
+                    //    //Øverst højre
+                    //    case 1 when j == 1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
+                    //    //Nederst venstre
+                    //    case -1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
+                    //    //Nederst højre
+                    //    case 1 when j == -1 && (cells[curCell.Position + new Point(i, 0)].Sprite == treeSprite || cells[curCell.Position + new Point(0, j)].Sprite == treeSprite):
+                    //        continue;
+                    //    default:
+                    //        neighbors.Add(curNeighbor);
+                    //        break;
+                    //}
                 }
             }
             return neighbors;
