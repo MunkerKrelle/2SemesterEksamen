@@ -68,6 +68,7 @@ namespace FactoryPattern
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite(itemValues.Item1);
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
@@ -80,6 +81,7 @@ namespace FactoryPattern
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite(itemValues.Item1);
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
 
             return go;
@@ -91,6 +93,7 @@ namespace FactoryPattern
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite("butterflyknife");
+            go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>();
             return go;
         }

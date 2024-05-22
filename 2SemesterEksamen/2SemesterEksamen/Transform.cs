@@ -1,11 +1,6 @@
-﻿using Algoritmer;
-using ComponentPattern;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using SharpDX.Direct2D1;
+using System.Windows.Forms;
 
 namespace _2SemesterEksamen
 {
@@ -15,6 +10,17 @@ namespace _2SemesterEksamen
         public Point PosOnCell { get; set; }
         public float Rotation { get; set; } = 0f;
         public Vector2 Scale { get; set; } = new Vector2(1, 1);
+        public Color Color { get; set; } = Color.White;
+        public float Layer {  get; set; }
+
+        public void Transformer(Vector2 Position, float Rotaion, Vector2 Scale, Color Color, float Layer)
+        {
+            this.Position = Position;
+            this.Rotation = Rotaion;
+            this.Scale = Scale;
+            this.Color = Color;
+            this.Layer = Layer;
+        }
         public void Translate(Vector2 translation)
         {
             if (!float.IsNaN(translation.X) && !float.IsNaN(translation.Y))
