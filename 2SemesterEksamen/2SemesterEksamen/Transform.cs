@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SharpDX.Direct2D1;
-using System.Windows.Forms;
 
 namespace _2SemesterEksamen
 {
