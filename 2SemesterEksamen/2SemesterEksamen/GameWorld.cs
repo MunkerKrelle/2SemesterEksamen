@@ -244,6 +244,7 @@ namespace _2SemesterEksamen
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     gameObjects.Add(cellGrid);
                     sr.SetSprite("cellGrid");
+
                     cellGrid.Transform.Layer = 0f;
                     Cells[new Point(x, y)].Sprite = sprites["cellGrid"];                     
                     cellGrid.Transform.Scale = new Vector2(1, 1);
