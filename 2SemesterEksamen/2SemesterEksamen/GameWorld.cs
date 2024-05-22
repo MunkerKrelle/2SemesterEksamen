@@ -92,7 +92,7 @@ namespace _2SemesterEksamen
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
-            database.AddComponent<UI>();
+           // database.AddComponent<UI>();
   
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -100,10 +100,10 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
 
-            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
-            sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
-            SetUpCells();
+            //sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+            //sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
+            //SetUpCells();
 
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo);
@@ -162,12 +162,12 @@ namespace _2SemesterEksamen
                 go.Update(gameTime);
             }
 
-            if (timeElapsed >= 0.3f)
-            {
-            Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-            enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
-            timeElapsed = 0;
-            }
+            //if (timeElapsed >= 0.3f)
+            //{
+            //Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
+            //enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
+            //timeElapsed = 0;
+            //}
 
             KeyboardState keyState = Keyboard.GetState();
 
@@ -228,7 +228,7 @@ namespace _2SemesterEksamen
 
             if (index < targetPointList.Count)
             {
-                RunAStar();
+                //RunAStar();
             }
             index = 0;
         }
