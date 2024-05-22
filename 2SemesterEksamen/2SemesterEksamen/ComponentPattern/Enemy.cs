@@ -17,6 +17,7 @@ namespace ComponentPattern
             set { enemyhealth = value; }
         }
 
+        private Point targetPointPos;
         public Vector2 velocity = new Vector2(0, 1);
         public Enemy(GameObject gameObject) : base(gameObject)
         {
@@ -73,7 +74,10 @@ namespace ComponentPattern
         {
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
         }
-
+        public void GetPlayerPosition(Point playerPoint)
+        {
+            targetPointPos = playerPoint;
+        }
     }
 }
 

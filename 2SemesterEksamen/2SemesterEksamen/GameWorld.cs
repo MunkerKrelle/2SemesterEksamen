@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace _2SemesterEksamen
@@ -31,13 +32,12 @@ namespace _2SemesterEksamen
         public float DeltaTime { get; private set; }
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
-        private static List<Button> buttons = new List<Button>();
         Button respawnButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
         public static bool isPressed;
-        
+
         private int cellCount = 11;
         private int cellSize = 100;
         private float timeElapsed;
@@ -46,6 +46,9 @@ namespace _2SemesterEksamen
         Vector2 originText;
         string fontText = "";
         Vector2 fontLength;
+
+        private int index = 0;
+        public static List<Point> targetPointList = new List<Point>();
 
         private static GameWorld instance;
         private GameObject playerGo;
@@ -90,9 +93,8 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
-            respawnButton = new Button(new Vector2(500, 300), "Respawn", RespawnPlayer);
-            respawnButton.active = false; 
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", RespawnPlayer));
+            respawnButton.active = false;
 
             GameObject database = new GameObject();
             database.AddComponent<UI>();
@@ -143,34 +145,11 @@ namespace _2SemesterEksamen
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed += DeltaTime;
 
-            foreach (GameObject go in gameObjects)
-            {
-                go.Update(gameTime);
-            }
+            InputHandler.Instance.Execute();
+            CheckCollision();
 
-            if (timeElapsed >= 0.3f)
-            {
-                InputHandler.Instance.Execute();
-                timeElapsed = 0;
-            }
+            mouseState = Mouse.GetState();
 
-            KeyboardState keyState = Keyboard.GetState();
-
-            //if (keyState.IsKeyDown(Keys.C))
-            //{
-
-            //    Cells[new Point(1, 1)].Sprite = sprites["1fwd"];
-
-            //    Player player = gameObjects[0].GetComponent<Player>() as Player;
-            //    player.GameObject.Transform.CellMovement(new Vector2(1100), new Vector2(300));
-
-
-            //}
-                InputHandler.Instance.Execute();
-                CheckCollision();
-
-                mouseState = Mouse.GetState();
-            
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 isPressed = true;
@@ -181,17 +160,15 @@ namespace _2SemesterEksamen
             }
 
             foreach (GameObject go in gameObjects)
-
-            if (respawnButton.active)
             {
-                respawnButton.Update();
+                go.Update(gameTime);
             }
 
-            if (keyState.IsKeyDown(Keys.V))
+            if (timeElapsed >= 0.3f)
             {
-            Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-            enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
-            timeElapsed = 0;
+                Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
+                enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
+                timeElapsed = 0;
             }
 
             KeyboardState keyState = Keyboard.GetState();
@@ -202,18 +179,16 @@ namespace _2SemesterEksamen
                 SpriteRenderer sr = (SpriteRenderer)gameObjects[101].GetComponent<SpriteRenderer>();
                 sr.SetSprite("1fwd");
             }
-            if (keyState.IsKeyDown(Keys.B))
+
+            if (keyState.IsKeyDown(Keys.B) && timeElapsed >= 0.3f)
             {
-                SpriteRenderer sr = (SpriteRenderer)gameObjects[38].GetComponent<SpriteRenderer>();
-                sr.SetSprite("cellGrid");
-                SpriteRenderer sr2 = (SpriteRenderer)gameObjects[39].GetComponent<SpriteRenderer>();
-                sr2.SetSprite("1fwd");
+                timeElapsed = 0;
             }
             base.Update(gameTime);
 
-                Cleanup();
-            } 
-       
+            Cleanup();
+        }
+
 
         public void RunAStar()
         {
@@ -235,11 +210,11 @@ namespace _2SemesterEksamen
                 foreach (var VARIABLE in path)
                 {
                     Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     for (int i = 0; i < Cells.Count; i++)
+                    {
+                        if (Cells.ElementAt(i).Key == VARIABLE.Position)
                         {
-                            if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                            {
                             SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
                             sr2.SetSprite("1fwd");
                             sr2.GameObject.Transform.Layer = 0.1f;
@@ -259,7 +234,6 @@ namespace _2SemesterEksamen
             }
             index = 0;
         }
-    
         private void SetUpCells() //flyttes over til Cells
         {
             for (int y = 1; y < cellCount; y++)
@@ -375,7 +349,7 @@ namespace _2SemesterEksamen
             }
             if (respawnButton.active)
             {
-                respawnButton.Draw(_spriteBatch, gameTime);
+                respawnButton.Draw(_spriteBatch);
             }
 
             _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);

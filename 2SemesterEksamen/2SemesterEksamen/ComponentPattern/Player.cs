@@ -45,7 +45,7 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            GameObject.Transform.CellMovement2(velocity);
+            GameObject.Transform.PlayerPointMove(velocity);
 
             if (velocity.X > 0)
             {
