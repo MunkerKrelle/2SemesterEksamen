@@ -160,9 +160,6 @@ namespace _2SemesterEksamen
                     //    break;
             }
 
-
-
-
             if (timeElapsed >= 0.3f)
             {
                 InputHandler.Instance.Execute();
