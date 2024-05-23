@@ -25,10 +25,10 @@ namespace ComponentPattern
             for (int i = 0; i < inventory.weaponsList.Count; i++)
             {
                 inventory.weaponsList[i].GameObject.Transform.Position = new Vector2(400 + i * 100, 500);
-                GameObject button = ButtonFactory.Instance.Create(inventory.weaponsList[i].GameObject.Transform.Position, inventory.weaponsList[i].Name, SellToPlayer);
-                GameWorld.Instance.Instantiate(button);
-                button.Transform.Scale = new Vector2(0.2f, 0.4f);
-                button.Transform.Color = Color.Black;
+                //GameObject button = ButtonFactory.Instance.Create(inventory.weaponsList[i].GameObject.Transform.Position, inventory.weaponsList[i].Name, SellToPlayer);
+                //GameWorld.Instance.Instantiate(button);
+                //button.Transform.Scale = new Vector2(0.2f, 0.4f);
+                //button.Transform.Color = Color.Black;
             }
         }
 

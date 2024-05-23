@@ -1,6 +1,7 @@
 ﻿using System;
 using ComponentPattern;
 using Microsoft.Xna.Framework;
+using static ComponentPattern.Button;
 
 namespace FactoryPattern
 {
@@ -28,13 +29,13 @@ namespace FactoryPattern
         /// <param name="buttonText">The text written on the button</param>
         /// <param name="actionFunction">Whic method should run when the button is pressed</param>
         /// <returns></returns>
-        public GameObject Create(Vector2 buttonPosition, string buttonText, Delegate actionFunction)
+        public GameObject Create(Vector2 buttonPosition, string buttonText, ButtonFunction buttonFunction)
         {
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite("button");
-            go.AddComponent<Button>(buttonPosition, buttonText, actionFunction);
+            go.AddComponent<Button>(buttonPosition, buttonText, buttonFunction);
 
             return go;
         }

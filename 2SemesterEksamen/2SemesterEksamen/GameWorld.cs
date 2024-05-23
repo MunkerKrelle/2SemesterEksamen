@@ -34,7 +34,7 @@ namespace _2SemesterEksamen
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
         private static List<Button> buttons = new List<Button>();
-        Button specificButton;
+        private GameObject specificButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
@@ -48,6 +48,7 @@ namespace _2SemesterEksamen
         Vector2 originText;
         string fontText = "";
         Vector2 fontLength;
+        private GameObject playerGo;
 
         private int index = 0;
         public static List<Point> targetPointList = new List<Point>();
@@ -292,7 +293,18 @@ namespace _2SemesterEksamen
         {
             destroyedGameObjects.Add(go);
         }
+        public void CreateRespawnButton()
+        {
+            specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
+            gameObjects.Add(specificButton);
+        }
 
+        private void RespawnPlayer()
+        {
+            Player player = playerGo.GetComponent<Player>() as Player;
+            player.Respawn();
+            gameObjects.Remove(specificButton);
+        }
         void CheckCollision()
         {
             foreach (GameObject go1 in gameObjects)

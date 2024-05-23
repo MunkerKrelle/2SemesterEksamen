@@ -16,13 +16,13 @@ namespace ComponentPattern
         private Vector2 originSprite, originText;
         public bool active = true;
         string buttonText;
-        public Delegate actionFunction;
-
-        public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Delegate actionFunction) : base(gameObject)
+        public delegate void ButtonFunction();
+        public ButtonFunction buttonFunction;
+        public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, ButtonFunction buttonFunction) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
             this.buttonText = buttonText;
-            this.actionFunction = actionFunction;
+            this.buttonFunction = buttonFunction;
         }
 
         public override void Update(GameTime gameTime)
@@ -62,7 +62,7 @@ namespace ComponentPattern
                 if (GameWorld.mouseState.X > minPosition.X && GameWorld.mouseState.Y > minPosition.Y && GameWorld.mouseState.X < maxPosition.X && GameWorld.mouseState.Y < maxPosition.Y)
                 {
                     GameObject.Transform.Color = Color.Yellow;
-                    actionFunction = () => { };
+                    buttonFunction = () => { };
                 }
             }
 

@@ -96,10 +96,7 @@ namespace ComponentPattern
             {
                 animator.PlayAnimation("Attack");
             }
-            if (health <= 0)
-            {
-                GameWorld.Instance.Destroy(GameObject);
-            }
+
         }
 
         public override void OnCollisionEnter(Collider col)
@@ -121,8 +118,8 @@ namespace ComponentPattern
 
         private void Die()
         {
-            //GameWorld.Instance.Destroy(GameObject);
-
+            GameWorld.Instance.Destroy(GameObject);
+            GameWorld.Instance.CreateRespawnButton();
         }
 
         public void Respawn()
