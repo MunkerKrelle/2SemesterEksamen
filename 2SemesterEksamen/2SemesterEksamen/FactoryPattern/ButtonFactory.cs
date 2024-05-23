@@ -21,6 +21,10 @@ namespace FactoryPattern
             }
         }
 
+        public delegate void ButtonFunctionWeapon(Weapon weapon);
+
+        public delegate void ButtonFunction();
+
         /// <summary>
         /// Buttonfactory
         /// </summary>
@@ -28,7 +32,18 @@ namespace FactoryPattern
         /// <param name="buttonText">The text written on the button</param>
         /// <param name="actionFunction">Whic method should run when the button is pressed</param>
         /// <returns></returns>
-        public GameObject Create(Vector2 buttonPosition, string buttonText, Delegate actionFunction)
+        //public GameObject Create(Vector2 buttonPosition, string buttonText, BUTTONTYPE bUTTONTYPE,Action<Weapon> action)
+        //{
+        //    GameObject go = new GameObject();
+
+        //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        //    sr.SetSprite("button");
+        //    go.AddComponent<Button>(buttonPosition, buttonText, bUTTONTYPE, action);
+
+        //    return go;
+        //}
+
+        public GameObject Create(Vector2 buttonPosition, string buttonText, Action actionFunction)
         {
             GameObject go = new GameObject();
 
