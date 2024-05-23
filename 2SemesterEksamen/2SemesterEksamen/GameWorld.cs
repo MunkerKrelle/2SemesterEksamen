@@ -89,7 +89,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
-            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", BUTTONTYPE.UI, Exit));
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
            // database.AddComponent<UI>();
