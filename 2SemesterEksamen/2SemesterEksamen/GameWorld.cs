@@ -280,6 +280,8 @@ namespace _2SemesterEksamen
         public void Instantiate(GameObject go)
         {
             newGameObjects.Add(go);
+            go.Awake();
+            go.Start();
         }
 
         /// <summary>
@@ -290,6 +292,7 @@ namespace _2SemesterEksamen
         {
             destroyedGameObjects.Add(go);
         }
+
         void CheckCollision()
         {
             foreach (GameObject go1 in gameObjects)
@@ -320,6 +323,7 @@ namespace _2SemesterEksamen
                 }
             }
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

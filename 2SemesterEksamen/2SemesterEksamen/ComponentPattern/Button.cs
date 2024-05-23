@@ -1,13 +1,7 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1.Effects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComponentPattern
 {
@@ -85,5 +79,6 @@ namespace ComponentPattern
             spriteBatch.DrawString(GameWorld.font, $"{maxPosition}", new Vector2(buttonPosition.X*2, buttonPosition.Y + 120), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
         }
+        
     }
 }

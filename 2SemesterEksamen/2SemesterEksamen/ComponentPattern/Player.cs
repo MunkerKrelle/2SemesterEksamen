@@ -20,7 +20,14 @@ namespace ComponentPattern
         public int Health
         {
             get { return health; }
-            set { health = value; }
+            set
+            {
+                health = value;
+                if (health <= 0)
+                {
+                    Die();
+                }
+            }
         }
 
         public Player(GameObject gameObject) : base(gameObject)
@@ -40,7 +47,6 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             GameObject.Transform.PlayerPointMove(velocity);
 
             if (velocity.X > 0)
@@ -90,7 +96,7 @@ namespace ComponentPattern
             {
                 animator.PlayAnimation("Attack");
             }
-            if (health < 0)
+            if (health <= 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
             }
@@ -111,6 +117,19 @@ namespace ComponentPattern
         private void AttackEnemy()
         {
 
+        }
+
+        private void Die()
+        {
+            //GameWorld.Instance.Destroy(GameObject);
+
+        }
+
+        public void Respawn()
+        {
+            Health = 100;
+            GameObject.Transform.Position = new Vector2(300, 300);
+            Player player = new Player(GameObject);
         }
     }
 }
