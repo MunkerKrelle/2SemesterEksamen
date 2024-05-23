@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace ComponentPattern
 {
     public enum BUTTONTYPE { UI, SHOP}
-    internal class Button : Component
+    public class Button : Component
     {
         private Vector2 minPosition;
         private Vector2 maxPosition;
