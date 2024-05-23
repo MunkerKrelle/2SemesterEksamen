@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using _2SemesterEksamen;
+using System.Runtime.CompilerServices;
 
-namespace Algoritmer
+namespace ComponentPattern
 {
-    public class Cell
+    public class Cell : Component
     {
         /// <summary>
         /// Farven på cellens sprite
@@ -31,6 +32,9 @@ namespace Algoritmer
         /// </summary>
         public int Height { get; set; }
         public int Width { get; set; }
+
+        private int cellCount = 11;
+        private int cellSize = 100;
 
         /// <summary>
         /// Rektangler til at repræsentere cellens kanter og baggrund
@@ -59,11 +63,9 @@ namespace Algoritmer
         /// <param name="position"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Cell(Point position, int width, int height)
+        public Cell(GameObject go, Point position) : base(go)
         {
-            this.Position = position;
-            this.Width = width;
-            this.Height = height;
+            Position = position;
         }
 
         /// <summary>
@@ -106,6 +108,8 @@ namespace Algoritmer
             //if (GameWorld.debug)
             //    spriteBatch.DrawString(GameWorld.Instance.SpriteFont, cellString, new Vector2(topLine.X, topLine.Y), Color.Black);
         }
+
+
 
         /// <summary>
         /// Metode til at nulstille cellens tilstand
