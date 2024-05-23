@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using _2SemesterEksamen;
+using ComponentPattern;
 
 namespace Algoritmer
 {

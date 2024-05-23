@@ -55,7 +55,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 10;
+            speed = 100;
             health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
