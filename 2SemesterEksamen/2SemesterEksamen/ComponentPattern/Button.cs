@@ -1,4 +1,5 @@
 ﻿using _2SemesterEksamen;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace ComponentPattern
 {
-    internal class Button : Component
+    public enum BUTTONTYPE { UI, SHOP}
+    public class Button : Component
     {
         private Vector2 minPosition;
         private Vector2 maxPosition;
@@ -22,13 +24,13 @@ namespace ComponentPattern
         private Vector2 originSprite, originText;
         public bool active = true;
         string buttonText;
-        public Delegate actionFunction;
+        public Action buttonAction;
 
-        public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Delegate actionFunction) : base(gameObject)
+        public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Action buttonAction) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
             this.buttonText = buttonText;
-            this.actionFunction = actionFunction;
+            this.buttonAction = buttonAction;
         }
 
         public override void Update(GameTime gameTime)
@@ -39,10 +41,10 @@ namespace ComponentPattern
         }
         public void PositionUpdate()
         {
-            minPosition.X = (GameObject.Transform.Position.X - sr.Sprite.Width / 2) * GameObject.Transform.Scale.X;
-            minPosition.Y = (GameObject.Transform.Position.Y - sr.Sprite.Height / 2) * GameObject.Transform.Scale.Y;
-            maxPosition.X = (GameObject.Transform.Position.X + sr.Sprite.Width / 2) *GameObject.Transform.Scale.X;
-            maxPosition.Y = (GameObject.Transform.Position.Y + sr.Sprite.Height / 2) * GameObject.Transform.Scale.Y;
+            minPosition.X = GameObject.Transform.Position.X - (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
+            minPosition.Y = GameObject.Transform.Position.Y - (sr.Sprite.Height / 2 * GameObject.Transform.Scale.Y);
+            maxPosition.X = GameObject.Transform.Position.X + (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
+            maxPosition.Y = GameObject.Transform.Position.Y + (sr.Sprite.Height / 2 * GameObject.Transform.Scale.Y);
         }
         public override void Awake()
         {
@@ -68,7 +70,7 @@ namespace ComponentPattern
                 if (GameWorld.mouseState.X > minPosition.X && GameWorld.mouseState.Y > minPosition.Y && GameWorld.mouseState.X < maxPosition.X && GameWorld.mouseState.Y < maxPosition.Y)
                 {
                     GameObject.Transform.Color = Color.Yellow;
-                    actionFunction = () => { };
+                    buttonAction.Invoke();
                 }
             }
 
@@ -81,8 +83,8 @@ namespace ComponentPattern
 
             spriteBatch.DrawString(GameWorld.font, buttonText, buttonPosition, Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(GameWorld.font, $"{minPosition}", new Vector2(buttonPosition.X*2, buttonPosition.Y + 100), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(GameWorld.font, $"{maxPosition}", new Vector2(buttonPosition.X*2, buttonPosition.Y + 120), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.font, $"{minPosition}", new Vector2(buttonPosition.X * 2, buttonPosition.Y + 100), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.font, $"{maxPosition}", new Vector2(buttonPosition.X * 2, buttonPosition.Y + 120), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
         }
     }
