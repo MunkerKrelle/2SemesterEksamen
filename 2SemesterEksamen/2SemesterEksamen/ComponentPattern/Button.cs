@@ -3,6 +3,7 @@ using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace ComponentPattern
 {
@@ -40,11 +41,13 @@ namespace ComponentPattern
             maxPosition.X = GameObject.Transform.Position.X + (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
             maxPosition.Y = GameObject.Transform.Position.Y + (sr.Sprite.Height / 2 * GameObject.Transform.Scale.Y);
         }
-        public override void Awake()
+        public override void Start()
         {
+            Debug.WriteLine("button started");
             sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             GameObject.Transform.Position = buttonPosition;
-            PositionUpdate();
+            //PositionUpdate();
+
         }
         public void MouseOnButton()
         {

@@ -39,7 +39,7 @@ namespace _2SemesterEksamen
         public static MouseState mouseState;
         public static MouseState newState;
         public static bool isPressed;
-        
+
         private int cellCount = 11;
         private int cellSize = 100;
         private float timeElapsed;
@@ -48,7 +48,6 @@ namespace _2SemesterEksamen
         Vector2 originText;
         string fontText = "";
         Vector2 fontLength;
-        private GameObject playerGo;
 
         private int index = 0;
         public static List<Point> targetPointList = new List<Point>();
@@ -82,7 +81,7 @@ namespace _2SemesterEksamen
         {
             IRepository repository = new Database();
             new Database(repository).RunLoop();
-            
+
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
             GameObject playerGo = director.Construct();
@@ -93,13 +92,13 @@ namespace _2SemesterEksamen
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
-           // database.AddComponent<UI>();
-  
+            // database.AddComponent<UI>();
+
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
-            InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
+            InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
 
             //sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
@@ -185,9 +184,9 @@ namespace _2SemesterEksamen
             }
             base.Update(gameTime);
 
-                Cleanup();
-            } 
-       
+            Cleanup();
+        }
+ 
 
         public void RunAStar()
         {
@@ -209,11 +208,11 @@ namespace _2SemesterEksamen
                 foreach (var VARIABLE in path)
                 {
                     Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     for (int i = 0; i < Cells.Count; i++)
+                    {
+                        if (Cells.ElementAt(i).Key == VARIABLE.Position)
                         {
-                            if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                            {
                             SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
                             sr2.SetSprite("1fwd");
                             sr2.GameObject.Transform.Layer = 0.1f;
@@ -233,13 +232,13 @@ namespace _2SemesterEksamen
             }
             index = 0;
         }
-    
+
         private void SetUpCells() //flyttes over til Cells
         {
             for (int y = 1; y < cellCount; y++)
             {
                 for (int x = 1; x < cellCount; x++)
-                {                   
+                {
                     Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
                     GameObject cellGrid = new GameObject();
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
@@ -247,9 +246,9 @@ namespace _2SemesterEksamen
                     sr.SetSprite("cellGrid");
 
                     cellGrid.Transform.Layer = 0f;
-                    Cells[new Point(x, y)].Sprite = sprites["cellGrid"];                     
+                    Cells[new Point(x, y)].Sprite = sprites["cellGrid"];
                     cellGrid.Transform.Scale = new Vector2(1, 1);
-                    Point pos = new Point(x, y);                    
+                    Point pos = new Point(x, y);
                     cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
                 }
             }
@@ -280,6 +279,7 @@ namespace _2SemesterEksamen
         /// <param name="go"></param>
         public void Instantiate(GameObject go)
         {
+            Debug.WriteLine("created button in instan");
             newGameObjects.Add(go);
             go.Awake();
             go.Start();
@@ -296,43 +296,65 @@ namespace _2SemesterEksamen
         public void CreateRespawnButton()
         {
             specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
-            gameObjects.Add(specificButton);
+            Instantiate(specificButton);
+            //gameObjects.Add(specificButton);
         }
 
         private void RespawnPlayer()
         {
+            Director director = new Director(new PlayerBuilder());
+            GameObject playerGo = director.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
             player.Respawn();
-            gameObjects.Remove(specificButton);
+            InputHandler.Instance.ClearCommands();
+
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
+
+            Destroy(specificButton);
+           
         }
         void CheckCollision()
         {
-            foreach (GameObject go1 in gameObjects)
+            try
             {
-                foreach (GameObject go2 in gameObjects)
-                {
-                    if (go1 == go2)
-                    {
-                        continue;
-                    }
-                    Collider col1 = go1.GetComponent<Collider>() as Collider;
-                    Collider col2 = go2.GetComponent<Collider>() as Collider;
 
-                    if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+
+                foreach (GameObject go1 in gameObjects)
+                {
+                    foreach (GameObject go2 in gameObjects)
                     {
-                        foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
+                        if (go1 == go2)
                         {
-                            foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
+                            continue;
+                        }
+                        Collider col1 = go1.GetComponent<Collider>() as Collider;
+                        Collider col2 = go2.GetComponent<Collider>() as Collider;
+
+                        if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+                        {
+                            foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
                             {
-                                if (rects1.Rectangle.Intersects(rects2.Rectangle))
+                                foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
                                 {
-                                    go1.OnCollisionEnter(col2);
-                                    go2.OnCollisionEnter(col1);
+                                    if (rects1.Rectangle.Intersects(rects2.Rectangle))
+                                    {
+                                        go1.OnCollisionEnter(col2);
+                                        go2.OnCollisionEnter(col1);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+                Debug.Write("stuff borke");
             }
         }
 

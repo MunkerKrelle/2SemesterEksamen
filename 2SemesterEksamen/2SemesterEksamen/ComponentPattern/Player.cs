@@ -17,14 +17,16 @@ namespace ComponentPattern
         protected int health;
         Animator animator;
         Inventory inventory;
+        bool isAlive = true;
         public int Health
         {
             get { return health; }
             set
             {
                 health = value;
-                if (health <= 0)
+                if (health <= 0 && isAlive)
                 {
+                    isAlive = false;
                     Die();
                 }
             }
@@ -118,15 +120,16 @@ namespace ComponentPattern
 
         private void Die()
         {
-            GameWorld.Instance.Destroy(GameObject);
-            GameWorld.Instance.CreateRespawnButton();
+            Debug.WriteLine("debug");
+            
+            GameWorld.Instance.CreateRespawnButton();GameWorld.Instance.Destroy(GameObject);
         }
 
         public void Respawn()
         {
             Health = 100;
             GameObject.Transform.Position = new Vector2(300, 300);
-            Player player = new Player(GameObject);
+            GameWorld.Instance.Instantiate(GameObject);
         }
     }
 }
