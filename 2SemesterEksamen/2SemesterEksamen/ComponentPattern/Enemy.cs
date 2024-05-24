@@ -62,10 +62,10 @@ namespace ComponentPattern
         {
             Player player = (Player)col.GameObject.GetComponent<Player>();
 
-            //if (player != null)
-            //{
-            //    player.Health -= 1;
-            //}
+            if (player != null)
+            {
+                player.Health -= 100;
+            }
             base.OnCollisionEnter(col);
         }
 
