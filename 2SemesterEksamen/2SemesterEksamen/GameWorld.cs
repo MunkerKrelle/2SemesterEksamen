@@ -88,7 +88,7 @@ namespace _2SemesterEksamen
             GameObject armsDealerGo = director1.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
-
+            
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
@@ -99,6 +99,7 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
+
 
             //sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
