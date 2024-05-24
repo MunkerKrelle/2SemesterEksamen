@@ -32,6 +32,7 @@ namespace _2SemesterEksamen
         private SpriteBatch _spriteBatch;
 
         private List<GameObject> gameObjects = new List<GameObject>();
+        
         private List<GameObject> newGameObjects = new List<GameObject>();
 
         private List<GameObject> destroyedGameObjects = new List<GameObject>();
@@ -56,7 +57,17 @@ namespace _2SemesterEksamen
 
         private int index = 0;
         public static List<Point> targetPointList = new List<Point>();
-
+        public List<GameObject> GameObjects
+        {
+            get
+            {
+                return gameObjects;
+            }
+            set
+            {
+                gameObjects = value;
+            }
+        }
         private static GameWorld instance;
 
         public static GameWorld Instance
@@ -114,6 +125,8 @@ namespace _2SemesterEksamen
             gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
+            //gameObjects.Add(EnemyFactory.Instance.Create());
+            gameObjects.Last().Transform.Position = new Vector2(200, 200);
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             foreach (GameObject go in gameObjects)
@@ -146,14 +159,14 @@ namespace _2SemesterEksamen
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed += DeltaTime;
-
+           
             switch (_state)
             {
                 case GameState.Shop:
-                    SceneShop(gameTime);
+                    SceneShop();
                     break;
                 case GameState.Combat:
-                    SceneCombat(gameTime);
+                    SceneCombat();
                     break;
                     //case GameState.EndOfGame:
                     //    UpdateEndOfGame(gameTime);
@@ -181,8 +194,11 @@ namespace _2SemesterEksamen
 
             //if (timeElapsed >= 0.3f)
             //{
-            Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
-            enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
+            //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+            //enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
+            //enemy.startAstarBool = true;
+            //Enemy enemy2 = gameObjects[4].GetComponent<Enemy>() as Enemy;
+            //enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
             //timeElapsed = 0;
             //}
 
@@ -191,26 +207,13 @@ namespace _2SemesterEksamen
                 go.Update(gameTime);
             }
 
-            KeyboardState keyState = Keyboard.GetState();
-
-            //if (keyState.IsKeyDown(Keys.C) && timeElapsed >= 0.3f)
-            //{
-            //    // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
-            //    SpriteRenderer sr = (SpriteRenderer)gameObjects[101].GetComponent<SpriteRenderer>();
-            //    sr.SetSprite("1fwd");
-            //}
-
-            if (keyState.IsKeyDown(Keys.B) && timeElapsed >= 0.3f)
-            {
-                timeElapsed = 0;
-            }
             base.Update(gameTime);
 
                 Cleanup();
             }
 
 
-        void SceneShop(GameTime deltaTime) 
+        void SceneShop() 
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.B))
@@ -219,7 +222,7 @@ namespace _2SemesterEksamen
             }
         }
 
-        void SceneCombat(GameTime deltaTime)
+        void SceneCombat()
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.N))
@@ -231,7 +234,7 @@ namespace _2SemesterEksamen
         public void RunAStar()
         {
             Astar astar = new Astar(Cells);
-
+            Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
             if (index > targetPointList.Count - 1)
             {
                 return;
@@ -247,8 +250,9 @@ namespace _2SemesterEksamen
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
-                    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                     enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    //Enemy enemy2 = gameObjects[4].GetComponent<Enemy>() as Enemy;
+                    //enemy2.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
                     for (int i = 0; i < Cells.Count; i++)
                     {
@@ -272,6 +276,7 @@ namespace _2SemesterEksamen
                 //RunAStar();
             }
             index = 0;
+            enemy.startAstarBool = true;
         }
     
       
