@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using _2SemesterEksamen;
+using ComponentPattern;
 
 namespace RepositoryPattern
 {
@@ -17,7 +18,7 @@ namespace RepositoryPattern
 
         void Insert();
 
-        void TradeWeapon();
+        void TradeWeapon(Weapon weapon);
 
         void SortTables();
 

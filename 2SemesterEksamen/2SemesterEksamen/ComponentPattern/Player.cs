@@ -1,13 +1,6 @@
 ﻿using _2SemesterEksamen;
-using CommandPattern;
-using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using RepositoryPattern;
 
 namespace ComponentPattern
 {
@@ -17,6 +10,7 @@ namespace ComponentPattern
         protected int health;
         Animator animator;
         Inventory inventory;
+        Database database = new Database();
         public int Health
         {
             get { return health; }
@@ -62,7 +56,7 @@ namespace ComponentPattern
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
             inventory.Active = true;
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            //inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
 
         public void MoveByAddition(Vector2 velocity)
@@ -80,7 +74,10 @@ namespace ComponentPattern
 
         public override void Update(GameTime gameTime)
         {
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            if (inventory.weaponsList == null)
+            {
+
+            }
         }
 
         public void Attack()
@@ -94,6 +91,14 @@ namespace ComponentPattern
             {
                 GameWorld.Instance.Destroy(GameObject);
             }
+        }
+
+        public void Buy(Player player)
+        {
+            database.TradeWeapon(this.inventory.weaponsList[1]);
+            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].button);
+            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].GameObject);
+            this.inventory.AddItem(inventory.weaponsList[0].Name);
         }
 
         public override void OnCollisionEnter(Collider col)

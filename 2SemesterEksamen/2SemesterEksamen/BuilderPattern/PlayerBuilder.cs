@@ -26,7 +26,7 @@ namespace BuilderPattern
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            inventory.AddItem("Butterflyknife");
+            //inventory.AddItem("Butterflyknife");
             //inventory.AddItem("Bat");
             //inventory.AddItem("Katana");
             //inventory.AddItem("Chainsword");

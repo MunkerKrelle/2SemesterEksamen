@@ -19,36 +19,12 @@ namespace BuilderPattern
             BuildComponents();
         }
 
-
-
-        private int RandomItem()
-        {
-            while (true)
-            {
-                int tryNumber = rnd.Next(8);
-                if (!list.Contains(tryNumber))
-                {
-                    list.Add(tryNumber);
-                    return tryNumber;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-        }
-
         private void BuildComponents()
         {
             gameObject.AddComponent<ArmsDealer>(); 
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
-            RandomItem();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            inventory.GenerateRandomItem(RandomItem());
-            inventory.GenerateRandomItem(RandomItem());
-            inventory.GenerateRandomItem(RandomItem());
-            inventory.GenerateRandomItem(RandomItem());
             // Animator animator = gameObject.AddComponent<Animator>();
 
         }
@@ -65,6 +41,9 @@ namespace BuilderPattern
 
         //    return animation;
         //}
+
+
+
         public GameObject GetResult()
         {
             return gameObject;

@@ -164,14 +164,14 @@ namespace RepositoryPattern
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
-        public Tuple<string,int,int> ReturnValues(string weaponName)
+        public Tuple<string, int, int> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
             Tuple<string, int, int> list = null;
-     
+
             while (reader.Read())
             {
                 list = (new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
@@ -238,53 +238,51 @@ namespace RepositoryPattern
         }
 
 
-        public void TradeWeapon()
+        public void TradeWeapon(Weapon weapon)
         {
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            buy = true;
             if (buy)
             {
                 NpgsqlCommand cmdBuyWeapon = dataSource.CreateCommand($@"
         INSERT INTO inventory (weapon_name, damage, price)
 
-        VALUES('{weaponName}', {damage}, {price})
-        ");
-
-                NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        DELETE FROM weapon
-        WHERE name = '{weaponName}'
+        VALUES('{weapon.Name}', '{weapon.Damage}', '{weapon.Price}')
         ");
 
                 NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
         UPDATE player
-        SET scrap_amount = scrap_amount - {price}
+        SET scrap_amount = scrap_amount - {weapon.Price}
         ");
 
                 cmdBuyWeapon.ExecuteNonQuery();
-                cmdDeleteFromTable.ExecuteNonQuery();
-                cmdUpdateScrapAmount.ExecuteNonQuery();
-            }
-            else if (sell)
-            {
-                NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
-        INSERT INTO weapon (name, damage, price)
-
-        VALUES('{weaponName}', {damage}, {price})
-        ");
-
-                NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        DELETE FROM inventory
-        WHERE weapon_name = '{weaponName}'
-        ");
-
-                NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        UPDATE player
-        SET scrap_amount = scrap_amount + {price}
-        ");
-
-                cmdSellWeapon.ExecuteNonQuery();
-                cmdDeleteFromTable.ExecuteNonQuery();
                 cmdUpdateScrapAmount.ExecuteNonQuery();
             }
         }
+
+        //    else if (sell)
+        //    {
+        //        NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
+        //INSERT INTO weapon (name, damage, price)
+
+        //VALUES('{weaponName}', {damage}, {price})
+        //");
+
+        //        NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
+        //DELETE FROM inventory
+        //WHERE weapon_name = '{weaponName}'
+        //");
+
+        //        NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
+        //UPDATE player
+        //SET scrap_amount = scrap_amount + {price}
+        //");
+
+        //        cmdSellWeapon.ExecuteNonQuery();
+        //        cmdDeleteFromTable.ExecuteNonQuery();
+        //        cmdUpdateScrapAmount.ExecuteNonQuery();
+        //    }
+        //}
 
         //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
         //private void CollectScrap()
@@ -394,7 +392,7 @@ namespace RepositoryPattern
 
             while (reader.Read())
             {
-                list = new Tuple <int, string>((int)reader.GetValue(0), reader.GetValue(1).ToString());
+                list = new Tuple<int, string>((int)reader.GetValue(0), reader.GetValue(1).ToString());
                 weaponID = (int)reader.GetValue(0);
                 charName = reader.GetValue(1).ToString();
 
@@ -426,7 +424,7 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
-        public void AddToInventory()
+        public void AddToInventory(Weapon weapon)
         {
 
         }
