@@ -29,6 +29,7 @@ namespace CommandPattern
             keybindsUpdate.Add(inputKey, command);
         }
 
+
         public void AddButtonDownCommand(Keys inputKey, ICommand command)
         {
             keybindsButtonDown.Add(inputKey, command);
@@ -65,7 +66,11 @@ namespace CommandPattern
             }
             previousKeyState = keyState;
         }
-
+        public void ClearCommands()
+        {
+            keybindsUpdate.Clear();
+            keybindsButtonDown.Clear();
+        }
         private void Undo()
         {
             if (executedCommands.Count > 0)

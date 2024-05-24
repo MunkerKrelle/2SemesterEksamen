@@ -1,6 +1,7 @@
 ﻿using System;
 using ComponentPattern;
 using Microsoft.Xna.Framework;
+using static ComponentPattern.Button;
 
 namespace FactoryPattern
 {

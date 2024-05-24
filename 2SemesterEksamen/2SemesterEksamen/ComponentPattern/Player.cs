@@ -15,12 +15,22 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
+
+        bool isAlive = true;
         public Animator animator;
         public Inventory inventory;
         public int Health
         {
             get { return health; }
-            set { health = value; }
+            set
+            {
+                health = value;
+                if (health <= 0 && isAlive)
+                {
+                    isAlive = false;
+                    Die();
+                }
+            }
         }
 
         public Player(GameObject gameObject) : base(gameObject)
@@ -40,7 +50,6 @@ namespace ComponentPattern
 
             velocity *= speed;
 
-            //GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             GameObject.Transform.PlayerPointMove(velocity);
 
             if (velocity.X > 0)
@@ -75,7 +84,7 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(300, 300);
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("Player/Idle/Idle1");
-            GameObject.Transform.Layer = 0.7f;
+            GameObject.Transform.Layer = 0.9f;
         }
 
         public override void Update(GameTime gameTime)
@@ -90,10 +99,7 @@ namespace ComponentPattern
             {
                 animator.PlayAnimation("Attack");
             }
-            if (health < 0)
-            {
-                GameWorld.Instance.Destroy(GameObject);
-            }
+
         }
 
         public override void OnCollisionEnter(Collider col)
@@ -111,6 +117,20 @@ namespace ComponentPattern
         private void AttackEnemy()
         {
 
+        }
+
+        private void Die()
+        {
+            Debug.WriteLine("debug");
+            
+            GameWorld.Instance.CreateRespawnButton();GameWorld.Instance.Destroy(GameObject);
+        }
+
+        public void Respawn()
+        {
+            Health = 100;
+            GameObject.Transform.Position = new Vector2(300, 300);
+            GameWorld.Instance.Instantiate(GameObject);
         }
     }
 }
