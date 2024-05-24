@@ -57,15 +57,13 @@ namespace _2SemesterEksamen
 
         private int index = 0;
         public static List<Point> targetPointList = new List<Point>();
+
+        static readonly object myLock = new object();
         public List<GameObject> GameObjects
         {
             get
             {
                 return gameObjects;
-            }
-            set
-            {
-                gameObjects = value;
             }
         }
         private static GameWorld instance;
@@ -125,7 +123,6 @@ namespace _2SemesterEksamen
             gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
-            //gameObjects.Add(EnemyFactory.Instance.Create());
             gameObjects.Last().Transform.Position = new Vector2(200, 200);
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
@@ -178,7 +175,6 @@ namespace _2SemesterEksamen
                 InputHandler.Instance.Execute();
                 timeElapsed = 0;
             }
-            //InputHandler.Instance.Execute();
             CheckCollision();
 
             mouseState = Mouse.GetState();
@@ -191,16 +187,6 @@ namespace _2SemesterEksamen
             {
                 isPressed = false;
             }
-
-            //if (timeElapsed >= 0.3f)
-            //{
-            //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
-            //enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
-            //enemy.startAstarBool = true;
-            //Enemy enemy2 = gameObjects[4].GetComponent<Enemy>() as Enemy;
-            //enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
-            //timeElapsed = 0;
-            //}
 
             foreach (GameObject go in gameObjects)
             {
@@ -251,22 +237,7 @@ namespace _2SemesterEksamen
                 foreach (var VARIABLE in path)
                 {
                     enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                    //Enemy enemy2 = gameObjects[4].GetComponent<Enemy>() as Enemy;
-                    //enemy2.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
-                    for (int i = 0; i < Cells.Count; i++)
-                    {
-                        //if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                        //{
-                        //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                        //    sr2.SetSprite("1fwd");
-                        //    sr2.GameObject.Transform.Layer = 0.1f;
-                        //    //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-                        //    //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
-                        //    //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
-                        //    //break;
-                        //}
-                    }
                 }
                 index++;
             }
@@ -279,8 +250,6 @@ namespace _2SemesterEksamen
             enemy.startAstarBool = true;
         }
     
-      
-
         private void Cleanup()
         {
             // Adding newly instantiated GameObjects

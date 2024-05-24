@@ -42,7 +42,7 @@ namespace ComponentPattern
 
         public override void Update(GameTime gameTime)
         {
-            GetPlayerPosition(GameWorld.Instance.GameObjects[0].Transform.VectorToPointConverter(GameWorld.Instance.GameObjects[0].Transform.Position));
+            
             enemyTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed2 += enemyTimer;
             
@@ -84,14 +84,14 @@ namespace ComponentPattern
         public void SearchForPlayer()
         {
             //RUN ASTAR
-            
-      
             KeyboardState keyState = Keyboard.GetState();
 
-            if (/*keyState.IsKeyDown(Keys.G) && */(startAstarBool == true))
+            if (startAstarBool == true)
             {
                 startAstarBool = false;
                 EnemyPointPosition = GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position);
+                //Thread.Sleep(100);
+                GetPlayerPosition(GameWorld.Instance.GameObjects[0].Transform.VectorToPointConverter(GameWorld.Instance.GameObjects[0].Transform.Position));
                 Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
                 Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
 
@@ -112,13 +112,6 @@ namespace ComponentPattern
                 enemyThread.Start();
 
                 //Thread.Sleep(1000);
-            }
-
-
-            if (keyState.IsKeyDown(Keys.H)) 
-            {
-                startAstarBool = true;
-                GameWorld.targetPointList.Clear();
             }
             //IF DISTANCE < WHATEVER
             //{
