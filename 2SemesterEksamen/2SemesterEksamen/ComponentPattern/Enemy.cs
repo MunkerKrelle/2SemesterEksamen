@@ -47,7 +47,7 @@ namespace ComponentPattern
 
             if (player != null)
             {
-                player.Health -= 10;
+                player.Health -= 100;
             }
             base.OnCollisionEnter(col);
         }

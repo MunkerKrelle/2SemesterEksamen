@@ -31,7 +31,6 @@ namespace BuilderPattern
             //inventory.AddItem("Katana");
             //inventory.AddItem("Chainsword");
             Animator animator = gameObject.AddComponent<Animator>();
-            InputHandler.Instance.AddUpdateCommand(Keys.P, new InventoryCommand(inventory));
             animator.AddAnimation(BuildAnimation("Idle", new string[] { "Player/Idle/Idle1", "Player/Idle/Idle2", "Player/Idle/Idle3", "Player/Idle/Idle4" }));
             animator.AddAnimation(BuildAnimation("Right", new string[] { "Player/Run/Run1", "Player/Run/Run2", "Player/Run/Run3", "Player/Run/Run4", "Player/Run/Run5", "Player/Run/Run6" }));
             animator.AddAnimation(BuildAnimation("Left", new string[] { "Player/Run/RunLeft1", "Player/Run/RunLeft2", "Player/Run/RunLeft3", "Player/Run/RunLeft4", "Player/Run/RunLeft5", "Player/Run/RunLeft6" }));

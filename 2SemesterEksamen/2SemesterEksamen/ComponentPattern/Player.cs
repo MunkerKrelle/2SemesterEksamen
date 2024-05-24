@@ -84,7 +84,7 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(300, 300);
             SpriteRenderer sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             sr.SetSprite("Player/Idle/Idle1");
-            GameObject.Transform.Layer = 0.7f;
+            GameObject.Transform.Layer = 0.9f;
         }
 
         public override void Update(GameTime gameTime)
