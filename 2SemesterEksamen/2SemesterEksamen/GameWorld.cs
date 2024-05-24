@@ -20,6 +20,11 @@ using System.Threading;
 
 namespace _2SemesterEksamen
 {
+    enum GameState
+    {
+        Shop,
+        Combat
+    }
     public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -39,10 +44,10 @@ namespace _2SemesterEksamen
         public static MouseState mouseState;
         public static MouseState newState;
         public static bool isPressed;
-
-        private int cellCount = 11;
-        private int cellSize = 100;
+        
+ 
         private float timeElapsed;
+        private GameState _state;
 
         public static SpriteFont font;
         Vector2 originText;
@@ -88,8 +93,6 @@ namespace _2SemesterEksamen
             GameObject armsDealerGo = director1.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
-            
-            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             GameObject database = new GameObject();
             // database.AddComponent<UI>();
@@ -100,26 +103,26 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
 
-
-            //sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
-            //sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
-            //SetUpCells();
+            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+            sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
+            CellManager cellManager = new CellManager();
+            cellManager.SetUpCells(10,10);
 
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo);
             gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
-            gameObjects.Last().Transform.Position = new Vector2(40, 40);
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             foreach (GameObject go in gameObjects)
             {
                 go.Awake();
             }
 
-            _graphics.PreferredBackBufferWidth = cellCount * cellSize + 200;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = cellCount * cellSize + 1;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth = 11 * 100 + 200;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 11 * 100 + 1;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -144,7 +147,25 @@ namespace _2SemesterEksamen
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed += DeltaTime;
 
-            InputHandler.Instance.Execute();
+            switch (_state)
+            {
+                case GameState.Shop:
+                    SceneShop(gameTime);
+                    break;
+                case GameState.Combat:
+                    SceneCombat(gameTime);
+                    break;
+                    //case GameState.EndOfGame:
+                    //    UpdateEndOfGame(gameTime);
+                    //    break;
+            }
+
+            if (timeElapsed >= 0.3f)
+            {
+                InputHandler.Instance.Execute();
+                timeElapsed = 0;
+            }
+            //InputHandler.Instance.Execute();
             CheckCollision();
 
             mouseState = Mouse.GetState();
@@ -158,26 +179,26 @@ namespace _2SemesterEksamen
                 isPressed = false;
             }
 
+            //if (timeElapsed >= 0.3f)
+            //{
+            Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+            enemy.GetPlayerPosition(gameObjects[0].Transform.VectorToPointConverter(gameObjects[0].Transform.Position));
+            //timeElapsed = 0;
+            //}
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
             }
 
-            //if (timeElapsed >= 0.3f)
-            //{
-            //Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-            //enemy.GetPlayerPosition(gameObjects[101].Transform.VectorToPointConverter(gameObjects[101].Transform.Position));
-            //timeElapsed = 0;
-            //}
-
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.C) && timeElapsed >= 0.3f)
-            {
-                // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
-                SpriteRenderer sr = (SpriteRenderer)gameObjects[101].GetComponent<SpriteRenderer>();
-                sr.SetSprite("1fwd");
-            }
+            //if (keyState.IsKeyDown(Keys.C) && timeElapsed >= 0.3f)
+            //{
+            //    // Cells[gameObjects[100].Transform.CellMovement(gameObjects[100].Transform.Position)].Sprite = sprites["1fwd"];
+            //    SpriteRenderer sr = (SpriteRenderer)gameObjects[101].GetComponent<SpriteRenderer>();
+            //    sr.SetSprite("1fwd");
+            //}
 
             if (keyState.IsKeyDown(Keys.B) && timeElapsed >= 0.3f)
             {
@@ -185,9 +206,27 @@ namespace _2SemesterEksamen
             }
             base.Update(gameTime);
 
-            Cleanup();
+                Cleanup();
+            }
+
+
+        void SceneShop(GameTime deltaTime) 
+        {
+            KeyboardState keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.B))
+            {
+                _state = GameState.Combat;
+            }
         }
- 
+
+        void SceneCombat(GameTime deltaTime)
+        {
+            KeyboardState keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.N))
+            {
+                _state = GameState.Shop;
+            }
+        }
 
         public void RunAStar()
         {
@@ -208,20 +247,21 @@ namespace _2SemesterEksamen
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
-                    Enemy enemy = gameObjects[104].GetComponent<Enemy>() as Enemy;
-                    enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    Thread.Sleep(1000);
                     for (int i = 0; i < Cells.Count; i++)
                     {
-                        if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                        {
-                            SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                            sr2.SetSprite("1fwd");
-                            sr2.GameObject.Transform.Layer = 0.1f;
-                            //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-                            //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
-                            //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
-                            //break;
-                        }
+                        //if (Cells.ElementAt(i).Key == VARIABLE.Position)
+                        //{
+                        //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
+                        //    sr2.SetSprite("1fwd");
+                        //    sr2.GameObject.Transform.Layer = 0.1f;
+                        //    //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                        //    //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
+                        //    //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
+                        //    //break;
+                        //}
                     }
                 }
                 index++;
@@ -233,27 +273,8 @@ namespace _2SemesterEksamen
             }
             index = 0;
         }
-
-        private void SetUpCells() //flyttes over til Cells
-        {
-            for (int y = 1; y < cellCount; y++)
-            {
-                for (int x = 1; x < cellCount; x++)
-                {
-                    Cells.Add(new Point(x, y), new Cell(new Point(x, y), cellSize, cellSize));
-                    GameObject cellGrid = new GameObject();
-                    SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
-                    gameObjects.Add(cellGrid);
-                    sr.SetSprite("cellGrid");
-
-                    cellGrid.Transform.Layer = 0f;
-                    Cells[new Point(x, y)].Sprite = sprites["cellGrid"];
-                    cellGrid.Transform.Scale = new Vector2(1, 1);
-                    Point pos = new Point(x, y);
-                    cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);
-                }
-            }
-        }
+    
+      
 
         private void Cleanup()
         {
@@ -280,7 +301,6 @@ namespace _2SemesterEksamen
         /// <param name="go"></param>
         public void Instantiate(GameObject go)
         {
-            Debug.WriteLine("created button in instan");
             newGameObjects.Add(go);
             go.Awake();
             go.Start();

@@ -15,9 +15,10 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
-        Animator animator;
-        Inventory inventory;
+
         bool isAlive = true;
+        public Animator animator;
+        public Inventory inventory;
         public int Health
         {
             get { return health; }
@@ -63,7 +64,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            speed = 10;
+            speed = 100;
             health = 100;
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
