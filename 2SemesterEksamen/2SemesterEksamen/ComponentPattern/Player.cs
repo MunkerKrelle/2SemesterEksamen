@@ -15,8 +15,8 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
-        Animator animator;
-        Inventory inventory;
+        public Animator animator;
+        public Inventory inventory;
         public int Health
         {
             get { return health; }
