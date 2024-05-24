@@ -40,7 +40,7 @@ namespace _2SemesterEksamen
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
         private static List<Button> buttons = new List<Button>();
-        private GameObject specificButton;
+        Button specificButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
@@ -95,7 +95,7 @@ namespace _2SemesterEksamen
         {
             IRepository repository = new Database();
             new Database(repository).RunLoop();
-
+            
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
             GameObject playerGo = director.Construct();
@@ -104,20 +104,19 @@ namespace _2SemesterEksamen
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
             GameObject database = new GameObject();
-            // database.AddComponent<UI>();
-
+           // database.AddComponent<UI>();
+  
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
-            InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
-            InputHandler.Instance.AddUpdateCommand(Keys.P, new InventoryCommand(player.inventory));
+            InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
 
-            //sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            //sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
-            //sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
-            //CellManager cellManager = new CellManager();
-            //cellManager.SetUpCells(10,10);
+            sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
+            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+            sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
+            CellManager cellManager = new CellManager();
+            cellManager.SetUpCells(10,10);
 
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo);
@@ -239,6 +238,19 @@ namespace _2SemesterEksamen
                 {
                     enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
+                    for (int i = 0; i < Cells.Count; i++)
+                    {
+                        //if (Cells.ElementAt(i).Key == VARIABLE.Position)
+                        //{
+                        //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
+                        //    sr2.SetSprite("1fwd");
+                        //    sr2.GameObject.Transform.Layer = 0.1f;
+                        //    //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
+                        //    //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
+                        //    //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
+                        //    //break;
+                        //}
+                    }
                 }
                 index++;
             }
@@ -277,8 +289,6 @@ namespace _2SemesterEksamen
         public void Instantiate(GameObject go)
         {
             newGameObjects.Add(go);
-            go.Awake();
-            go.Start();
         }
 
         /// <summary>
@@ -289,71 +299,36 @@ namespace _2SemesterEksamen
         {
             destroyedGameObjects.Add(go);
         }
-        public void CreateRespawnButton()
-        {
-            specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
-            Instantiate(specificButton);
-            //gameObjects.Add(specificButton);
-        }
-
-        private void RespawnPlayer()
-        {
-            Director director = new Director(new PlayerBuilder());
-            GameObject playerGo = director.Construct();
-            Player player = playerGo.GetComponent<Player>() as Player;
-            player.Respawn();
-            InputHandler.Instance.ClearCommands();
-
-            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
-            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
-            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
-            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
-            InputHandler.Instance.AddUpdateCommand(Keys.M, new AttackCommand(player));
-            InputHandler.Instance.AddUpdateCommand(Keys.P, new InventoryCommand(player.inventory));
-            Destroy(specificButton);
-           
-        }
         void CheckCollision()
         {
-            try
+            foreach (GameObject go1 in gameObjects)
             {
-
-
-                foreach (GameObject go1 in gameObjects)
+                foreach (GameObject go2 in gameObjects)
                 {
-                    foreach (GameObject go2 in gameObjects)
+                    if (go1 == go2)
                     {
-                        if (go1 == go2)
-                        {
-                            continue;
-                        }
-                        Collider col1 = go1.GetComponent<Collider>() as Collider;
-                        Collider col2 = go2.GetComponent<Collider>() as Collider;
+                        continue;
+                    }
+                    Collider col1 = go1.GetComponent<Collider>() as Collider;
+                    Collider col2 = go2.GetComponent<Collider>() as Collider;
 
-                        if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+                    if (col1 != null && col2 != null && col1.CollisionBox.Intersects(col2.CollisionBox))
+                    {
+                        foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
                         {
-                            foreach (Collider.RectangleData rects1 in col1.rectangles.Value)
+                            foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
                             {
-                                foreach (Collider.RectangleData rects2 in col2.rectangles.Value)
+                                if (rects1.Rectangle.Intersects(rects2.Rectangle))
                                 {
-                                    if (rects1.Rectangle.Intersects(rects2.Rectangle))
-                                    {
-                                        go1.OnCollisionEnter(col2);
-                                        go2.OnCollisionEnter(col1);
-                                    }
+                                    go1.OnCollisionEnter(col2);
+                                    go2.OnCollisionEnter(col1);
                                 }
                             }
                         }
                     }
                 }
             }
-            catch (Exception)
-            {
-
-                Debug.Write("stuff borke");
-            }
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
