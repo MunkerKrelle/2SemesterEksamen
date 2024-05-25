@@ -115,8 +115,10 @@ namespace _2SemesterEksamen
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
             sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
+            sprites.Add("EnterShop", Content.Load<Texture2D>("EnterShop"));
+            sprites.Add("ExitShop", Content.Load<Texture2D>("ExitShop"));
             CellManager cellManager = new CellManager();
-            cellManager.SetUpCells(10,10);
+            cellManager.SetUpCells(11,11);
 
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo);
@@ -176,6 +178,8 @@ namespace _2SemesterEksamen
                 timeElapsed = 0;
             }
             CheckCollision();
+            EnterShop();
+            ExitShop();
 
             mouseState = Mouse.GetState();
 
@@ -198,8 +202,54 @@ namespace _2SemesterEksamen
                 Cleanup();
             }
 
+        private void EnterShop() 
+        {
+            if (gameObjects[0].Transform.Position == new Vector2(900, 100)) 
+            {
+                _state = GameState.Shop;
+                //background change (Done)
 
-        void SceneShop() 
+                //add entry and exit doors (do it in setup cells)
+
+                for (int i = 10; i < Cells.Count + 10; i++)
+                {
+                    gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
+                }
+
+                //UI elements come up
+
+                //Astar stops
+                Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy; 
+                enemy.startAstarBool = false;
+                enemy.GameObject.Transform.Position = new Vector2(2000,2000);
+            
+            }
+        }
+
+        private void ExitShop() 
+        {
+            if (_state != GameState.Combat) 
+            {
+                if (gameObjects[0].Transform.Position == new Vector2(1000, 100))
+                {
+                    _state = GameState.Combat;
+
+                    for (int i = 10; i < Cells.Count + 10; i++)
+                    {
+                        gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
+                    }
+
+                    //UI elements goes away
+
+                    //Astar starts again
+                    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+                    enemy.startAstarBool = true;
+                    enemy.GameObject.Transform.Position = new Vector2(500, 500);
+
+                }
+            }
+        }
+        private void SceneShop() 
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.B))
@@ -208,7 +258,7 @@ namespace _2SemesterEksamen
             }
         }
 
-        void SceneCombat()
+        private void SceneCombat()
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.N))
@@ -238,19 +288,6 @@ namespace _2SemesterEksamen
                 {
                     enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
-                    for (int i = 0; i < Cells.Count; i++)
-                    {
-                        //if (Cells.ElementAt(i).Key == VARIABLE.Position)
-                        //{
-                        //    SpriteRenderer sr2 = (SpriteRenderer)gameObjects[i].GetComponent<SpriteRenderer>();
-                        //    sr2.SetSprite("1fwd");
-                        //    sr2.GameObject.Transform.Layer = 0.1f;
-                        //    //Enemy enemy = gameObjects[103].GetComponent<Enemy>() as Enemy;
-                        //    //enemy.GameObject.Transform.Position = gameObjects[i].Transform.Position;
-                        //    //Cells[targetPointList[index]].Sprite = sprites["1fwd"];
-                        //    //break;
-                        //}
-                    }
                 }
                 index++;
             }
