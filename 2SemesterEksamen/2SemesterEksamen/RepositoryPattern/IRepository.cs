@@ -18,7 +18,7 @@ namespace RepositoryPattern
 
         void Insert();
 
-        void TradeWeapon(Weapon weapon);
+        bool TradeWeapon(Weapon weapon);
 
         void SortTables();
 

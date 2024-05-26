@@ -1,6 +1,7 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
 using RepositoryPattern;
+using System.Security.Policy;
 
 namespace ComponentPattern
 {
@@ -8,6 +9,7 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
+        public int damage;
         Animator animator;
         Inventory inventory;
         Database database = new Database();
@@ -74,22 +76,29 @@ namespace ComponentPattern
 
         public override void Update(GameTime gameTime)
         {
-            if (inventory.weaponsList == null)
+            if (inventory.weaponsList.Count != 0)
             {
+                inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            }
+
+            if (Database.playerItemsUpdated == true)
+            {
+                inventory.AddItem(database.AddToInventory());
+                Database.playerItemsUpdated = false;
 
             }
         }
 
         public void Attack()
         {
-            Inventory inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            if (inventory.weaponsList.Count >= 0)
+            animator.PlayAnimation("Attack");
+            if (inventory.weaponsList.Count > 0)
             {
-                animator.PlayAnimation("Attack");
+                damage = 1 + inventory.weaponsList[0].Damage;
             }
-            if (health < 0)
+            else
             {
-                GameWorld.Instance.Destroy(GameObject);
+                damage = 1;
             }
         }
 
@@ -103,11 +112,15 @@ namespace ComponentPattern
 
         public override void OnCollisionEnter(Collider col)
         {
+
             Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
-            if (enemy != null)
+            if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
             {
-                enemy.Health -= 5;
+                enemy.Health -= damage;
+            } else if (enemy != null)
+                {
+                health -= 5;
             }
 
             base.OnCollisionEnter(col);

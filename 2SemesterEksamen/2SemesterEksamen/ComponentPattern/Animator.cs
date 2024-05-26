@@ -17,10 +17,10 @@ namespace ComponentPattern
 
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
-        private Animation currentAnimation;
+        public Animation currentAnimation {  get; private set; }
 
         public Animator(GameObject gameObject) : base(gameObject)
-        {            
+        {
         }
 
         public override void Start()
@@ -33,6 +33,15 @@ namespace ComponentPattern
             timeElapsed += GameWorld.Instance.DeltaTime;
 
             CurrentIndex = (int)(timeElapsed * currentAnimation.FPS);
+
+            //if (currentAnimation.Name == "Attack")
+            //{
+            //    attacking = true;
+            //}
+            //else
+            //{
+            //    attacking = false;
+            //}
 
             if (CurrentIndex > currentAnimation.Sprites.Length - 1)
             {

@@ -1,11 +1,14 @@
 ﻿using _2SemesterEksamen;
 using ComponentPattern;
+using FactoryPattern;
+using Microsoft.Xna.Framework;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Security.Cryptography;
 using System.Threading;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
@@ -13,6 +16,7 @@ namespace RepositoryPattern
     public class Database : IRepository
     {
         private readonly IRepository repository;
+        public static bool playerItemsUpdated = false;
         private NpgsqlDataSource dataSource;
         private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
 
@@ -132,7 +136,7 @@ namespace RepositoryPattern
             NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
         INSERT INTO player (name, health, speed, scrap_amount)
 
-        VALUES('TestPlayer', 100, 50, 0)
+        VALUES('TestPlayer', 100, 50, 1000)
         ");
 
             NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
@@ -238,12 +242,26 @@ namespace RepositoryPattern
         }
 
 
-        public void TradeWeapon(Weapon weapon)
+        public bool TradeWeapon(Weapon weapon)
         {
+            //playerItemsUpdated
+
             dataSource = NpgsqlDataSource.Create(connectionString);
-            buy = true;
-            if (buy)
+
+            NpgsqlCommand cmdGetScraps = dataSource.CreateCommand($@"
+            SELECT scrap_amount FROM player WHERE (name = 'TestPlayer')");
+
+            NpgsqlDataReader reader = cmdGetScraps.ExecuteReader();
+            while (reader.Read())
             {
+                scrapAmount = (int)reader.GetValue(0);
+
+            }
+            reader.Close();
+
+            if (scrapAmount > weapon.Price)
+            {
+
                 NpgsqlCommand cmdBuyWeapon = dataSource.CreateCommand($@"
         INSERT INTO inventory (weapon_name, damage, price)
 
@@ -257,7 +275,12 @@ namespace RepositoryPattern
 
                 cmdBuyWeapon.ExecuteNonQuery();
                 cmdUpdateScrapAmount.ExecuteNonQuery();
+                playerItemsUpdated = true;
+            } else
+            {
+                return false;
             }
+            return true;
         }
 
         //    else if (sell)
@@ -424,9 +447,17 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
-        public void AddToInventory(Weapon weapon)
+        public string AddToInventory()
         {
-
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdCreateWeapons = dataSource.CreateCommand($"SELECT weapon_name FROM inventory");
+            NpgsqlDataReader reader = cmdCreateWeapons.ExecuteReader();
+            while (reader.Read())
+            {
+                weaponName = reader.GetString(0);
+            }
+            reader.Close();
+            return weaponName;
         }
 
         public void RemoveFromInventory()
