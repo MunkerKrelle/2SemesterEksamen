@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StatePattern
 {
-    public class MoveState : Istate<Enemy>
+    public class IdleState : Istate<Enemy>
     {
         private Enemy parrent;
         public void Enter(Enemy parrent)
@@ -18,7 +18,7 @@ namespace StatePattern
         }
         public void Execute()
         {
-            parrent.SearchForPlayer();
+            parrent.animator.PlayAnimation("CyborgIdle");
         }
         public void Exit()
         {

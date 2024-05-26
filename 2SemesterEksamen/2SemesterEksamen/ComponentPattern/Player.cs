@@ -1,5 +1,6 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using RepositoryPattern;
 using System.Security.Cryptography.Xml;
 using System.Threading;
@@ -67,11 +68,21 @@ namespace ComponentPattern
 
             if (velocity.X > 0)
             {
-                animator.PlayAnimation("Right");
+                animator.PlayAnimation("PlayerMove");
+                GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                if (inventory.weaponsList.Count > 0)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                }
             }
             else if (velocity.X < 0)
             {
-                animator.PlayAnimation("Left");
+                animator.PlayAnimation("PlayerMove");
+                GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                if (inventory.weaponsList.Count > 0)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                }
             }
         }
 
@@ -86,9 +97,7 @@ namespace ComponentPattern
             animator.PlayAnimation("Idle");
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            inventory.Active = true;
-            //inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
-        }
+            inventory.Active = true;        }
 
         /// <summary>
         /// Flytter spilleren ved at tilføje en vektor til spillerens nuværende position.
@@ -129,7 +138,14 @@ namespace ComponentPattern
             else if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name == "Attack")
             {
                 inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 1f;
-                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+                if (inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect == SpriteEffects.None)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+                }
+                else
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X - (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+                }
             }
 
             if (Database.playerItemsUpdated == true)
