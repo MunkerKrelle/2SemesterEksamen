@@ -56,9 +56,9 @@ namespace _2SemesterEksamen
         Vector2 fontLength;
 
         private int index = 0;
-        public static List<Point> targetPointList = new List<Point>();
+        public List<Point> targetPointList = new List<Point>();
 
-        static readonly object myLock = new object();
+        
         public List<GameObject> GameObjects
         {
             get
@@ -125,7 +125,7 @@ namespace _2SemesterEksamen
             gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
-            gameObjects.Last().Transform.Position = new Vector2(200, 200);
+            //gameObjects.Last().Transform.Position = new Vector2(200, 200);
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
 
             foreach (GameObject go in gameObjects)
@@ -271,6 +271,7 @@ namespace _2SemesterEksamen
         {
             Astar astar = new Astar(Cells);
             Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+
             if (index > targetPointList.Count - 1)
             {
                 return;

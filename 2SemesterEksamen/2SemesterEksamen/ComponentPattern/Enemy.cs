@@ -26,6 +26,7 @@ namespace ComponentPattern
         private float timeElapsed2;
 
         public Vector2 velocity = new Vector2(0, 1);
+        static readonly object DamagePlayerLock = new object();
         public Enemy(GameObject gameObject) : base(gameObject)
         {
             enemyhealth = 100;
@@ -95,18 +96,17 @@ namespace ComponentPattern
                 Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
                 Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
 
-                if (GameWorld.targetPointList.Count == 2)
+                if (GameWorld.Instance.targetPointList.Count == 2)
                 {
-                    GameWorld.targetPointList.Clear();
+                    GameWorld.Instance.targetPointList.Clear();
                 }
 
-                if (GameWorld.targetPointList.Count < 2) 
+                if (GameWorld.Instance.targetPointList.Count < 2) 
                 {
-                    GameWorld.targetPointList.Add(enemy1);
-                    GameWorld.targetPointList.Add(player1);
+                    GameWorld.Instance.targetPointList.Add(enemy1);
+                    GameWorld.Instance.targetPointList.Add(player1);
                 }
 
-              
                 Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
@@ -122,6 +122,10 @@ namespace ComponentPattern
         private void AttackPlayer()
         {
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
+            lock (DamagePlayerLock)
+            {
+               //insert attack code here to remove health.
+            }
         }
       
         public void GetPlayerPosition(Point playerPoint) 
