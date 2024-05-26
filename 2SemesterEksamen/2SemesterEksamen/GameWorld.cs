@@ -102,10 +102,6 @@ namespace _2SemesterEksamen
             GameObject armsDealerGo = director1.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
-
-            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
-            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
-
             GameObject database = new GameObject();
            // database.AddComponent<UI>();
   
@@ -131,6 +127,7 @@ namespace _2SemesterEksamen
             gameObjects.Add(EnemyFactory.Instance.Create());
             //gameObjects.Last().Transform.Position = new Vector2(200, 200);
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
 
             foreach (GameObject go in gameObjects)
             {
@@ -215,7 +212,7 @@ namespace _2SemesterEksamen
 
                 //add entry and exit doors (do it in setup cells)
 
-                for (int i = 10; i < Cells.Count + 10; i++)
+                for (int i = 6; i < Cells.Count + 6; i++)
                 {
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
@@ -238,7 +235,7 @@ namespace _2SemesterEksamen
                 {
                     _state = GameState.Combat;
 
-                    for (int i = 10; i < Cells.Count + 10; i++)
+                    for (int i = 6; i < Cells.Count + 6; i++)
                     {
                         gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
