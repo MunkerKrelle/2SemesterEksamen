@@ -1,14 +1,9 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1.Effects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ComponentPattern
 {
@@ -46,11 +41,13 @@ namespace ComponentPattern
             maxPosition.X = GameObject.Transform.Position.X + (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
             maxPosition.Y = GameObject.Transform.Position.Y + (sr.Sprite.Height / 2 * GameObject.Transform.Scale.Y);
         }
-        public override void Awake()
+        public override void Start()
         {
+            Debug.WriteLine("button started");
             sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             GameObject.Transform.Position = buttonPosition;
-            PositionUpdate();
+            //PositionUpdate();
+
         }
         public void MouseOnButton()
         {
@@ -87,5 +84,6 @@ namespace ComponentPattern
             spriteBatch.DrawString(GameWorld.font, $"{maxPosition}", new Vector2(buttonPosition.X * 2, buttonPosition.Y + 120), Color.Black, 0, originText, 1, SpriteEffects.None, 1f);
 
         }
+        
     }
 }

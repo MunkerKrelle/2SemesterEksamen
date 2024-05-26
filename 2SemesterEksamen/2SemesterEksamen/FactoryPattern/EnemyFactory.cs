@@ -41,14 +41,10 @@ namespace FactoryPattern
             go.AddComponent<Enemy>();
             go.AddComponent<Collider>();
 
-            Enemy meGo = (Enemy)go.GetComponent<Enemy>();
-            
-
-
-            Thread enemyThread = new Thread(meGo.SearchForPlayer);
-            enemyThread.IsBackground = true;
-            enemyThread.Start();
-
+            //Enemy meGo = (Enemy)go.GetComponent<Enemy>();
+            //Thread enemyThread = new Thread(meGo.SearchForPlayer);
+            //enemyThread.IsBackground = true;
+            //enemyThread.Start();
 
             return go;
         }
