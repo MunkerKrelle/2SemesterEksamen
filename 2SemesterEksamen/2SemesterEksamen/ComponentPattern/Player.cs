@@ -1,13 +1,7 @@
 ﻿using _2SemesterEksamen;
-using CommandPattern;
-using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using RepositoryPattern;
+using System.Security.Policy;
 
 namespace ComponentPattern
 {
@@ -18,6 +12,10 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
+        public int damage;
+        Animator animator;
+        Inventory inventory;
+        Database database = new Database();
 
         bool isAlive = true;
         public Animator animator;
@@ -89,7 +87,7 @@ namespace ComponentPattern
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
             inventory.Active = true;
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            //inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
 
         /// <summary>
@@ -118,7 +116,17 @@ namespace ComponentPattern
         /// <param name="gameTime">Spillets tid, der er gået siden sidste opdatering.</param>
         public override void Update(GameTime gameTime)
         {
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            if (inventory.weaponsList.Count != 0)
+            {
+                inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            }
+
+            if (Database.playerItemsUpdated == true)
+            {
+                inventory.AddItem(database.AddToInventory());
+                Database.playerItemsUpdated = false;
+
+            }
         }
 
         /// <summary>
@@ -126,12 +134,23 @@ namespace ComponentPattern
         /// </summary>
         public void Attack()
         {
-            Inventory inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            if (inventory.weaponsList.Count >= 0)
+            animator.PlayAnimation("Attack");
+            if (inventory.weaponsList.Count > 0)
             {
-                animator.PlayAnimation("Attack");
+                damage = 1 + inventory.weaponsList[0].Damage;
             }
+            else
+            {
+                damage = 1;
+            }
+        }
 
+        public void Buy(Player player)
+        {
+            database.TradeWeapon(this.inventory.weaponsList[1]);
+            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].button);
+            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].GameObject);
+            this.inventory.AddItem(inventory.weaponsList[0].Name);
         }
 
         /// <summary>
@@ -140,11 +159,15 @@ namespace ComponentPattern
         /// <param name="col">Kollisionen, som spilleren er involveret i.</param>
         public override void OnCollisionEnter(Collider col)
         {
+
             Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
-            if (enemy != null)
+            if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
             {
-                enemy.Health -= 5;
+                enemy.Health -= damage;
+            } else if (enemy != null)
+                {
+                health -= 5;
             }
 
             base.OnCollisionEnter(col);
