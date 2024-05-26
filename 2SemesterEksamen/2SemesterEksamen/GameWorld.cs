@@ -103,6 +103,9 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
 
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
+            gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
+
             GameObject database = new GameObject();
            // database.AddComponent<UI>();
   
@@ -111,9 +114,10 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
+            InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            sprites.Add("1fwd", Content.Load<Texture2D>("1fwd"));
+            sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));
             sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
             sprites.Add("EnterShop", Content.Load<Texture2D>("EnterShop"));
             sprites.Add("ExitShop", Content.Load<Texture2D>("ExitShop"));

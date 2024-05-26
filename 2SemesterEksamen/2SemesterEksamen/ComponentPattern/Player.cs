@@ -1,13 +1,8 @@
 ﻿using _2SemesterEksamen;
-using CommandPattern;
-using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using RepositoryPattern;
+using System.Security.Cryptography.Xml;
+using System.Threading;
 
 namespace ComponentPattern
 {
@@ -18,10 +13,13 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
+        public int damage;
+        private int currentInvSlot;
+        Animator animator;
+        Inventory inventory;
+        Database database = new Database();
 
         bool isAlive = true;
-        public Animator animator;
-        public Inventory inventory;
 
         /// <summary>
         /// Får eller sætter spillerens sundhed. Hvis sundheden når 0 eller derunder, vil spilleren dø.
@@ -89,7 +87,7 @@ namespace ComponentPattern
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
             inventory.Active = true;
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            //inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
         }
 
         /// <summary>
@@ -118,7 +116,46 @@ namespace ComponentPattern
         /// <param name="gameTime">Spillets tid, der er gået siden sidste opdatering.</param>
         public override void Update(GameTime gameTime)
         {
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            if (currentInvSlot >= inventory.weaponsList.Count)
+            {
+                currentInvSlot = 0;
+            }
+
+            if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name != "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 0.5f;
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = GameObject.Transform.Position;
+            }
+            else if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name == "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 1f;
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+            }
+
+            if (Database.playerItemsUpdated == true)
+            {
+                //if (inventory.weaponsList.Count > 0)
+                //{
+                //   // GameWorld.Instance.Destroy(inventory.weaponsList[currentInvSlot].GameObject);
+                //    //inventory.weaponsList.RemoveAt(currentInvSlot);
+                //    if (currentInvSlot > inventory.weaponsList.Count)
+                //    {
+                //        currentInvSlot = 0;
+                //    }
+                //}
+                inventory.AddItem(database.AddToInventory());
+                Database.playerItemsUpdated = false;
+
+            }
+        }
+
+        public void ChangeItem()
+        {
+            foreach (var item in inventory.weaponsList)
+            {
+                item.GameObject.Transform.Position = new Vector2(-100, -100);
+            }
+            currentInvSlot++;
         }
 
         /// <summary>
@@ -126,12 +163,15 @@ namespace ComponentPattern
         /// </summary>
         public void Attack()
         {
-            Inventory inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            if (inventory.weaponsList.Count >= 0)
+            animator.PlayAnimation("Attack");
+            if (inventory.weaponsList.Count > 0)
             {
-                animator.PlayAnimation("Attack");
+                damage = 1 + inventory.weaponsList[currentInvSlot].Damage;
             }
-
+            else
+            {
+                damage = 1;
+            }
         }
 
         /// <summary>
@@ -140,11 +180,16 @@ namespace ComponentPattern
         /// <param name="col">Kollisionen, som spilleren er involveret i.</param>
         public override void OnCollisionEnter(Collider col)
         {
+
             Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
-            if (enemy != null)
+            if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
             {
-                enemy.Health -= 5;
+                enemy.Health -= damage;
+            }
+            else if (enemy != null)
+            {
+                health -= 5;
             }
 
             base.OnCollisionEnter(col);

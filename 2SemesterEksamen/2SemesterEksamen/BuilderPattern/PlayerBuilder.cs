@@ -36,10 +36,6 @@ namespace BuilderPattern
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            inventory.AddItem("Butterflyknife");
-            //inventory.AddItem("Bat");
-            //inventory.AddItem("Katana");
-            //inventory.AddItem("Chainsword");
 
             Animator animator = gameObject.AddComponent<Animator>();
             animator.AddAnimation(BuildAnimation("Idle", new string[] { "Player/Idle/Idle1", "Player/Idle/Idle2", "Player/Idle/Idle3", "Player/Idle/Idle4" }));

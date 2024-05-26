@@ -17,10 +17,10 @@ namespace ComponentPattern
 
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
-        private Animation currentAnimation;
+        public Animation currentAnimation {  get; private set; }
 
         public Animator(GameObject gameObject) : base(gameObject)
-        {            
+        {
         }
 
         public override void Start()
