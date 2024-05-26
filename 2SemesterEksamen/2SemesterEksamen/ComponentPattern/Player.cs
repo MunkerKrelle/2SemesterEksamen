@@ -1,7 +1,8 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
 using RepositoryPattern;
-using System.Security.Policy;
+using System.Security.Cryptography.Xml;
+using System.Threading;
 
 namespace ComponentPattern
 {
@@ -13,13 +14,12 @@ namespace ComponentPattern
         private float speed;
         protected int health;
         public int damage;
+        private int currentInvSlot;
         Animator animator;
         Inventory inventory;
         Database database = new Database();
 
         bool isAlive = true;
-        public Animator animator;
-        public Inventory inventory;
 
         /// <summary>
         /// Får eller sætter spillerens sundhed. Hvis sundheden når 0 eller derunder, vil spilleren dø.
@@ -116,17 +116,46 @@ namespace ComponentPattern
         /// <param name="gameTime">Spillets tid, der er gået siden sidste opdatering.</param>
         public override void Update(GameTime gameTime)
         {
-            if (inventory.weaponsList.Count != 0)
+            if (currentInvSlot >= inventory.weaponsList.Count)
             {
-                inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+                currentInvSlot = 0;
+            }
+
+            if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name != "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 0.5f;
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = GameObject.Transform.Position;
+            }
+            else if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name == "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 1f;
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
             }
 
             if (Database.playerItemsUpdated == true)
             {
+                //if (inventory.weaponsList.Count > 0)
+                //{
+                //   // GameWorld.Instance.Destroy(inventory.weaponsList[currentInvSlot].GameObject);
+                //    //inventory.weaponsList.RemoveAt(currentInvSlot);
+                //    if (currentInvSlot > inventory.weaponsList.Count)
+                //    {
+                //        currentInvSlot = 0;
+                //    }
+                //}
                 inventory.AddItem(database.AddToInventory());
                 Database.playerItemsUpdated = false;
 
             }
+        }
+
+        public void ChangeItem()
+        {
+            foreach (var item in inventory.weaponsList)
+            {
+                item.GameObject.Transform.Position = new Vector2(-100, -100);
+            }
+            currentInvSlot++;
         }
 
         /// <summary>
@@ -137,20 +166,12 @@ namespace ComponentPattern
             animator.PlayAnimation("Attack");
             if (inventory.weaponsList.Count > 0)
             {
-                damage = 1 + inventory.weaponsList[0].Damage;
+                damage = 1 + inventory.weaponsList[currentInvSlot].Damage;
             }
             else
             {
                 damage = 1;
             }
-        }
-
-        public void Buy(Player player)
-        {
-            database.TradeWeapon(this.inventory.weaponsList[1]);
-            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].button);
-            GameWorld.Instance.Destroy(this.inventory.weaponsList[0].GameObject);
-            this.inventory.AddItem(inventory.weaponsList[0].Name);
         }
 
         /// <summary>
@@ -165,8 +186,9 @@ namespace ComponentPattern
             if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
             {
                 enemy.Health -= damage;
-            } else if (enemy != null)
-                {
+            }
+            else if (enemy != null)
+            {
                 health -= 5;
             }
 

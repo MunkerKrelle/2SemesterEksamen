@@ -114,6 +114,7 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
+            InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));

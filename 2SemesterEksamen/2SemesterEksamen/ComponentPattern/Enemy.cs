@@ -107,9 +107,9 @@ namespace ComponentPattern
                 }
 
               
-                Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
-                enemyThread.IsBackground = true;
-                enemyThread.Start();
+                //Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
+                //enemyThread.IsBackground = true;
+                //enemyThread.Start();
 
                 //Thread.Sleep(1000);
             }

@@ -358,39 +358,6 @@ namespace RepositoryPattern
             Console.WriteLine("You've been sorted mate");
         }
 
-        //INSERT MED VALUES_______________________________________________________________________________________
-        //private void InsertTest()
-        ////VALUES SKAL VÆRE PLAYER/ENEMY/WEAPON.X
-        //{
-        //    NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
-        //INSERT INTO player (name, health, speed, scrap_amount)
-
-        //VALUES('{lars.Name}', {lars.Health}, {lars.Speed}, {lars.ScrapAmount})
-        //");
-
-        //    NpgsqlCommand cmdEnemyEnemyValues = dataSource.CreateCommand($@"
-        //INSERT INTO enemy (health, damage, speed, scrap_dropped)
-
-        //VALUES('{enemy.Health}', {enemy.Damage}, {enemy.Speed}, {enemy.ScrapDropped})
-        //");
-
-        //    NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
-        //INSERT INTO weapon (name, damage, price)
-
-        //VALUES('{wrench.Name}', {wrench.Damage}, {wrench.Price}),
-        //      ('Steel Bat', 5, 20),
-        //      ('{katana.Name}', {katana.Damage}, {katana.Price}),
-        //      ('Lightsaber', 25, 100)
-        //");
-
-        //    cmdInsertPlayerValues.ExecuteNonQuery();
-        //    cmdEnemyEnemyValues.ExecuteNonQuery();
-        //    cmdInsertWeaponValues.ExecuteNonQuery();
-
-        //    Console.WriteLine("Values Inserted. Press enter to exit");
-        //    Console.ReadKey();
-        //}
-
         //VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
         private void ShowBestiary()
         {

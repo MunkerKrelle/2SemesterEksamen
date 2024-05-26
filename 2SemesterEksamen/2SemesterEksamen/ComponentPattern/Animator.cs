@@ -34,15 +34,6 @@ namespace ComponentPattern
 
             CurrentIndex = (int)(timeElapsed * currentAnimation.FPS);
 
-            //if (currentAnimation.Name == "Attack")
-            //{
-            //    attacking = true;
-            //}
-            //else
-            //{
-            //    attacking = false;
-            //}
-
             if (CurrentIndex > currentAnimation.Sprites.Length - 1)
             {
                 timeElapsed = 0;
