@@ -296,7 +296,7 @@ namespace _2SemesterEksamen
 
             if (index < targetPointList.Count)
             {
-                //RunAStar();
+                RunAStar();
             }
             index = 0;
             enemy.startAstarBool = true;

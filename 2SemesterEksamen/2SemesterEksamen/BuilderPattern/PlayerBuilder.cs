@@ -39,8 +39,7 @@ namespace BuilderPattern
 
             Animator animator = gameObject.AddComponent<Animator>();
             animator.AddAnimation(BuildAnimation("Idle", new string[] { "Player/Idle/Idle1", "Player/Idle/Idle2", "Player/Idle/Idle3", "Player/Idle/Idle4" }));
-            animator.AddAnimation(BuildAnimation("Right", new string[] { "Player/Run/Run1", "Player/Run/Run2", "Player/Run/Run3", "Player/Run/Run4", "Player/Run/Run5", "Player/Run/Run6" }));
-            animator.AddAnimation(BuildAnimation("Left", new string[] { "Player/Run/RunLeft1", "Player/Run/RunLeft2", "Player/Run/RunLeft3", "Player/Run/RunLeft4", "Player/Run/RunLeft5", "Player/Run/RunLeft6" }));
+            animator.AddAnimation(BuildAnimation("PlayerMove", new string[] { "Player/Run/Run1", "Player/Run/Run2", "Player/Run/Run3", "Player/Run/Run4", "Player/Run/Run5", "Player/Run/Run6" }));
             animator.AddAnimation(BuildAnimation("Attack", new string[] { "Player/Attack/Attack1", "Player/Attack/Attack2", "Player/Attack/Attack3", "Player/Attack/Attack4", "Player/Attack/Attack5", "Player/Attack/Attack6" }));
         }
 

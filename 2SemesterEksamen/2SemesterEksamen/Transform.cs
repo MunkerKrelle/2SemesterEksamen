@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace _2SemesterEksamen
 {
@@ -10,6 +11,7 @@ namespace _2SemesterEksamen
         public Vector2 Scale { get; set; } = new Vector2(1, 1);
         public Color Color { get; set; } = Color.White;
         public float Layer {  get; set; }
+        public SpriteEffects SpriteEffect { get; set; }
 
         public void Transformer(Vector2 Position, float Rotaion, Vector2 Scale, Color Color, float Layer)
         {

@@ -2,11 +2,13 @@
 using CommandPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.XInput;
 using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ComponentPattern
 {
@@ -24,6 +26,7 @@ namespace ComponentPattern
         private Point targetPointPos;
         private float enemyTimer;
         private float timeElapsed2;
+        public Animator animator;
 
         public Vector2 velocity = new Vector2(0, 1);
         static readonly object DamagePlayerLock = new object();
@@ -36,23 +39,32 @@ namespace ComponentPattern
         float timeSinceLastSwitch;
         float changeTime = 1f;
 
-        public override void Start() 
+        public override void Awake()
+        {
+            GameObject.Transform.Scale = new Vector2(3f, 3f);
+            animator = GameObject.GetComponent<Animator>() as Animator;
+            animator.PlayAnimation("CyborgIdle");
+        }
+        public override void Start()
         {
             GameObject.Transform.Position = new Vector2(500, 500);
         }
 
         public override void Update(GameTime gameTime)
         {
-            
-            enemyTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timeElapsed2 += enemyTimer;
-            
-            if (timeElapsed2 >= 1f)
-            {
-                SearchForPlayer();
-                timeElapsed2 = 0;
-            }
-            
+            //if (Player is dead)
+            //{
+            //    ChangeState(new IdleState());
+            //}
+            //else if (Player is not close)
+            //{
+            //    ChangeState(new MoveState());
+            //}
+            //else if (Player is close)
+            //{
+            //    ChangeState(new AttackState());
+            //}
+
             if (Health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
@@ -127,8 +139,8 @@ namespace ComponentPattern
                //insert attack code here to remove health.
             }
         }
-      
-        public void GetPlayerPosition(Point playerPoint) 
+
+        public void GetPlayerPosition(Point playerPoint)
         {
             targetPointPos = playerPoint;
         }

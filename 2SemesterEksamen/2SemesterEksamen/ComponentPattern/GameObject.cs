@@ -34,7 +34,7 @@ namespace ComponentPattern
             {
                 // Håndter tilfælde, hvor der ikke er en passende konstruktør
                 throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en " +
-                    $"konstruktør, der matcher de leverede parametre.");
+                    $"konstruktør, der matcher de leverede parametre. Exection {e}");
 
             }
         }

@@ -26,7 +26,7 @@ namespace ComponentPattern
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, GameObject.Transform.Color, GameObject.Transform.Rotation, Origin, GameObject.Transform.Scale, SpriteEffects.None, GameObject.Transform.Layer);
+            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, GameObject.Transform.Color, GameObject.Transform.Rotation, Origin, GameObject.Transform.Scale, GameObject.Transform.SpriteEffect, GameObject.Transform.Layer);
         }
     }
 }
