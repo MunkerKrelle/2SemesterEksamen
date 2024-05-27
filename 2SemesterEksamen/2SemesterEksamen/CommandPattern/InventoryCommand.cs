@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CommandPattern
 {
+    /// <summary>
+    /// Gør at spilleren kan skifte våben
+    /// </summary>
     internal class InventoryCommand : ICommand
 {
         private Player player;

@@ -1,23 +1,24 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ComponentPattern
 {
+    /// <summary>
+    /// Component til at lave animater i form af enkelte sprites
+    /// </summary>
     public class Animator : Component
     {
-        public int CurrentIndex { get; private set; }
+        public int CurrentIndex { get; private set; } //Hvilket sprite der er nået til i listen
 
         private float timeElapsed;
 
         private SpriteRenderer spriteRenderer;
 
-        private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
+        private Dictionary<string, Animation> animations = new Dictionary<string, Animation>(); //Dictionary over de forskellige animationer de forskellige GameObjects kan have
 
-        public Animation currentAnimation {  get; private set; }
+        public Animation currentAnimation {  get; private set; } //Hvilken animation der kører lige nu
 
         public Animator(GameObject gameObject) : base(gameObject)
         {
@@ -47,6 +48,10 @@ namespace ComponentPattern
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Tilføjer en ny animation til listen over GameObjects forskellige animationer 
+        /// </summary>
+        /// <param name="animation">Ny animationer der skal tilføjes</param>
         public void AddAnimation(Animation animation)
         {
             animations.Add(animation.Name, animation);
@@ -57,6 +62,10 @@ namespace ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Bliver brugt af andre klasser til afspille en specifik animation
+        /// </summary>
+        /// <param name="animationName">Hvilken animation der skal afspilles</param>
         public void PlayAnimation(string animationName)
         {
             if (animationName != currentAnimation.Name)
@@ -70,6 +79,9 @@ namespace ComponentPattern
 
 }
 
+/// <summary>
+/// Oprettelse af animationer 
+/// </summary>
 public class Animation
 {
     public float FPS { get; private set; }

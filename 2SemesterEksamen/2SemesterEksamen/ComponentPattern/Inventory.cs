@@ -6,12 +6,14 @@ using System.Collections.Generic;
 
 namespace ComponentPattern
 {
+    /// <summary>
+    /// Inventory component der holder styr på hvilke våbden spilleren og armsdealeren har
+    /// </summary>
     public class Inventory : Component
     {
         public GameObject item;
         public List<Weapon> weaponsList = new List<Weapon>();
         public Weapon weapon;
-        public int scraps;
 
         public bool Active { get; set; }
 
@@ -25,6 +27,10 @@ namespace ComponentPattern
             weaponsList.Remove(weapon);
         }
 
+        /// <summary>
+        /// Generere tilfældige våben til armsDealeren
+        /// </summary>
+        /// <param name="itemID">Hvilket ID våbnet har i databasen</param>
         public void GenerateRandomItem(int itemID)
         {
             Active = true;
@@ -35,6 +41,10 @@ namespace ComponentPattern
             weaponsList.Add(weapon);
         }
 
+        /// <summary>
+        /// Tilføj et våben til spillerens inventory
+        /// </summary>
+        /// <param name="itemName"></param>
         public void AddItem(string itemName)
         {
             item = ItemFactory.Instance.Create(itemName);
@@ -45,20 +55,6 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-        }
-
-        public void SellItem(Weapon weapon)
-        {
-            scraps += weapon.Price;
-            weaponsList.Remove(weapon);
-        }
-
-        public void BuyItem(Weapon weapon)
-        {
-            if (weapon.Price <= scraps)
-            {
-                weaponsList.Add(weapon);
-            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -1,18 +1,14 @@
 ﻿using _2SemesterEksamen;
 using ComponentPattern;
-using FactoryPattern;
-using Microsoft.Xna.Framework;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Security.Cryptography;
-using System.Threading;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace RepositoryPattern
 {
+    /// <summary>
+    /// Database for sql funktioner
+    /// </summary>
     public class Database : IRepository
     {
         private readonly IRepository repository;
@@ -20,6 +16,7 @@ namespace RepositoryPattern
         private NpgsqlDataSource dataSource;
         private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
 
+        //Nogle af disse er ikke blevet brugt endnu
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
         private float speed;
@@ -34,7 +31,10 @@ namespace RepositoryPattern
             this.repository = repository;
         }
 
-        public void RunLoop()
+        /// <summary>
+        /// Reseter og indlæser alt dataen og tabellerne
+        /// </summary>
+        public void CreateDatabase()
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
 
@@ -43,6 +43,9 @@ namespace RepositoryPattern
             Insert();
         }
 
+        /// <summary>
+        /// Opretter alle tabellerne for spillet
+        /// </summary>
         public void CreateTables()
         {
             NpgsqlCommand cmdCreatePlayerTable = dataSource.CreateCommand(@"
@@ -108,6 +111,9 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Removes the tables, so we can reset them for a new game
+        /// </summary>
         public void DropTables()
         {
             try
@@ -129,6 +135,9 @@ namespace RepositoryPattern
             }
         }
 
+        /// <summary>
+        /// Indsæt alt data ind i de forskellige tabeller
+        /// </summary>
         public void Insert()
         //VALUES SKAL VÆRE PLAYER/ENEMY.X
 
@@ -168,6 +177,11 @@ namespace RepositoryPattern
             cmdInsertBestiaryValues.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retunere dataen fra våben tabellen alt efter hvilket navn det har
+        /// </summary>
+        /// <param name="weaponName">Hvilket våben navn databasen skal lede efter</param>
+        /// <returns>våbnes data</returns>
         public Tuple<string, int, int> ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
@@ -186,6 +200,11 @@ namespace RepositoryPattern
             return list;
         }
 
+        /// <summary>
+        /// Retunere dataen fra våben tabellen alt efter hvilket ID det har
+        /// </summary>
+        /// <param name="weaponID">Våbnes ID databasen skal lede efter</param>
+        /// <returns>Våbnes data</returns>
         public Tuple<string, int, int> ReturnValuesWithID(int weaponID)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
@@ -204,6 +223,10 @@ namespace RepositoryPattern
             return list;
         }
 
+        /// <summary>
+        /// Info på alle monstre der er i databasen
+        /// </summary>
+        /// <returns></returns>
         public List<BestiaryInfo> ShowBestiaryInfo()
         {
             string name, health, damage, strengths, weaknesses, scrap_dropped, defeated;
@@ -241,11 +264,13 @@ namespace RepositoryPattern
             return beastInfo;
         }
 
-
+        /// <summary>
+        /// Checker om spilleren har nok scraps til at købe våbnet 
+        /// </summary>
+        /// <param name="weapon">Hvilket våben spilleren prøver at købe</param>
+        /// <returns>Retunere om spilleren har nok scraps til at købe våbnet eller ej</returns>
         public bool TradeWeapon(Weapon weapon)
         {
-            //playerItemsUpdated
-
             dataSource = NpgsqlDataSource.Create(connectionString);
 
             NpgsqlCommand cmdGetScraps = dataSource.CreateCommand($@"
@@ -281,57 +306,7 @@ namespace RepositoryPattern
                 return false;
             }
             return true;
-        }
-
-        //    else if (sell)
-        //    {
-        //        NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
-        //INSERT INTO weapon (name, damage, price)
-
-        //VALUES('{weaponName}', {damage}, {price})
-        //");
-
-        //        NpgsqlCommand cmdDeleteFromTable = dataSource.CreateCommand($@"
-        //DELETE FROM inventory
-        //WHERE weapon_name = '{weaponName}'
-        //");
-
-        //        NpgsqlCommand cmdUpdateScrapAmount = dataSource.CreateCommand($@"
-        //UPDATE player
-        //SET scrap_amount = scrap_amount + {price}
-        //");
-
-        //        cmdSellWeapon.ExecuteNonQuery();
-        //        cmdDeleteFromTable.ExecuteNonQuery();
-        //        cmdUpdateScrapAmount.ExecuteNonQuery();
-        //    }
-        //}
-
-        //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
-        //private void CollectScrap()
-        //{
-        //    if (interact)
-        //    {
-        //        NpgsqlCommand cmdCollectScrap = dataSource.CreateCommand($@"
-        //    UPDATE player
-        //    SET scrap_amount = scrap_amount + {scrapDropped}
-        //    ");
-
-        //        cmdCollectScrap.ExecuteNonQuery();
-        //    }
-        //}
-
-        //NÅR EN FEJENDE ER BESEJRET_________________________________________________________________________________
-        //private void EnemyDefeated()
-        //{
-        //    NpgsqlCommand cmdEnemyDefeated = dataSource.CreateCommand($@"
-        //    UPDATE bestiary
-        //    SET defeated = defeated + 1
-        //    WHERE name = {ENEMYNAME}
-        //    ");
-
-        //    cmdEnemyDefeated.ExecuteNonQuery();
-        //}      
+        } 
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
         public void SortTables()
@@ -358,7 +333,9 @@ namespace RepositoryPattern
             Console.WriteLine("You've been sorted mate");
         }
 
-        //VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
+        /// <summary>
+        /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
+        /// </summary>
         private void ShowBestiary()
         {
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
@@ -372,48 +349,10 @@ namespace RepositoryPattern
             }
         }
 
-        public Tuple<int, string> CreateNewShop(int weaponID)
-        {
-            dataSource = NpgsqlDataSource.Create(connectionString);
-            NpgsqlCommand cmdFindWeapons = dataSource.CreateCommand($"SELECT weapon_id, name FROM weapon " +
-                                                     $"WHERE (weapon_id = '{weaponID}')");
-            NpgsqlDataReader reader = cmdFindWeapons.ExecuteReader();
-            Tuple<int, string> list = null;
-
-            while (reader.Read())
-            {
-                list = new Tuple<int, string>((int)reader.GetValue(0), reader.GetValue(1).ToString());
-                weaponID = (int)reader.GetValue(0);
-                charName = reader.GetValue(1).ToString();
-
-            }
-            reader.Close();
-
-            NpgsqlCommand cmdSellWeapon = dataSource.CreateCommand($@"
-        INSERT INTO trades (weapon_id, name)
-
-        VALUES('{weaponID}', '{charName}')
-        ");
-
-            return list;
-
-        }
-
-        public void ResetShop()
-        {
-            NpgsqlCommand cmdDropTradesTable = dataSource.CreateCommand(@"
-            DROP TABLE trades;
-            ");
-            cmdDropTradesTable.ExecuteNonQuery();
-
-            NpgsqlCommand cmdCreateTradesTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS trades (
-                    name VARCHAR(255) REFERENCES arms_dealer(name),
-                    weapon_ID INT REFERENCES weapon(weapon_id)
-                );");
-            cmdCreateTradesTable.ExecuteNonQuery();
-        }
-
+        /// <summary>
+        /// Returnere et våben navn, som kan oprettes 
+        /// </summary>
+        /// <returns>Returnere et våben navn, som kan oprettes</returns>
         public string AddToInventory()
         {
             dataSource = NpgsqlDataSource.Create(connectionString);

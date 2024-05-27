@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace CommandPattern
 {
-
+    /// <summary>
+    /// Command for at få spilleren til at bevæge sig
+    /// </summary>
     internal class MoveCommand : ICommand
     {
         private Player player;

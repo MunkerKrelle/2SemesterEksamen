@@ -1,5 +1,4 @@
 ﻿using _2SemesterEksamen;
-using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,20 +6,26 @@ using System.Diagnostics;
 
 namespace ComponentPattern
 {
-    public enum BUTTONTYPE { UI, SHOP}
+    /// <summary>
+    /// Klasse for at oprette knapper der kan trykkes på og kører derefter en funktion
+    /// </summary>
     public class Button : Component
     {
         private Vector2 minPosition;
         private Vector2 maxPosition;
         private SpriteRenderer sr;
         private Vector2 buttonPosition;
-        private Rectangle rectangleForButtons;
-        private Color colorCode = Color.White;
-        private Vector2 originSprite, originText;
+        private Vector2 originText;
         public bool active = true;
         string buttonText;
         public Action buttonAction;
 
+        /// <summary>
+        /// Opretter en knap man kan trykke på med musen som kan kører en Action
+        /// </summary>
+        /// <param name="buttonPosition">Knappens position på skærmen</param>
+        /// <param name="buttonText">Tekst der bliver skrevet på knappen</param>
+        /// <param name="buttonFunction">Hvilken function der bliver kørt når knappen bliver trykket</param>
         public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Action buttonAction) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
@@ -34,6 +39,10 @@ namespace ComponentPattern
             MousePressed();
             PositionUpdate();
         }
+
+        /// <summary>
+        /// Opdatere positionen af boundaries hvor knappen kan trykkes på
+        /// </summary>
         public void PositionUpdate()
         {
             minPosition.X = GameObject.Transform.Position.X - (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
@@ -46,9 +55,11 @@ namespace ComponentPattern
             Debug.WriteLine("button started");
             sr = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             GameObject.Transform.Position = buttonPosition;
-            //PositionUpdate();
-
         }
+
+        /// <summary>
+        /// Chekker om mussen er inden for knappes boundaries
+        /// </summary>
         public void MouseOnButton()
         {
             if (GameWorld.mouseState.X > minPosition.X && GameWorld.mouseState.Y > minPosition.Y && GameWorld.mouseState.X < maxPosition.X && GameWorld.mouseState.Y < maxPosition.Y)
@@ -60,6 +71,10 @@ namespace ComponentPattern
                 GameObject.Transform.Color = Color.White;
             }
         }
+
+        /// <summary>
+        /// Hvis mussen er på knappens boundaries og bliver trykket på, invoker den knappens Action
+        /// </summary>
         public void MousePressed()
         {
             if (GameWorld.isPressed == true)
@@ -72,6 +87,7 @@ namespace ComponentPattern
             }
 
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 fontLength = GameWorld.font.MeasureString(buttonText);

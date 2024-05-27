@@ -1,12 +1,11 @@
 ﻿using ComponentPattern;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandPattern
 {
+    /// <summary>
+    /// Command for at interagere med andre GameObjects - bliver ikke brugt endnu
+    /// </summary>
     internal class InteractCommand : ICommand
     {
         private Player player;

@@ -1,11 +1,12 @@
-﻿using System;
-using ComponentPattern;
+﻿using ComponentPattern;
 using Microsoft.Xna.Framework;
-using static ComponentPattern.Button;
+using System;
 
 namespace FactoryPattern
 {
-
+    /// <summary>
+    /// Fabrik der bygger knapper med forskellige parametre
+    /// </summary>
     class ButtonFactory : Factory
     {
         private static ButtonFactory instance;
@@ -22,12 +23,13 @@ namespace FactoryPattern
             }
         }
 
-        public delegate void ButtonFunctionWeapon(Weapon weapon);
-
-        public delegate void ButtonFunction();
-
-
-
+        /// <summary>
+        /// Bygger en ny knap til GameWorld
+        /// </summary>
+        /// <param name="buttonPosition">Knappes position</param>
+        /// <param name="buttonText">Hvilken tekst der skal stå på knappen</param>
+        /// <param name="actionFunction">Hvilken Action der skal køre når knappen bliver trykket på</param>
+        /// <returns></returns>
         public GameObject Create(Vector2 buttonPosition, string buttonText, Action actionFunction)
         {
             GameObject go = new GameObject();
@@ -39,6 +41,10 @@ namespace FactoryPattern
             return go;
         }
 
+        /// <summary>
+        /// Default create til interface
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create()
         {
             GameObject go = new GameObject();

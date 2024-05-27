@@ -1,17 +1,11 @@
-﻿using System;
-using ComponentPattern;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComponentPattern;
 using RepositoryPattern;
-using System.Windows.Markup;
-using System.Drawing.Text;
 
 namespace FactoryPattern
 {
-    public enum WEAPONTYPE { WRENCH, STEELBAT, KATANA, LIGHTSABER }
-
+    /// <summary>
+    /// Fabrik til opbygning af våben
+    /// </summary>
     class ItemFactory : Factory
     {
         private static ItemFactory instance;
@@ -33,34 +27,11 @@ namespace FactoryPattern
 
         private GameObject prototype;
 
-        //public GameObject Create(WEAPONTYPE type)
-
-        //{
-        //    GameObject go = new GameObject();
-        //    var itemValues = database.ReturnValues("wrench");
-
-        //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-
-        //    switch (type)
-        //    {
-        //        case WEAPONTYPE.WRENCH:
-        //            sr.SetSprite(itemValues[0].Item1);
-        //            go.AddComponent<Weapon>(itemValues[0].Item2, itemValues[0].Item3);
-        //            break;
-        //        case WEAPONTYPE.STEELBAT:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.KATANA:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.LIGHTSABER:
-        //            sr.SetSprite("");
-        //            break;
-        //    }
-
-        //    return go;
-        //}
-
+        /// <summary>
+        /// Bygger et nyt våben i forhold til våbnes navn og finder det i databasen
+        /// </summary>
+        /// <param name="weaponType">Navnet på våbnet, så det kan finde i databasen</param>
+        /// <returns></returns>
         public GameObject Create(string weaponType)
         {
             GameObject go = new GameObject();
@@ -74,6 +45,11 @@ namespace FactoryPattern
             return go;
         }
 
+        /// <summary>
+        /// Bygger et nyt våben i forhold til våbnes ID og finder det i databasen
+        /// </summary>
+        /// <param name="weaponID">ID på våbnet, så det kan finde i databasen</param>
+        /// <returns></returns>
         public GameObject Create(int weaponID)
         {
             GameObject go = new GameObject();
@@ -87,18 +63,10 @@ namespace FactoryPattern
             return go;
         }
 
-        public GameObject Create(string weaponName, int weaponDmg, int weaponPrice)
-        {
-            GameObject go = new GameObject();
-
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(weaponName);
-            go.Transform.Layer = 0.7f;
-            go.AddComponent<Weapon>(weaponName, weaponDmg, weaponPrice);
-
-            return go;
-        }
-
+        /// <summary>
+        /// Default create til fabrik interface
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create()
         {
             GameObject go = new GameObject();

@@ -1,14 +1,8 @@
 ﻿using _2SemesterEksamen;
-using CommandPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.XInput;
 using StatePattern;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace ComponentPattern
 {

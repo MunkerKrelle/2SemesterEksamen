@@ -1,17 +1,14 @@
-﻿using System;
+﻿using _2SemesterEksamen;
 using ComponentPattern;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using System.Threading;
-using _2SemesterEksamen;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 
 namespace FactoryPattern
 {
+    /// <summary>
+    /// Fabrik til af lave specifikke fjender, hvis vi også vil have forskellige slags fjender
+    /// </summary>
     class EnemyFactory : Factory
     {
         private static EnemyFactory instance;
@@ -32,6 +29,10 @@ namespace FactoryPattern
             }
         }
 
+        /// <summary>
+        /// Bygger enemies med sprites, animationer og collider
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create() 
         {
             GameObject go = new GameObject();
@@ -47,13 +48,15 @@ namespace FactoryPattern
             animator.AddAnimation(BuildAnimation("CyborgMove", new string[] { "Cyborg/CyborgMove/Cyborg_Move1", "Cyborg/CyborgMove/Cyborg_Move2", "Cyborg/CyborgMove/Cyborg_Move3", "Cyborg/CyborgMove/Cyborg_Move4", "Cyborg/CyborgMove/Cyborg_Move5", "Cyborg/CyborgMove/Cyborg_Move6" }));
             animator.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "Cyborg/CyborgAttack/Cyborg_Attack1", "Cyborg/CyborgAttack/Cyborg_Attack2", "Cyborg/CyborgAttack/Cyborg_Attack3", "Cyborg/CyborgAttack/Cyborg_Attack4", "Cyborg/CyborgAttack/Cyborg_Attack5", "Cyborg/CyborgAttack/Cyborg_Attack6" }));
 
-            //Enemy meGo = (Enemy)go.GetComponent<Enemy>();
-            //Thread enemyThread = new Thread(meGo.SearchForPlayer);
-            //enemyThread.IsBackground = true;
-            //enemyThread.Start();
-
             return go;
         }
+
+        /// <summary>
+        /// Bygger animationer, som enemies kan kører
+        /// </summary>
+        /// <param name="animationName">Navnet på animationen, så man nemt kan genbruge den</param>
+        /// <param name="spriteNames">Hvilke sprites animation skal indeholde</param>
+        /// <returns></returns>
         private Animation BuildAnimation(string animationName, string[] spriteNames)
         {
             Texture2D[] sprites = new Texture2D[spriteNames.Length];

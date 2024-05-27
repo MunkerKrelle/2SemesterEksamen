@@ -1,12 +1,10 @@
-﻿using System;
-using ComponentPattern;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComponentPattern;
 
 namespace FactoryPattern
 {
+    /// <summary>
+    /// Factory interface
+    /// </summary>
     public abstract class Factory
     {
         public abstract GameObject Create();

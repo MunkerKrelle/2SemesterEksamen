@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using ComponentPattern;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using ComponentPattern;
-using _2SemesterEksamen;
 
 namespace BuilderPattern
 {
@@ -25,19 +22,15 @@ namespace BuilderPattern
 
             BuildComponents();
         }
-        
+
         private void BuildComponents()
         {
             gameObject.AddComponent<ArmsDealer>();
             gameObject.AddComponent<SpriteRenderer>();
             gameObject.AddComponent<Collider>();
             Inventory inventory = gameObject.AddComponent<Inventory>();
-            // Animator animator = gameObject.AddComponent<Animator>();
-
         }
-        //    Animation animation = new Animation(animationName, sprites, 5);
 
-        //    return animation;
         //}
         /// <summary>
         /// Metode til at få det færdigbyggede Arms Dealer GameObject.

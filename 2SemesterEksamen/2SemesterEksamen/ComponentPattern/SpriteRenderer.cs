@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ComponentPattern
 {
+    /// <summary>
+    /// Indlæse hvilket sprite et GameObject har
+    /// </summary>
     class SpriteRenderer : Component
     {
         public SpriteRenderer(GameObject gameObject) : base(gameObject)
