@@ -431,9 +431,16 @@ namespace RepositoryPattern
 
         }
 
-        public void RemoveFromInventory()
+        public int UpdateScraps()
         {
-
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdUpdateScraps = dataSource.CreateCommand($@"SELECT scrap_amount FROM player WHERE (name = 'TestPlayer')");
+            NpgsqlDataReader reader = cmdUpdateScraps.ExecuteReader();
+            while (reader.Read())
+            {
+                scrapAmount = (int)reader.GetValue(0);
+            }
+            return scrapAmount;
         }
     }
 }

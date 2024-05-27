@@ -18,10 +18,14 @@ namespace ComponentPattern
     {
         private float speed;
         protected int health;
+        public int damage;
+        private int currentInvSlot;
+        private int scraps;
+        Animator animator;
+        Inventory inventory;
+        Database database = new Database();
 
         bool isAlive = true;
-        public Animator animator;
-        public Inventory inventory;
 
         /// <summary>
         /// Får eller sætter spillerens sundhed. Hvis sundheden når 0 eller derunder, vil spilleren dø.
@@ -69,11 +73,21 @@ namespace ComponentPattern
 
             if (velocity.X > 0)
             {
-                animator.PlayAnimation("Right");
+                animator.PlayAnimation("PlayerMove");
+                GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                if (inventory.weaponsList.Count > 0)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                }
             }
             else if (velocity.X < 0)
             {
-                animator.PlayAnimation("Left");
+                animator.PlayAnimation("PlayerMove");
+                GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                if (inventory.weaponsList.Count > 0)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                }
             }
         }
 
@@ -84,13 +98,12 @@ namespace ComponentPattern
         {
             speed = 100;
             health = 100;
+            scraps = database.UpdateScraps();
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            inventory.Active = true;
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
-        }
+            inventory.Active = true;        }
 
         /// <summary>
         /// Flytter spilleren ved at tilføje en vektor til spillerens nuværende position.
@@ -118,7 +131,54 @@ namespace ComponentPattern
         /// <param name="gameTime">Spillets tid, der er gået siden sidste opdatering.</param>
         public override void Update(GameTime gameTime)
         {
-            inventory.weaponsList[0].GameObject.Transform.Position = GameObject.Transform.Position;
+            if (currentInvSlot >= inventory.weaponsList.Count)
+            {
+                currentInvSlot = 0;
+            }
+
+            if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name != "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 0.5f;
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = GameObject.Transform.Position;
+            }
+            else if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name == "Attack")
+            {
+                inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 1f;
+                if (inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect == SpriteEffects.None)
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+                }
+                else
+                {
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X - (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
+                }
+            }
+
+            if (Database.playerItemsUpdated == true)
+            {
+                //if (inventory.weaponsList.Count > 0)
+                //{
+                //   // GameWorld.Instance.Destroy(inventory.weaponsList[currentInvSlot].GameObject);
+                //    //inventory.weaponsList.RemoveAt(currentInvSlot);
+                //    if (currentInvSlot > inventory.weaponsList.Count)
+                //    {
+                //        currentInvSlot = 0;
+                //    }
+                //}
+                scraps = database.UpdateScraps();
+                inventory.AddItem(database.AddToInventory());
+                Database.playerItemsUpdated = false;
+
+            }
+        }
+
+        public void ChangeItem()
+        {
+            foreach (var item in inventory.weaponsList)
+            {
+                item.GameObject.Transform.Position = new Vector2(-100, -100);
+            }
+            currentInvSlot++;
         }
 
         /// <summary>
@@ -126,10 +186,14 @@ namespace ComponentPattern
         /// </summary>
         public void Attack()
         {
-            Inventory inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            if (inventory.weaponsList.Count >= 0)
+            animator.PlayAnimation("Attack");
+            if (inventory.weaponsList.Count > 0)
             {
-                animator.PlayAnimation("Attack");
+                damage = 1 + inventory.weaponsList[currentInvSlot].Damage;
+            }
+            else
+            {
+                damage = 1;
             }
 
         }
@@ -142,9 +206,13 @@ namespace ComponentPattern
         {
             Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
-            if (enemy != null)
+            if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
             {
-                enemy.Health -= 5;
+                enemy.Health -= damage;
+            }
+            else if (enemy != null)
+            {
+                health -= 5;
             }
 
             base.OnCollisionEnter(col);
@@ -176,5 +244,12 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(300, 300);
             GameWorld.Instance.Instantiate(GameObject);
         }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(GameWorld.font, $"Health: {health}\nPlayer Scraps: {scraps}", new Vector2(1100, 50), Color.Black);
+        }
+
+
     }
 }

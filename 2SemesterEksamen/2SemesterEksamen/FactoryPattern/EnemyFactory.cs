@@ -36,7 +36,7 @@ namespace FactoryPattern
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             go.Transform.Position = new Vector2(0, 0);
-            sr.SetSprite("Robot1"); 
+            sr.SetSprite("Cyborg/CyborgIdle/Cyborg_Idle1"); 
             go.Transform.Layer = 0.9f;
             go.AddComponent<Enemy>();
             go.AddComponent<Collider>();
