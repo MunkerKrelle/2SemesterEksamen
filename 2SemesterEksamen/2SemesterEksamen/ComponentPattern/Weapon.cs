@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using _2SemesterEksamen;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using RepositoryPattern;
 
 namespace ComponentPattern

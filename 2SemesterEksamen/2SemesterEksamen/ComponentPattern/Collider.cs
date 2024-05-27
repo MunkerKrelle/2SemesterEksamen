@@ -80,7 +80,7 @@ namespace ComponentPattern
         }
         public override void Update(GameTime gameTime)
         {
-            //UpdatePixelCollider();
+            UpdatePixelCollider();
         }
         public override void Start()
         {
