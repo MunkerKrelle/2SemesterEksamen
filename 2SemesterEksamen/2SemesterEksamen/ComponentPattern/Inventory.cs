@@ -1,6 +1,7 @@
 ﻿using _2SemesterEksamen;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace ComponentPattern
@@ -60,16 +61,15 @@ namespace ComponentPattern
             }
         }
 
-        //public override void Draw(SpriteBatch spriteBatch)
-        //{
-        //    if (Active)
-        //    {
-        //        SpriteFont font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
-        //        for (int i = 0; i < weaponsList.Count; i++)
-        //        {
-        //            spriteBatch.DrawString(font, $"{weaponsList[i].Name}\nDamage: {weaponsList[i].Damage}\nScraps: {weaponsList[i].Price}", new Vector2(weaponsList[i].GameObject.Transform.Position.X - 50, weaponsList[i].GameObject.Transform.Position.Y + 50), Color.White);
-        //        }
-        //    }
-        //}
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (Active)
+            {
+                for (int i = 0; i < weaponsList.Count; i++)
+                {
+                    spriteBatch.DrawString(GameWorld.font, $"{weaponsList[i].Name}\nDamage: {weaponsList[i].Damage}\nScraps: {weaponsList[i].Price}", new Vector2(weaponsList[i].GameObject.Transform.Position.X - 48, weaponsList[i].GameObject.Transform.Position.Y + 50), Color.Black, 0f, new Vector2 (0,0), 1f, SpriteEffects.None, 1f) ;
+                }
+            }
+        }
     }
 }

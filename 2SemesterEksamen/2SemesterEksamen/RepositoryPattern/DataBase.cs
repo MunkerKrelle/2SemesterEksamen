@@ -18,7 +18,7 @@ namespace RepositoryPattern
         private readonly IRepository repository;
         public static bool playerItemsUpdated = false;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=sargon;Database=eksamen";
+        private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
 
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
@@ -427,9 +427,16 @@ namespace RepositoryPattern
             return weaponName;
         }
 
-        public void RemoveFromInventory()
+        public int UpdateScraps()
         {
-
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdUpdateScraps = dataSource.CreateCommand($@"SELECT scrap_amount FROM player WHERE (name = 'TestPlayer')");
+            NpgsqlDataReader reader = cmdUpdateScraps.ExecuteReader();
+            while (reader.Read())
+            {
+                scrapAmount = (int)reader.GetValue(0);
+            }
+            return scrapAmount;
         }
     }
 }

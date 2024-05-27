@@ -16,6 +16,7 @@ namespace ComponentPattern
         protected int health;
         public int damage;
         private int currentInvSlot;
+        private int scraps;
         Animator animator;
         Inventory inventory;
         Database database = new Database();
@@ -93,6 +94,7 @@ namespace ComponentPattern
         {
             speed = 100;
             health = 100;
+            scraps = database.UpdateScraps();
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
             GameObject.Transform.Scale = new Vector2(3f, 3f);
@@ -159,6 +161,7 @@ namespace ComponentPattern
                 //        currentInvSlot = 0;
                 //    }
                 //}
+                scraps = database.UpdateScraps();
                 inventory.AddItem(database.AddToInventory());
                 Database.playerItemsUpdated = false;
 
@@ -237,5 +240,12 @@ namespace ComponentPattern
             GameObject.Transform.Position = new Vector2(300, 300);
             GameWorld.Instance.Instantiate(GameObject);
         }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(GameWorld.font, $"Health: {health}\nPlayer Scraps: {scraps}", new Vector2(1100, 50), Color.Black);
+        }
+
+
     }
 }
