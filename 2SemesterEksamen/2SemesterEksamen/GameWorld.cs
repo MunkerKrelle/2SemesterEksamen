@@ -32,7 +32,7 @@ namespace _2SemesterEksamen
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
         private static List<Button> buttons = new List<Button>();
-        Button specificButton;
+        private GameObject specificButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
@@ -293,7 +293,29 @@ namespace _2SemesterEksamen
             index = 0;
             enemy.startAstarBool = true;
         }
-    
+        public void CreateRespawnButton()
+        {
+            specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
+            Instantiate(specificButton);
+        }
+
+        private void RespawnPlayer()
+        {
+            Director director = new Director(new PlayerBuilder());
+            GameObject playerGo = director.Construct();
+            Player player = playerGo.GetComponent<Player>() as Player;
+            player.Respawn();
+            InputHandler.Instance.ClearCommands();
+
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
+            InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
+            Destroy(specificButton);
+
+        }
         private void Cleanup()
         {
             // Adding newly instantiated GameObjects

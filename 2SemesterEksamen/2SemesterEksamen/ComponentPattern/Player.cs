@@ -10,7 +10,7 @@ namespace ComponentPattern
     /// <summary>
     /// Repræsenterer spillerkomponenten, der styrer spillerens bevægelser, animationer og interaktioner.
     /// </summary>
-    class Player : Component
+    public class Player : Component
     {
         private float speed;
         protected int health;
@@ -18,7 +18,7 @@ namespace ComponentPattern
         private int currentInvSlot;
         private int scraps;
         Animator animator;
-        Inventory inventory;
+        public Inventory inventory;
         Database database = new Database();
 
         bool isAlive = true;
@@ -93,7 +93,7 @@ namespace ComponentPattern
         public override void Awake()
         {
             speed = 100;
-            health = 100;
+            health = 10000;
             scraps = database.UpdateScraps();
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("Idle");
@@ -206,10 +206,7 @@ namespace ComponentPattern
             {
                 enemy.Health -= damage;
             }
-            else if (enemy != null)
-            {
-                health -= 5;
-            }
+
 
             base.OnCollisionEnter(col);
         }
@@ -227,8 +224,8 @@ namespace ComponentPattern
         /// </summary>
         private void Die()
         {
-            GameWorld.Instance.CreateRespawnButton();
-            GameWorld.Instance.Destroy(GameObject);
+            GameWorld.Instance.CreateRespawnButton(); 
+            GameWorld.Instance.Destroy(GameObject);  
         }
 
         /// <summary>
@@ -236,7 +233,7 @@ namespace ComponentPattern
         /// </summary>
         public void Respawn()
         {
-            Health = 100;
+            Health = 10000;
             GameObject.Transform.Position = new Vector2(300, 300);
             GameWorld.Instance.Instantiate(GameObject);
         }
