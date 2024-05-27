@@ -17,6 +17,7 @@
     <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="StatePattern\" />
     <Folder Include="RepositoryPattern\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

@@ -9,14 +9,21 @@ namespace CommandPattern
 {
     internal class InventoryCommand : ICommand
 {
-        private Player player;
-        public InventoryCommand(Player player)
+        private Inventory inventory;
+        public InventoryCommand(Inventory inventory)
         {
-            this.player = player;
+            this.inventory = inventory;
         }
         public void Execute()
         {
-            player.ChangeItem();
+            //inventory.LoadItems();
+            //if (inventory.Active)
+            //{
+            //    inventory.Active = false;
+            //} else
+            //{
+            //    inventory.Active = true;
+            //}
         }
 
         public void Undo()

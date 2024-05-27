@@ -1,7 +1,14 @@
 ﻿using _2SemesterEksamen;
+using CommandPattern;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using RepositoryPattern;
+using SharpDX.Win32;
+using System;
+using System.DirectoryServices;
+
 
 namespace ComponentPattern
 {

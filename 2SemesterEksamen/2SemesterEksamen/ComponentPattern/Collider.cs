@@ -71,16 +71,16 @@ namespace ComponentPattern
             {
                 return new Rectangle
                     (
-                        (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width * GameObject.Transform.Scale.X / 2),
-                        (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height * GameObject.Transform.Scale.Y / 2),
-                        spriteRenderer.Sprite.Width * (int)GameObject.Transform.Scale.X,
-                        spriteRenderer.Sprite.Height * (int)GameObject.Transform.Scale.Y
+                        (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
+                        (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
+                        spriteRenderer.Sprite.Width,
+                        spriteRenderer.Sprite.Height
                     );
             }
         }
         public override void Update(GameTime gameTime)
         {
-            //UpdatePixelCollider();
+            UpdatePixelCollider();
         }
         public override void Start()
         {
@@ -126,7 +126,7 @@ namespace ComponentPattern
             public RectangleData(int x, int y)
             {
                 this.Rectangle = new Rectangle();
-                this.X = x ;
+                this.X = x;
                 this.Y = y;
             }
 

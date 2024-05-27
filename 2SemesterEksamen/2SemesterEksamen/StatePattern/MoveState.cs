@@ -18,7 +18,7 @@ namespace StatePattern
         }
         public void Execute()
         {
-            parrent.SearchForPlayer();
+
         }
         public void Exit()
         {

@@ -87,18 +87,6 @@ namespace FactoryPattern
             return go;
         }
 
-        public GameObject Create(string weaponName, int weaponDmg, int weaponPrice)
-        {
-            GameObject go = new GameObject();
-
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(weaponName);
-            go.Transform.Layer = 0.7f;
-            go.AddComponent<Weapon>(weaponName, weaponDmg, weaponPrice);
-
-            return go;
-        }
-
         public override GameObject Create()
         {
             GameObject go = new GameObject();
