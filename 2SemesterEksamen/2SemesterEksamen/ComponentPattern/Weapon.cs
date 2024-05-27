@@ -7,12 +7,14 @@ using System.Windows.Forms;
 using _2SemesterEksamen;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
+using RepositoryPattern;
 
 namespace ComponentPattern
 {
     public class Weapon : Component
     {
         public GameObject button;
+        private Database database = new Database();
         private string name;
         private int damage, price;
         public string Name { get { return name; } }
@@ -26,16 +28,17 @@ namespace ComponentPattern
             this.price = price;
         }
 
-        public override void Awake()
+        public void CreateButtons()
         {
-            button = ButtonFactory.Instance.Create(GameObject.Transform.Position, Name, () => Sell());
+            button = ButtonFactory.Instance.Create(GameObject.Transform.Position, Name, () => Buy());
             GameWorld.Instance.Instantiate(button);
             button.Transform.Scale = new Vector2(0.2f, 0.4f);
             button.Transform.Color = Color.Black;
         }
 
-        public void Sell()
+        public void Buy()
         {
+            database.TradeWeapon(GameObject.GetComponent <Weapon>() as Weapon);
             GameWorld.Instance.Destroy(button);
             GameWorld.Instance.Destroy(GameObject);
         }

@@ -19,7 +19,7 @@ namespace StatePattern
         }
         public void Execute()
         {
-
+            parrent.animator.PlayAnimation("CyborgAttack");
         }
         public void Exit()
         {

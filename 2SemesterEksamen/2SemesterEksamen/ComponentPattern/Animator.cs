@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ComponentPattern
 {
-    class Animator : Component
+    public class Animator : Component
     {
         public int CurrentIndex { get; private set; }
 
@@ -17,10 +17,10 @@ namespace ComponentPattern
 
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
-        private Animation currentAnimation;
+        public Animation currentAnimation {  get; private set; }
 
         public Animator(GameObject gameObject) : base(gameObject)
-        {            
+        {
         }
 
         public override void Start()
@@ -38,7 +38,10 @@ namespace ComponentPattern
             {
                 timeElapsed = 0;
                 CurrentIndex = 0;
-                PlayAnimation("Idle");
+                if (GameObject.GetComponent<Player>() != null)
+                {
+                    PlayAnimation("Idle");
+                }
             }
             spriteRenderer.Sprite = currentAnimation.Sprites[CurrentIndex];
             base.Update(gameTime);

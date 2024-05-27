@@ -1,12 +1,14 @@
 ﻿using _2SemesterEksamen;
+using CommandPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1;
+using SharpDX.XInput;
 using StatePattern;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ComponentPattern
 {
@@ -19,10 +21,15 @@ namespace ComponentPattern
             get { return enemyhealth; }
             set { enemyhealth = value; }
         }
-        private bool startAstarBool = false;
+        public bool startAstarBool = true;
+        private Point EnemyPointPosition;
         private Point targetPointPos;
+        private float enemyTimer;
+        private float timeElapsed2;
+        public Animator animator;
 
         public Vector2 velocity = new Vector2(0, 1);
+        static readonly object DamagePlayerLock = new object();
         public Enemy(GameObject gameObject) : base(gameObject)
         {
             enemyhealth = 100;
@@ -32,9 +39,32 @@ namespace ComponentPattern
         float timeSinceLastSwitch;
         float changeTime = 1f;
 
+        public override void Awake()
+        {
+            GameObject.Transform.Scale = new Vector2(3f, 3f);
+            animator = GameObject.GetComponent<Animator>() as Animator;
+            animator.PlayAnimation("CyborgIdle");
+        }
+        public override void Start()
+        {
+            GameObject.Transform.Position = new Vector2(500, 500);
+        }
+
         public override void Update(GameTime gameTime)
         {
-            SearchForPlayer();
+            //if (Player is dead)
+            //{
+            //    ChangeState(new IdleState());
+            //}
+            //else if (Player is not close)
+            //{
+            //    ChangeState(new MoveState());
+            //}
+            //else if (Player is close)
+            //{
+            //    ChangeState(new AttackState());
+            //}
+
             if (Health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
@@ -67,26 +97,33 @@ namespace ComponentPattern
         public void SearchForPlayer()
         {
             //RUN ASTAR
-
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.G) && (startAstarBool == false))
+            if (startAstarBool == true)
             {
-                startAstarBool = true;
-                Point player1 = new Point(5, 5);
-                Point player2 = new Point(targetPointPos.X, targetPointPos.Y); 
-                GameWorld.targetPointList.Add(player1);
-                GameWorld.targetPointList.Add(player2);
+                startAstarBool = false;
+                EnemyPointPosition = GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position);
+                //Thread.Sleep(100);
+                GetPlayerPosition(GameWorld.Instance.GameObjects[0].Transform.VectorToPointConverter(GameWorld.Instance.GameObjects[0].Transform.Position));
+                Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
+                Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
+
+                if (GameWorld.Instance.targetPointList.Count == 2)
+                {
+                    GameWorld.Instance.targetPointList.Clear();
+                }
+
+                if (GameWorld.Instance.targetPointList.Count < 2) 
+                {
+                    GameWorld.Instance.targetPointList.Add(enemy1);
+                    GameWorld.Instance.targetPointList.Add(player1);
+                }
+
                 Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
-                //Thread.Sleep(1000);
-            }
 
-            if (keyState.IsKeyDown(Keys.H)) 
-            {
-                startAstarBool = false;
-                GameWorld.targetPointList.Clear();
+                //Thread.Sleep(1000);
             }
             //IF DISTANCE < WHATEVER
             //{
@@ -97,9 +134,13 @@ namespace ComponentPattern
         private void AttackPlayer()
         {
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
+            lock (DamagePlayerLock)
+            {
+               //insert attack code here to remove health.
+            }
         }
 
-        public void GetPlayerPosition(Point playerPoint) 
+        public void GetPlayerPosition(Point playerPoint)
         {
             targetPointPos = playerPoint;
         }
