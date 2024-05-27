@@ -18,7 +18,7 @@ namespace RepositoryPattern
         private readonly IRepository repository;
         public static bool playerItemsUpdated = false;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=Cqw52and;Database=postgres";
+        private string connectionString = "Host=localhost;Username=postgres;Password=sargon;Database=eksamen";
 
         private string charName, weaponName;
         private int health, scrapAmount, damage, price, scrapDropped, defeated;

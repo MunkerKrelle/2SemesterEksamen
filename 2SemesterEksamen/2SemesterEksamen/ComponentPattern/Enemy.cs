@@ -65,6 +65,15 @@ namespace ComponentPattern
             //    ChangeState(new AttackState());
             //}
 
+            enemyTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timeElapsed2 += enemyTimer;
+
+            if (timeElapsed2 >= 1f)
+            {
+                SearchForPlayer();
+                timeElapsed2 = 0;
+            }
+
             if (Health < 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
