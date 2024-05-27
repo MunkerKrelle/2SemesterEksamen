@@ -32,7 +32,6 @@ namespace ComponentPattern
         static readonly object DamagePlayerLock = new object();
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-            enemyhealth = 100;
             //ChangeState();
         }
 
@@ -41,6 +40,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
+            Health = 100;
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("CyborgIdle");
@@ -74,7 +74,7 @@ namespace ComponentPattern
                 timeElapsed2 = 0;
             }
 
-            if (Health < 0)
+            if (Health <= 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
             }
