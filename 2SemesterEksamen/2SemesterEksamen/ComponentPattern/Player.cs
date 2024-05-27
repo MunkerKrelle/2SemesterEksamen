@@ -200,7 +200,6 @@ namespace ComponentPattern
         /// <param name="col">Kollisionen, som spilleren er involveret i.</param>
         public override void OnCollisionEnter(Collider col)
         {
-
             Enemy enemy = (Enemy)col.GameObject.GetComponent<Enemy>();
 
             if (enemy != null && animator.currentAnimation.Name == "Attack" && animator.CurrentIndex < 3)
