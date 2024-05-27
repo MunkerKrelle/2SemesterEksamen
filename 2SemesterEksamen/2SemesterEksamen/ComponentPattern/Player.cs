@@ -99,8 +99,7 @@ namespace ComponentPattern
             animator.PlayAnimation("Idle");
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
-            inventory.Active = true;
-        }
+            inventory.Active = true;        }
 
         /// <summary>
         /// Flytter spilleren ved at tilføje en vektor til spillerens nuværende position.
