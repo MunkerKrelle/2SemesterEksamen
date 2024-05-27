@@ -4,18 +4,10 @@ using CommandPattern;
 using ComponentPattern;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
-using StatePattern;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace _2SemesterEksamen
@@ -338,6 +330,7 @@ namespace _2SemesterEksamen
         {
             destroyedGameObjects.Add(go);
         }
+
         void CheckCollision()
         {
             foreach (GameObject go1 in gameObjects)
@@ -368,6 +361,7 @@ namespace _2SemesterEksamen
                 }
             }
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
