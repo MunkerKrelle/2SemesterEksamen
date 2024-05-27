@@ -319,7 +319,6 @@ namespace _2SemesterEksamen
         {
             specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
             Instantiate(specificButton);
-            //gameObjects.Add(specificButton);
         }
 
         private void RespawnPlayer()

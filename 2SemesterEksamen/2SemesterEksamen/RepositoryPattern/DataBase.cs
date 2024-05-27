@@ -426,9 +426,17 @@ namespace RepositoryPattern
             cmdCreateTradesTable.ExecuteNonQuery();
         }
 
-        public void AddToInventory()
+        public string AddToInventory()
         {
-
+            dataSource = NpgsqlDataSource.Create(connectionString);
+            NpgsqlCommand cmdCreateWeapons = dataSource.CreateCommand($"SELECT weapon_name FROM inventory");
+            NpgsqlDataReader reader = cmdCreateWeapons.ExecuteReader();
+            while (reader.Read())
+            {
+                weaponName = reader.GetString(0);
+            }
+            reader.Close();
+            return weaponName;
         }
 
         public int UpdateScraps()

@@ -233,8 +233,8 @@ namespace ComponentPattern
         /// </summary>
         private void Die()
         {
-            GameWorld.Instance.CreateRespawnButton(); 
-            GameWorld.Instance.Destroy(GameObject);  
+            GameWorld.Instance.CreateRespawnButton();
+            GameWorld.Instance.Destroy(GameObject);
         }
 
         /// <summary>
