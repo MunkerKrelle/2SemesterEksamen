@@ -288,6 +288,7 @@ namespace _2SemesterEksamen
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
+                    enemy.animator.PlayAnimation("CyborgMove");
                     enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
                 }
