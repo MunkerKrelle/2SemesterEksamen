@@ -20,7 +20,7 @@ namespace RepositoryPattern
         private int health, scrapAmount, damage, price, scrapDropped, defeated;
         private float speed;
         private bool buy, sell, enemyKilled;
-
+        public static bool playerItemsUpdated;
         public Database()
         {
         }

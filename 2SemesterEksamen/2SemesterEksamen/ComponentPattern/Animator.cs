@@ -17,7 +17,7 @@ namespace ComponentPattern
 
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
-        private Animation currentAnimation;
+        public Animation currentAnimation;
 
         public Animator(GameObject gameObject) : base(gameObject)
         {            

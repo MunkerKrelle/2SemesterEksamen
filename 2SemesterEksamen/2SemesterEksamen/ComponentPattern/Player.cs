@@ -1,6 +1,7 @@
 ﻿using _2SemesterEksamen;
 using CommandPattern;
 using FactoryPattern;
+using RepositoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,7 @@ namespace ComponentPattern
     /// <summary>
     /// Repræsenterer spillerkomponenten, der styrer spillerens bevægelser, animationer og interaktioner.
     /// </summary>
-    class Player : Component
+    public class Player : Component
     {
         private float speed;
         protected int health;
@@ -22,7 +23,7 @@ namespace ComponentPattern
         private int currentInvSlot;
         private int scraps;
         Animator animator;
-        Inventory inventory;
+        public Inventory inventory;
         Database database = new Database();
 
         bool isAlive = true;
@@ -74,19 +75,19 @@ namespace ComponentPattern
             if (velocity.X > 0)
             {
                 animator.PlayAnimation("PlayerMove");
-                GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                GameObject.Transform.SpriteEffects = SpriteEffects.None;
                 if (inventory.weaponsList.Count > 0)
                 {
-                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.None;
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffects = SpriteEffects.None;
                 }
             }
             else if (velocity.X < 0)
             {
                 animator.PlayAnimation("PlayerMove");
-                GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                GameObject.Transform.SpriteEffects = SpriteEffects.FlipHorizontally;
                 if (inventory.weaponsList.Count > 0)
                 {
-                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect = SpriteEffects.FlipHorizontally;
+                    inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffects = SpriteEffects.FlipHorizontally;
                 }
             }
         }
@@ -144,7 +145,7 @@ namespace ComponentPattern
             else if (inventory.weaponsList.Count != 0 && animator.currentAnimation.Name == "Attack")
             {
                 inventory.weaponsList[currentInvSlot].GameObject.Transform.Layer = 1f;
-                if (inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffect == SpriteEffects.None)
+                if (inventory.weaponsList[currentInvSlot].GameObject.Transform.SpriteEffects == SpriteEffects.None)
                 {
                     inventory.weaponsList[currentInvSlot].GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X + (animator.CurrentIndex * 8), inventory.weaponsList[currentInvSlot].GameObject.Transform.Position.Y);
                 }
