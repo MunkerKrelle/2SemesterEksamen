@@ -40,7 +40,7 @@ namespace _2SemesterEksamen
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
 
         private static List<Button> buttons = new List<Button>();
-        Button specificButton;
+        private GameObject specificButton;
 
         public static MouseState mouseState;
         public static MouseState newState;
@@ -328,6 +328,8 @@ namespace _2SemesterEksamen
         public void Instantiate(GameObject go)
         {
             newGameObjects.Add(go);
+            go.Awake();
+            go.Start();
         }
 
         /// <summary>

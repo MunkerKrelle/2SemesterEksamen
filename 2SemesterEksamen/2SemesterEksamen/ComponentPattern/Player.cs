@@ -18,7 +18,7 @@ namespace ComponentPattern
         private int currentInvSlot;
         private int scraps;
         Animator animator;
-        Inventory inventory;
+        public Inventory inventory;
         Database database = new Database();
 
         bool isAlive = true;
