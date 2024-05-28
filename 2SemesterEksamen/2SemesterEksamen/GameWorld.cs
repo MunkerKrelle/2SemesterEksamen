@@ -17,6 +17,7 @@ namespace _2SemesterEksamen
         Shop,
         Combat
     }
+
     public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -24,7 +25,7 @@ namespace _2SemesterEksamen
         private SpriteBatch _spriteBatch;
 
         private List<GameObject> gameObjects = new List<GameObject>();
-        
+
         private List<GameObject> newGameObjects = new List<GameObject>();
 
         private List<GameObject> destroyedGameObjects = new List<GameObject>();
@@ -37,8 +38,8 @@ namespace _2SemesterEksamen
         public static MouseState mouseState;
         public static MouseState newState;
         public static bool isPressed;
-        
- 
+
+
         private float timeElapsed;
         private GameState _state;
 
@@ -47,7 +48,7 @@ namespace _2SemesterEksamen
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
 
-        
+
         public List<GameObject> GameObjects
         {
             get
@@ -84,7 +85,7 @@ namespace _2SemesterEksamen
         {
             IRepository repository = new Database();
             new Database(repository).CreateDatabase();
-            
+
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
             GameObject playerGo = director.Construct();
@@ -92,8 +93,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
             GameObject database = new GameObject();
-           // database.AddComponent<UI>();
-  
+
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(player, new Vector2(0, -1)));
@@ -107,15 +107,13 @@ namespace _2SemesterEksamen
             sprites.Add("EnterShop", Content.Load<Texture2D>("EnterShop"));
             sprites.Add("ExitShop", Content.Load<Texture2D>("ExitShop"));
             CellManager cellManager = new CellManager();
-            cellManager.SetUpCells(11,11);
+            cellManager.SetUpCells(11, 11);
 
             gameObjects.Add(playerGo);
             gameObjects.Add(armsDealerGo);
             gameObjects.Add(database);
 
             gameObjects.Add(EnemyFactory.Instance.Create());
-            //gameObjects.Last().Transform.Position = new Vector2(200, 200);
-            //gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(500, 200), "Respawn", Exit));
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
 
             foreach (GameObject go in gameObjects)
@@ -148,7 +146,7 @@ namespace _2SemesterEksamen
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed += DeltaTime;
-           
+
             switch (_state)
             {
                 case GameState.Shop:
@@ -157,9 +155,6 @@ namespace _2SemesterEksamen
                 case GameState.Combat:
                     SceneCombat();
                     break;
-                    //case GameState.EndOfGame:
-                    //    UpdateEndOfGame(gameTime);
-                    //    break;
             }
 
             if (timeElapsed >= 0.3f)
@@ -167,6 +162,7 @@ namespace _2SemesterEksamen
                 InputHandler.Instance.Execute();
                 timeElapsed = 0;
             }
+
             CheckCollision();
             EnterShop();
             ExitShop();
@@ -189,12 +185,15 @@ namespace _2SemesterEksamen
 
             base.Update(gameTime);
 
-                Cleanup();
-            }
+            Cleanup();
+        }
 
-        private void EnterShop() 
+        /// <summary>
+        /// Spilleren forlader "Combat" området og går ind i shoppen
+        /// </summary>
+        private void EnterShop()
         {
-            if (gameObjects[0].Transform.Position == new Vector2(900, 100)) 
+            if (gameObjects[0].Transform.Position == new Vector2(900, 100))
             {
                 _state = GameState.Shop;
                 //background change (Done)
@@ -209,16 +208,19 @@ namespace _2SemesterEksamen
                 //UI elements come up
 
                 //Astar stops
-                Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy; 
+                Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                 enemy.startAstarBool = false;
-                enemy.GameObject.Transform.Position = new Vector2(2000,2000);
-            
+                enemy.GameObject.Transform.Position = new Vector2(2000, 2000);
+
             }
         }
 
-        private void ExitShop() 
+        /// <summary>
+        /// Spilleren forlader shoppen og går til "Combat" området
+        /// </summary>
+        private void ExitShop()
         {
-            if (_state != GameState.Combat) 
+            if (_state != GameState.Combat)
             {
                 if (gameObjects[0].Transform.Position == new Vector2(1000, 100))
                 {
@@ -239,7 +241,11 @@ namespace _2SemesterEksamen
                 }
             }
         }
-        private void SceneShop() 
+
+        /// <summary>
+        /// Skifter scene til "Shop" så våben og armsDealer loader frem
+        /// </summary>
+        private void SceneShop()
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.B))
@@ -248,6 +254,9 @@ namespace _2SemesterEksamen
             }
         }
 
+        /// <summary>
+        /// Skifter scene til "Combat" så enemies loader frem
+        /// </summary>
         private void SceneCombat()
         {
             KeyboardState keyState = Keyboard.GetState();
@@ -257,6 +266,9 @@ namespace _2SemesterEksamen
             }
         }
 
+        /// <summary>
+        /// Starter AStar for enemy, så den begynder at lede efter spilleren, hvis de findes
+        /// </summary>
         public void RunAStar()
         {
             Astar astar = new Astar(Cells);
@@ -278,25 +290,28 @@ namespace _2SemesterEksamen
                 foreach (var VARIABLE in path)
                 {
                     enemy.animator.PlayAnimation("CyborgMove");
-                    enemy.GameObject.Transform.Position = new Vector2 (VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
                 }
                 index++;
             }
 
-            if (index < targetPointList.Count)
-            {
-                RunAStar();
-            }
             index = 0;
             enemy.startAstarBool = true;
         }
+
+        /// <summary>
+        /// Laver en knap der respawner spilleren
+        /// </summary>
         public void CreateRespawnButton()
         {
             specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Respawn", RespawnPlayer);
             Instantiate(specificButton);
         }
 
+        /// <summary>
+        /// Respawn spilleren med deres componenter og inputs, da de også blev fjernet med spilleren
+        /// </summary>
         private void RespawnPlayer()
         {
             Director director = new Director(new PlayerBuilder());
@@ -336,7 +351,7 @@ namespace _2SemesterEksamen
         /// <summary>
         /// Adding GameObject to new GameObjects list
         /// </summary>
-        /// <param name="go"></param>
+        /// <param name="go">GameObject der skal instaniate</param>
         public void Instantiate(GameObject go)
         {
             newGameObjects.Add(go);
@@ -345,12 +360,15 @@ namespace _2SemesterEksamen
         /// <summary>
         /// Adding GameObject to destroyed GameObjects list
         /// </summary>
-        /// <param name="go"></param>
+        /// <param name="go">GameObject der skal slettes</param>
         public void Destroy(GameObject go)
         {
             destroyedGameObjects.Add(go);
         }
 
+        /// <summary>
+        /// Checker om 2 GameObjects rammer hinanden  
+        /// </summary>
         void CheckCollision()
         {
             foreach (GameObject go1 in gameObjects)
@@ -392,8 +410,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
-            // _spriteBatch.Draw(); //Draw background
+            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             _spriteBatch.End();
 

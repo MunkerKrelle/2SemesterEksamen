@@ -3,10 +3,10 @@ using Microsoft.VisualStuido;
 using ArmsDealer;
 using Inventory;
 using Weapon;
-using Repository;
+using Rep
 using DataBase;
 
-namespace TestProject1
+namespace TestProjectV6
 {
     [TestClass]
     public class UnitTest1

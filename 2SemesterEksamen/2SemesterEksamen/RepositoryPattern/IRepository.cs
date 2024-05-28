@@ -7,10 +7,9 @@ using ComponentPattern;
 
 namespace RepositoryPattern
 {
-    public class User
-    {
-    }
-
+    /// <summary>
+    /// Interface for repository systemer, hvis vi ville bruge forskellige servere 
+    /// </summary>
     public interface IRepository
     {
         void DropTables();
@@ -20,13 +19,19 @@ namespace RepositoryPattern
 
         bool TradeWeapon(Weapon weapon);
 
-        void SortTables();
+       //void SortTables();
 
-        public Tuple<string, int, int> ReturnValues(string weaponName);
+        Tuple<string, int, int> ReturnValues(string weaponName);
 
-        public Tuple<string, int, int> ReturnValuesWithID(int weaponID);
+        Tuple<string, int, int> ReturnValuesWithID(int weaponID);
 
+        void ShowBestiary();
+
+        string AddToInventory();
+
+        int UpdateScraps();
 
         List<BestiaryInfo> ShowBestiaryInfo();
+
     }
 }

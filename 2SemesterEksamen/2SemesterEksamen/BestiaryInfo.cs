@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace _2SemesterEksamen
 {
+    /// <summary>
+    /// Info om de forskellige monstre og npc'er
+    /// </summary>
     public class BestiaryInfo
     {
         public string name;

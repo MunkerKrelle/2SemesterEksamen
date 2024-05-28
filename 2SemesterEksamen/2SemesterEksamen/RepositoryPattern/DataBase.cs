@@ -301,42 +301,43 @@ namespace RepositoryPattern
                 cmdBuyWeapon.ExecuteNonQuery();
                 cmdUpdateScrapAmount.ExecuteNonQuery();
                 playerItemsUpdated = true;
-            } else
+            }
+            else
             {
                 return false;
             }
             return true;
-        } 
+        }
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
-        public void SortTables()
-        {
-            NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
-        SELECT * 
+        //public void SortTables()
+        //{
+        //    NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
+        //SELECT * 
 
-        FROM inventory
+        //FROM inventory
 
-        ORDER BY damage ASC
-        ");
+        //ORDER BY damage ASC
+        //");
 
-            NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
-        SELECT * 
+        //    NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
+        //SELECT * 
 
-        FROM weapon
+        //FROM weapon
 
-        ORDER BY price ASC
-        ");
+        //ORDER BY price ASC
+        //");
 
-            cmdSortInventoryTable.ExecuteNonQuery();
-            cmdSortWeaponTable.ExecuteNonQuery();
+        //    cmdSortInventoryTable.ExecuteNonQuery();
+        //    cmdSortWeaponTable.ExecuteNonQuery();
 
-            Console.WriteLine("You've been sorted mate");
-        }
+        //    Console.WriteLine("You've been sorted mate");
+        //}
 
         /// <summary>
         /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
         /// </summary>
-        private void ShowBestiary()
+        public void ShowBestiary()
         {
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
             NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -366,6 +367,10 @@ namespace RepositoryPattern
             return weaponName;
         }
 
+        /// <summary>
+        /// Opdatere hvor mange scraps spilleren har efter de har købt noget
+        /// </summary>
+        /// <returns>Retunere den nye mængde af scraps spilleren har</returns>
         public int UpdateScraps()
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
