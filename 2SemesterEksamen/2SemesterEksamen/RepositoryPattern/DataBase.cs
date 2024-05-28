@@ -17,10 +17,9 @@ namespace RepositoryPattern
         private string connectionString = "Host=localhost;Username=postgres;Password=Cqw52and;Database=postgres";
 
         //Nogle af disse er ikke blevet brugt endnu
-        private string charName, weaponName;
-        private int health, scrapAmount, damage, price, scrapDropped, defeated;
-        private float speed;
-        private bool buy, sell, enemyKilled;
+        private string weaponName;
+        private int scrapAmount;
+
 
         public Database()
         {
@@ -307,47 +306,6 @@ namespace RepositoryPattern
             }
             return true;
         } 
-
-        //VIRKER IKKE SORTER_______________________________________________________________________________________
-        public void SortTables()
-        {
-            NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
-        SELECT * 
-
-        FROM inventory
-
-        ORDER BY damage ASC
-        ");
-
-            NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
-        SELECT * 
-
-        FROM weapon
-
-        ORDER BY price ASC
-        ");
-
-            cmdSortInventoryTable.ExecuteNonQuery();
-            cmdSortWeaponTable.ExecuteNonQuery();
-
-            Console.WriteLine("You've been sorted mate");
-        }
-
-        /// <summary>
-        /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
-        /// </summary>
-        private void ShowBestiary()
-        {
-            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
-            NpgsqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Console.WriteLine($"Name: {reader.GetValue(0)}, Health: {reader.GetValue(1)}, Damage: {reader.GetValue(2)}, " +
-                    $"Speed: {reader.GetValue(3)}, Strengths: {reader.GetValue(4)}, Weaknesses: {reader.GetValue(5)}, " +
-                    $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
-            }
-        }
 
         /// <summary>
         /// Returnere et våben navn, som kan oprettes 

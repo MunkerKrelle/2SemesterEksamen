@@ -209,13 +209,6 @@ namespace ComponentPattern
             base.OnCollisionEnter(col);
         }
 
-        /// <summary>
-        /// Udfører angrebet på fjender (placeholder-metode).
-        /// </summary>
-        private void AttackEnemy()
-        {
-
-        }
 
         /// <summary>
         /// Håndterer spillerens død ved at vise en respawn-knap og destruere spillerens game object.

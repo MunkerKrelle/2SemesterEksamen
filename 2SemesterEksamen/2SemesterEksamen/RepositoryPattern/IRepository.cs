@@ -7,9 +7,6 @@ using ComponentPattern;
 
 namespace RepositoryPattern
 {
-    public class User
-    {
-    }
 
     public interface IRepository
     {
@@ -19,8 +16,6 @@ namespace RepositoryPattern
         void Insert();
 
         bool TradeWeapon(Weapon weapon);
-
-        void SortTables();
 
         public Tuple<string, int, int> ReturnValues(string weaponName);
 
