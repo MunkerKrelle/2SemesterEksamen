@@ -1,12 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using _2SemesterEksamen;
 using ComponentPattern;
-using _2SemesterEksamen;
-using Microsoft.Xna.Framework;
-using CommandPattern;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BuilderPattern
 {

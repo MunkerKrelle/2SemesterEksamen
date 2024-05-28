@@ -1,16 +1,11 @@
-﻿using System;
-using ComponentPattern;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComponentPattern;
 using RepositoryPattern;
-using System.Windows.Markup;
-using System.Drawing.Text;
 
 namespace FactoryPattern
 {
-
+    /// <summary>
+    /// Fabrik til opbygning af våben
+    /// </summary>
     class ItemFactory : Factory
     {
         private static ItemFactory instance;
@@ -30,7 +25,13 @@ namespace FactoryPattern
         private Database database = new Database();
 
 
+        private GameObject prototype;
 
+        /// <summary>
+        /// Bygger et nyt våben i forhold til våbnes navn og finder det i databasen
+        /// </summary>
+        /// <param name="weaponType">Navnet på våbnet, så det kan finde i databasen</param>
+        /// <returns></returns>
         public GameObject Create(string weaponType)
         {
             GameObject go = new GameObject();
@@ -44,6 +45,11 @@ namespace FactoryPattern
             return go;
         }
 
+        /// <summary>
+        /// Bygger et nyt våben i forhold til våbnes ID og finder det i databasen
+        /// </summary>
+        /// <param name="weaponID">ID på våbnet, så det kan finde i databasen</param>
+        /// <returns></returns>
         public GameObject Create(int weaponID)
         {
             GameObject go = new GameObject();
@@ -57,6 +63,10 @@ namespace FactoryPattern
             return go;
         }
 
+        /// <summary>
+        /// Default create til fabrik interface
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create()
         {
             GameObject go = new GameObject();

@@ -43,9 +43,6 @@ namespace _2SemesterEksamen
         private GameState _state;
 
         public static SpriteFont font;
-        Vector2 originText;
-        string fontText = "";
-        Vector2 fontLength;
 
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
@@ -86,7 +83,7 @@ namespace _2SemesterEksamen
         protected override void Initialize()
         {
             IRepository repository = new Database();
-            new Database(repository).RunLoop();
+            new Database(repository).CreateDatabase();
             
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());
@@ -395,7 +392,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, originText, 1f, SpriteEffects.None, 1f);
+            _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
             // _spriteBatch.Draw(); //Draw background
 
             _spriteBatch.End();

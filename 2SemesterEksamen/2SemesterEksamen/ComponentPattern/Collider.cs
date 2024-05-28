@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 
 namespace ComponentPattern
-
 {
+    /// <summary>
+    /// Giver mulighed for at GameObjecter kan kollidere 
+    /// </summary>
     public class Collider : Component
     {
         public Lazy<List<RectangleData>> rectangles = new Lazy<List<RectangleData>>();
@@ -28,6 +30,11 @@ namespace ComponentPattern
                 }
             }
         }
+
+        /// <summary>
+        /// Laver en pixel kollisionsboks, der læser hver enkelt pixel i GameObject spritet 
+        /// </summary>
+        /// <returns></returns>
         public List<RectangleData> CreateRectangles()
         {
             texture = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
@@ -65,6 +72,11 @@ namespace ComponentPattern
             return pixels;
         }
 
+
+        /// <summary>
+        /// Laver en kollisionsboks rundet GameObjecterne i forhold til deres sprite, så de kan blive kollideret med
+        /// </summary>
+        /// <returns></returns>
         public Rectangle CollisionBox
         {
             get
@@ -78,10 +90,12 @@ namespace ComponentPattern
                     );
             }
         }
+
         public override void Update(GameTime gameTime)
         {
             UpdatePixelCollider();
         }
+
         public override void Start()
         {
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();
@@ -102,6 +116,11 @@ namespace ComponentPattern
             DrawRectangle(CollisionBox, spriteBatch);
         }
 
+        /// <summary>
+        /// Tegner selve kollisonsboksen
+        /// </summary>
+        /// <param name="collisionBox">Kollisionsboksens info efter spriten</param>
+        /// <param name="spriteBatch"></param>
         private void DrawRectangle(Rectangle collisionBox, SpriteBatch spriteBatch)
         {
             Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);

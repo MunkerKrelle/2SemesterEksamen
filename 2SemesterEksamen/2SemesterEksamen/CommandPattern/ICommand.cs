@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CommandPattern
+﻿namespace CommandPattern
 {
+    /// <summary>
+    /// The interface for the command pattern
+    /// </summary>
     internal interface ICommand
     {
         void Execute();

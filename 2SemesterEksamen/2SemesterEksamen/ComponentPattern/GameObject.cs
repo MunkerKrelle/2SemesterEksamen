@@ -1,12 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2SemesterEksamen;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using _2SemesterEksamen;
 
 namespace ComponentPattern
 {
-
+    /// <summary>
+    /// GameObject er en samling af components så de sammen danner et GameObject hvor alting kan blive kørt for sig
+    /// </summary>
     public class GameObject : ICloneable
     {
         private List<Component> components = new List<Component>();
@@ -15,7 +17,13 @@ namespace ComponentPattern
 
         public string Tag { get; set; }
 
-
+        /// <summary>
+        /// Tilføje et component til et GameObject - spriteRender, Collider etc. 
+        /// </summary>
+        /// <typeparam name="T">Hvilken type component der skal tilføjes</typeparam>
+        /// <param name="additionalParameters">Hvilke ekstra parameter der skal med</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public T AddComponent<T>(params object[] additionalParameters) where T : Component
         {
             Type componentType = typeof(T);
@@ -39,12 +47,22 @@ namespace ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Tilføj et component der allerde eksistere 
+        /// </summary>
+        /// <param name="component">Hvilket component der skal bruges</param>
+        /// <returns></returns>
         public Component AddComponentWithExistingValues(Component component)
         {
             components.Add(component);
             return component;
         }
 
+        /// <summary>
+        /// Find et specifikt component fra et GameObject
+        /// </summary>
+        /// <typeparam name="T">Hvilken slags component den skal prøve at finde</typeparam>
+        /// <returns></returns>
         public Component GetComponent<T>() where T : Component
         {
             return components.Find(x => x.GetType() == typeof(T));

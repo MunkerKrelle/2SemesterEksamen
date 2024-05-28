@@ -1,12 +1,11 @@
 ﻿using ComponentPattern;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandPattern
 {
+    /// <summary>
+    /// The AttackCommand is used for the player attacking enemies
+    /// </summary>
     internal class AttackCommand : ICommand
     {
         private Player player;

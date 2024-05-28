@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandPattern
 {
+    /// <summary>
+    /// Iputhandleren holder styr på vores commands i forhold til hvilke knapper der bliver trykket på 
+    /// </summary>
     internal class InputHandler
     {
         private static InputHandler instance;
@@ -29,12 +28,21 @@ namespace CommandPattern
             keybindsUpdate.Add(inputKey, command);
         }
 
+        /// <summary>
+        /// Bliver ikke brugt, men kan potientielt bruges i fremtiden
+        /// </summary>
+        /// <param name="inputKey"></param>
+        /// <param name="command"></param>
+        //public void AddButtonDownCommand(Keys inputKey, ICommand command)
+        //{
+        //    keybindsButtonDown.Add(inputKey, command);
+        //}
 
-        public void AddButtonDownCommand(Keys inputKey, ICommand command)
-        {
-            keybindsButtonDown.Add(inputKey, command);
-        }
         private KeyboardState previousKeyState;
+
+        /// <summary>
+        /// Checker om der er en knap der passer til en command
+        /// </summary>
         public void Execute()
         {
             KeyboardState keyState = Keyboard.GetState();
@@ -66,11 +74,19 @@ namespace CommandPattern
             }
             previousKeyState = keyState;
         }
+
+        /// <summary>
+        /// Fjerner commands der er blevet kørt
+        /// </summary>
         public void ClearCommands()
         {
             keybindsUpdate.Clear();
             keybindsButtonDown.Clear();
         }
+
+        /// <summary>
+        /// Undo for at fortryde en command
+        /// </summary>
         private void Undo()
         {
             if (executedCommands.Count > 0)
@@ -81,6 +97,9 @@ namespace CommandPattern
             }
         }
 
+        /// <summary>
+        /// Redo for at køre den samme command
+        /// </summary>
         public void Redo()
         {
             if (undoneCommands.Count > 0)

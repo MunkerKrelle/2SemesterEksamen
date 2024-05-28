@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using _2SemesterEksamen;
+﻿using _2SemesterEksamen;
 using FactoryPattern;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using RepositoryPattern;
 
 namespace ComponentPattern
 {
+    /// <summary>
+    /// Oprelse af våben som spiller kan bruge til at attck og armsDealern kan sælge
+    /// </summary>
     public class Weapon : Component
     {
         public GameObject button;
@@ -29,6 +25,9 @@ namespace ComponentPattern
             this.price = price;
         }
 
+        /// <summary>
+        /// Lav knapper som kan trykkes på for at købe våben
+        /// </summary>
         public void CreateButtons()
         {
             button = ButtonFactory.Instance.Create(GameObject.Transform.Position, Name, () => Buy());
@@ -37,16 +36,21 @@ namespace ComponentPattern
             button.Transform.Color = Color.Black;
         }
 
+        /// <summary>
+        /// Siger til databasen at der skal købes våben
+        /// </summary>
         public void Buy()
         {
-            database.TradeWeapon(GameObject.GetComponent <Weapon>() as Weapon);
-            GameWorld.Instance.Destroy(button);
-            GameWorld.Instance.Destroy(GameObject);
+            bool canBuy = database.TradeWeapon(GameObject.GetComponent <Weapon>() as Weapon);
+            if (canBuy)
+            {
+                GameWorld.Instance.Destroy(button);
+                GameWorld.Instance.Destroy(GameObject);
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            //GameObject.Transform.Position = new Vector2(500, 500);
         }
     }
 }

@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RepositoryPattern;
-using System.Security.Cryptography.Xml;
-using System.Threading;
 
 namespace ComponentPattern
 {
