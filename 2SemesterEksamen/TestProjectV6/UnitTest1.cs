@@ -1,9 +1,7 @@
 using _2SemesterEksamen;
-using Microsoft.VisualStuido;
 using ArmsDealer;
 using Inventory;
 using Weapon;
-using Rep
 using DataBase;
 
 namespace TestProjectV6
