@@ -10,7 +10,6 @@ using System.Drawing.Text;
 
 namespace FactoryPattern
 {
-    public enum WEAPONTYPE { WRENCH, STEELBAT, KATANA, LIGHTSABER }
 
     class ItemFactory : Factory
     {
@@ -31,35 +30,6 @@ namespace FactoryPattern
         private Database database = new Database();
 
 
-        private GameObject prototype;
-
-        //public GameObject Create(WEAPONTYPE type)
-
-        //{
-        //    GameObject go = new GameObject();
-        //    var itemValues = database.ReturnValues("wrench");
-
-        //    SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-
-        //    switch (type)
-        //    {
-        //        case WEAPONTYPE.WRENCH:
-        //            sr.SetSprite(itemValues[0].Item1);
-        //            go.AddComponent<Weapon>(itemValues[0].Item2, itemValues[0].Item3);
-        //            break;
-        //        case WEAPONTYPE.STEELBAT:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.KATANA:
-        //            sr.SetSprite("");
-        //            break;
-        //        case WEAPONTYPE.LIGHTSABER:
-        //            sr.SetSprite("");
-        //            break;
-        //    }
-
-        //    return go;
-        //}
 
         public GameObject Create(string weaponType)
         {
@@ -83,18 +53,6 @@ namespace FactoryPattern
             sr.SetSprite(itemValues.Item1);
             go.Transform.Layer = 0.7f;
             go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
-
-            return go;
-        }
-
-        public GameObject Create(string weaponName, int weaponDmg, int weaponPrice)
-        {
-            GameObject go = new GameObject();
-
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(weaponName);
-            go.Transform.Layer = 0.7f;
-            go.AddComponent<Weapon>(weaponName, weaponDmg, weaponPrice);
 
             return go;
         }

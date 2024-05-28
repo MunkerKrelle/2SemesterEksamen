@@ -22,11 +22,6 @@ namespace FactoryPattern
             }
         }
 
-        public delegate void ButtonFunctionWeapon(Weapon weapon);
-
-        public delegate void ButtonFunction();
-
-
 
         public GameObject Create(Vector2 buttonPosition, string buttonText, Action actionFunction)
         {

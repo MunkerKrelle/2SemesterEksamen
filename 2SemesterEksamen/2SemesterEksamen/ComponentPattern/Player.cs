@@ -49,7 +49,7 @@ namespace ComponentPattern
 
         }
 
-        bool isMoving;
+
 
         /// <summary>
         /// Flytter spilleren i henhold til den angivne hastighedsvektor.
@@ -60,7 +60,7 @@ namespace ComponentPattern
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
-                isMoving = true;
+
             }
 
             velocity *= speed;
