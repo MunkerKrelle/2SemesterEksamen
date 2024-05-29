@@ -17,30 +17,21 @@ namespace Algoritmer
                     GameWorld.Instance.Cells.Add(new Point(x, y), cell);
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     GameWorld.Instance.Instantiate(cellGrid);
-                    //GameWorld.Instance.gameObjects.Add(cellGrid);
                     if (x == 9 && y == 1)
                     {
                         sr.SetSprite("EnterShop");
                         cellGrid.Transform.Transformer(cellGrid.Transform.Position, 0, new Vector2(1, 1), Color.White, 0.3f);
                     }
-
                     else if (x == 10 && y == 1)
                     {
                         sr.SetSprite("ExitShop");
                         cellGrid.Transform.Transformer(cellGrid.Transform.Position, 0, new Vector2(1, 1), Color.White, 0.3f);
                     }
-
                     else 
                     {
                         sr.SetSprite("cellGrid");
                         cellGrid.Transform.Transformer(cellGrid.Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
-
-                    //SpriteRenderer sr = gameObjects[18].GetComponent<SpriteRenderer>() as SpriteRenderer;
-                    //sr.SetSprite("EnterShop");
-                    //gameObjects[18].Transform.Transformer(gameObjects[18].Transform.Position, 0, new Vector2(1, 1), Color.Aqua, 0.3f);
-
-                    //GameWorld.Instance.Cells[new Point(x, y)].Sprite = GameWorld.Instance.sprites["cellGrid"];
                     cellGrid.Transform.Scale = new Vector2(1, 1);
                     Point pos = new Point(x, y);
                     cellGrid.Transform.Position = new Vector2(pos.X * 100, pos.Y * 100);

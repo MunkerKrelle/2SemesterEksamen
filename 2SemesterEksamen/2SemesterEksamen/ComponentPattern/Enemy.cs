@@ -27,6 +27,7 @@ namespace ComponentPattern
         private float enemyTimer;
         private float timeElapsed2;
         public Animator animator;
+        Istate<Enemy> currentState;
 
         public Vector2 velocity = new Vector2(0, 1);
         static readonly object DamagePlayerLock = new object();
@@ -91,8 +92,6 @@ namespace ComponentPattern
             base.OnCollisionEnter(col);
         }
 
-        Istate<Enemy> currentState;
-
         public void ChangeState(Istate<Enemy> state)
         {
             if (currentState != null)
@@ -131,8 +130,6 @@ namespace ComponentPattern
                 Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
-
-                //Thread.Sleep(1000);
             }
             //IF DISTANCE < WHATEVER
             //{

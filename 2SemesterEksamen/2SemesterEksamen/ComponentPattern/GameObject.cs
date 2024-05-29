@@ -13,7 +13,7 @@ namespace ComponentPattern
 
         public Transform Transform { get; private set; } = new Transform();
 
-        public string Tag { get; set; }
+       //public string Tag { get; set; }
 
 
         public T AddComponent<T>(params object[] additionalParameters) where T : Component

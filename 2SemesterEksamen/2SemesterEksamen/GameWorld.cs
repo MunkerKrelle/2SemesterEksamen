@@ -286,11 +286,6 @@ namespace _2SemesterEksamen
                 }
                 index++;
             }
-
-            if (index < targetPointList.Count)
-            {
-                RunAStar();
-            }
             index = 0;
             enemy.startAstarBool = true;
         }

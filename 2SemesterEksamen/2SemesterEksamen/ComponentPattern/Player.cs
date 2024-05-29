@@ -102,14 +102,7 @@ namespace ComponentPattern
             inventory.Active = true;
         }
 
-        /// <summary>
-        /// Flytter spilleren ved at tilføje en vektor til spillerens nuværende position.
-        /// </summary>
-        /// <param name="velocity">Vektoren, som skal tilføjes til spillerens position.</param>
-        public void MoveByAddition(Vector2 velocity)
-        {
-            GameObject.Transform.Position += velocity;
-        }
+       
 
         /// <summary>
         /// Initialiserer spillerens startposition og grafiske elementer.
@@ -209,14 +202,6 @@ namespace ComponentPattern
 
 
             base.OnCollisionEnter(col);
-        }
-
-        /// <summary>
-        /// Udfører angrebet på fjender (placeholder-metode).
-        /// </summary>
-        private void AttackEnemy()
-        {
-
         }
 
         /// <summary>
