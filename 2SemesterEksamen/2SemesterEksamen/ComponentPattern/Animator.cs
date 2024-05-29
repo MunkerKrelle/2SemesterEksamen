@@ -16,7 +16,7 @@ namespace ComponentPattern
 
         private SpriteRenderer spriteRenderer;
 
-        private Dictionary<string, Animation> animations = new Dictionary<string, Animation>(); //Dictionary over de forskellige animationer de forskellige GameObjects kan have
+        private Dictionary<string, Animation> animations = new(); //Dictionary over de forskellige animationer de forskellige GameObjects kan have
 
         public Animation currentAnimation {  get; private set; } //Hvilken animation der kører lige nu
 

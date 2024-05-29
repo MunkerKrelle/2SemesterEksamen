@@ -300,12 +300,54 @@ namespace RepositoryPattern
                 cmdBuyWeapon.ExecuteNonQuery();
                 cmdUpdateScrapAmount.ExecuteNonQuery();
                 playerItemsUpdated = true;
-            } else
+            }
+            else
             {
                 return false;
             }
             return true;
-        } 
+        }
+
+        //VIRKER IKKE SORTER_______________________________________________________________________________________
+        public void SortTables()
+        {
+            NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
+        SELECT * 
+
+        FROM inventory
+
+        ORDER BY damage ASC
+        ");
+
+            NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
+        SELECT * 
+
+        FROM weapon
+
+        ORDER BY price ASC
+        ");
+
+            cmdSortInventoryTable.ExecuteNonQuery();
+            cmdSortWeaponTable.ExecuteNonQuery();
+
+            Console.WriteLine("You've been sorted mate");
+        }
+
+        /// <summary>
+        /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
+        /// </summary>
+        private void ShowBestiary()
+        {
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"Name: {reader.GetValue(0)}, Health: {reader.GetValue(1)}, Damage: {reader.GetValue(2)}, " +
+                    $"Speed: {reader.GetValue(3)}, Strengths: {reader.GetValue(4)}, Weaknesses: {reader.GetValue(5)}, " +
+                    $"Scrap Dropped: {reader.GetValue(6)}, Defeated: {reader.GetValue(7)}");
+            }
+        }
 
         /// <summary>
         /// Returnere et våben navn, som kan oprettes 
@@ -324,6 +366,10 @@ namespace RepositoryPattern
             return weaponName;
         }
 
+        /// <summary>
+        /// Opdatere hvor mange scraps spilleren har efter de har købt noget
+        /// </summary>
+        /// <returns>Retunere den nye mængde af scraps spilleren har</returns>
         public int UpdateScraps()
         {
             dataSource = NpgsqlDataSource.Create(connectionString);

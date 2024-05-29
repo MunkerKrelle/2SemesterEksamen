@@ -101,15 +101,6 @@ namespace ComponentPattern
         }
 
         /// <summary>
-        /// Flytter spilleren ved at tilføje en vektor til spillerens nuværende position.
-        /// </summary>
-        /// <param name="velocity">Vektoren, som skal tilføjes til spillerens position.</param>
-        public void MoveByAddition(Vector2 velocity)
-        {
-            GameObject.Transform.Position += velocity;
-        }
-
-        /// <summary>
         /// Initialiserer spillerens startposition og grafiske elementer.
         /// </summary>
         public override void Start()
@@ -151,15 +142,6 @@ namespace ComponentPattern
 
             if (Database.playerItemsUpdated == true)
             {
-                //if (inventory.weaponsList.Count > 0)
-                //{
-                //   // GameWorld.Instance.Destroy(inventory.weaponsList[currentInvSlot].GameObject);
-                //    //inventory.weaponsList.RemoveAt(currentInvSlot);
-                //    if (currentInvSlot > inventory.weaponsList.Count)
-                //    {
-                //        currentInvSlot = 0;
-                //    }
-                //}
                 scraps = database.UpdateScraps();
                 inventory.AddItem(database.AddToInventory());
                 Database.playerItemsUpdated = false;
@@ -208,7 +190,6 @@ namespace ComponentPattern
 
             base.OnCollisionEnter(col);
         }
-
 
         /// <summary>
         /// Håndterer spillerens død ved at vise en respawn-knap og destruere spillerens game object.
