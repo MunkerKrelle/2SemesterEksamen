@@ -3,6 +3,8 @@ using ComponentPattern;
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("TestProjectV6")]
 
 namespace RepositoryPattern
 {
