@@ -17,7 +17,6 @@ namespace Algoritmer
                     GameWorld.Instance.Cells.Add(new Point(x, y), cell);
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     GameWorld.Instance.Instantiate(cellGrid);
-                    //GameWorld.Instance.gameObjects.Add(cellGrid);
                     if (x == 9 && y == 1)
                     {
                         sr.SetSprite("EnterShop");
