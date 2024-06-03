@@ -21,6 +21,10 @@ namespace ComponentPattern
         {
             Active = false;
         }
+        public void SetActive(bool isActive)
+        {
+            Active = isActive;
+        }
 
         public void RemoveItem(Weapon weapon)
         {
@@ -59,7 +63,7 @@ namespace ComponentPattern
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Active)
+            if (Active == true)
             {
                 for (int i = 0; i < weaponsList.Count; i++)
                 {

@@ -196,22 +196,19 @@ namespace _2SemesterEksamen
             if (gameObjects[0].Transform.Position == new Vector2(900, 100))
             {
                 _state = GameState.Shop;
-                //background change (Done)
-
-                //add entry and exit doors (do it in setup cells)
 
                 for (int i = 5; i < Cells.Count + 5; i++)
                 {
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
 
-                //UI elements come up
-
-                //Astar stops
                 Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                 enemy.startAstarBool = false;
                 enemy.GameObject.Transform.Position = new Vector2(2000, 2000);
 
+                // Activate inventory
+                Player player = gameObjects[0].GetComponent<Player>() as Player;
+                player.inventory.SetActive(true);
             }
         }
 
@@ -231,13 +228,16 @@ namespace _2SemesterEksamen
                         gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
 
-                    //UI elements goes away
+                    // UI elements go away
 
-                    //Astar starts again
+                    // Astar starts again
                     Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                     enemy.startAstarBool = true;
                     enemy.GameObject.Transform.Position = new Vector2(500, 500);
 
+                    // Deactivate inventory
+                    Player player = gameObjects[0].GetComponent<Player>() as Player;
+                    player.inventory.SetActive(false);
                 }
             }
         }
