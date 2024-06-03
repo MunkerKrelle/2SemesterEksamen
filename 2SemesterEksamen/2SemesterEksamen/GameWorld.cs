@@ -93,6 +93,7 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
             GameObject database = new GameObject();
+            UI ui = new UI();
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -100,6 +101,7 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
             InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
+            InputHandler.Instance.AddUpdateCommand(Keys.B, new ShowBestiaryCommand(ui));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));

@@ -1,5 +1,6 @@
 ﻿using ComponentPattern;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace FactoryPattern
@@ -52,6 +53,17 @@ namespace FactoryPattern
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
             sr.SetSprite("button");
             go.AddComponent<Weapon>();
+            return go;
+        }
+
+        internal GameObject Create(Vector2 pos, string text, Action<SpriteBatch> draw)
+        {
+            GameObject go = new GameObject();
+
+            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+            sr.SetSprite("button");
+            go.AddComponent<Button>(pos, text, draw);
+
             return go;
         }
     }

@@ -9,24 +9,23 @@ namespace ComponentPattern
     /// <summary>
     /// Data fra Beastiary databasen, som kan skrives ud
     /// </summary>
-    internal class UI : Component
+    internal class UI
     {
         public SpriteFont font;
         private Database database = new Database();
         List<BestiaryInfo> bestiaryInfo = new List<BestiaryInfo>();
 
-        public UI(GameObject gameObject) : base(gameObject)
+        public UI()
         {
         }
 
-        public override void Awake()
+        public  void Awake()
         {
-            base.Awake();
             font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
             bestiaryInfo = database.ShowBestiaryInfo();
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
 
             int offset = 0;

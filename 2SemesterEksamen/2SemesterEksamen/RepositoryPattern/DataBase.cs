@@ -16,7 +16,7 @@ namespace RepositoryPattern
         private readonly IRepository repository;
         public static bool playerItemsUpdated = false;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=100899;Database=postgres";
+        private string connectionString = "Host=localhost;Username=postgres;Password=Saunire.124;Database=myDatabase";
 
         //Nogle af disse er ikke blevet brugt endnu
         private string charName, weaponName;
