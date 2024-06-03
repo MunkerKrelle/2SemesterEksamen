@@ -1,7 +1,12 @@
 ﻿using _2SemesterEksamen;
+using Algoritmer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D9;
 using StatePattern;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 
 namespace ComponentPattern
@@ -24,6 +29,9 @@ namespace ComponentPattern
 
         public Vector2 velocity = new Vector2(0, 1);
         static readonly object DamagePlayerLock = new object();
+   
+
+        public List<Point> targetPointList = new List<Point>();
         public Enemy(GameObject gameObject) : base(gameObject)
         {
             //ChangeState();
@@ -41,7 +49,8 @@ namespace ComponentPattern
         }
         public override void Start()
         {
-            GameObject.Transform.Position = new Vector2(500, 500);
+            Random rnd = new Random();
+            GameObject.Transform.Position = new Vector2(rnd.Next(100, 1000), rnd.Next(100,1000));
         }
 
         public override void Update(GameTime gameTime)
@@ -62,11 +71,11 @@ namespace ComponentPattern
             enemyTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed2 += enemyTimer;
 
-            if (timeElapsed2 >= 1f)
-            {
+            //if (timeElapsed2 >= 1f)
+            //{
                 SearchForPlayer();
-                timeElapsed2 = 0;
-            }
+            //    timeElapsed2 = 0;
+            //}
 
             if (Health <= 0)
             {
@@ -111,18 +120,18 @@ namespace ComponentPattern
                 Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
                 Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
 
-                if (GameWorld.Instance.targetPointList.Count == 2)
+                if (targetPointList.Count == 2)
                 {
-                    GameWorld.Instance.targetPointList.Clear();
+                    targetPointList.Clear();
                 }
 
-                if (GameWorld.Instance.targetPointList.Count < 2) 
+                if (targetPointList.Count < 2) 
                 {
-                    GameWorld.Instance.targetPointList.Add(enemy1);
-                    GameWorld.Instance.targetPointList.Add(player1);
+                    targetPointList.Add(enemy1);
+                    targetPointList.Add(player1);
                 }
-
-                Thread enemyThread = new Thread(GameWorld.Instance.RunAStar);
+                
+                Thread enemyThread = new Thread(RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
 
@@ -148,6 +157,37 @@ namespace ComponentPattern
             targetPointPos = playerPoint;
         }
 
+        public void RunAStar()
+        {
+            Astar astar = new Astar(GameWorld.Instance.Cells);
+            //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+            int index = 0;
+           
+            if (index > targetPointList.Count - 1)
+            {
+                return;
+            }
+
+            if (index == 0)
+            {
+                index++;
+            }
+            
+            if (index > 0 && index <= targetPointList.Count)
+            {
+                var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
+                foreach (var VARIABLE in path)
+                {
+                    animator.PlayAnimation("CyborgMove");
+                    GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    Thread.Sleep(1000);
+                }
+                index++;
+            }
+
+            index = 0;
+            startAstarBool = true;
+        }
     }
 }
 
