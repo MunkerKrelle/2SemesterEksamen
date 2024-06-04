@@ -35,9 +35,9 @@ namespace ComponentPattern
         public override void Awake()
         {
             Health = 100;
-            GameObject.Transform.Scale = new Vector2(3f, 3f);
+            GameObject.Transform.Scale = new Vector2(1f, 1f);
             animator = GameObject.GetComponent<Animator>() as Animator;
-            animator.PlayAnimation("CyborgIdle");
+            //animator.PlayAnimation("CyborgIdle");
         }
         public override void Start()
         {

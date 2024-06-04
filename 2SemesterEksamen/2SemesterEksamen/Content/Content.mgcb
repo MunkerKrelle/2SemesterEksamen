@@ -181,30 +181,6 @@
 /processorParam:TextureFormat=Color
 /build:Cyborg/CyborgIdle/Cyborg_Idle1.png
 
-#begin Cyborg/CyborgIdle/Cyborg_Idle1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Cyborg/CyborgIdle/Cyborg_Idle1.png
-
-#begin Cyborg/CyborgIdle/Cyborg_Idle2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Cyborg/CyborgIdle/Cyborg_Idle2.png
-
 #begin Cyborg/CyborgIdle/Cyborg_Idle2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -228,30 +204,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Cyborg/CyborgIdle/Cyborg_Idle3.png
-
-#begin Cyborg/CyborgIdle/Cyborg_Idle3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Cyborg/CyborgIdle/Cyborg_Idle3.png
-
-#begin Cyborg/CyborgIdle/Cyborg_Idle4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Cyborg/CyborgIdle/Cyborg_Idle4.png
 
 #begin Cyborg/CyborgIdle/Cyborg_Idle4.png
 /importer:TextureImporter
@@ -606,6 +558,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/Run/Run6.png
+
+#begin robot-preview.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:robot-preview.png
 
 #begin Robot1.png
 /importer:TextureImporter

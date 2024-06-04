@@ -11,6 +11,8 @@ namespace FactoryPattern
     /// </summary>
     class EnemyFactory : Factory
     {
+        public enum TYPE { ORIGNIAL, NEW }
+
         private static EnemyFactory instance;
 
         private Random rnd = new Random();
@@ -33,23 +35,41 @@ namespace FactoryPattern
         /// Bygger enemies med sprites, animationer og collider
         /// </summary>
         /// <returns></returns>
-        public override GameObject Create() 
+        public GameObject Create(TYPE type)
         {
             GameObject go = new GameObject();
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            go.Transform.Position = new Vector2(0, 0);
-            sr.SetSprite("Cyborg/CyborgIdle/Cyborg_Idle1"); 
-            go.Transform.Layer = 0.9f;
-            go.AddComponent<Enemy>();
-            go.AddComponent<Collider>();
-            Animator animator = go.AddComponent<Animator>();
-            animator.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "Cyborg/CyborgIdle/Cyborg_Idle1", "Cyborg/CyborgIdle/Cyborg_Idle2", "Cyborg/CyborgIdle/Cyborg_Idle3", "Cyborg/CyborgIdle/Cyborg_Idle4" }));
-            animator.AddAnimation(BuildAnimation("CyborgMove", new string[] { "Cyborg/CyborgMove/Cyborg_Move1", "Cyborg/CyborgMove/Cyborg_Move2", "Cyborg/CyborgMove/Cyborg_Move3", "Cyborg/CyborgMove/Cyborg_Move4", "Cyborg/CyborgMove/Cyborg_Move5", "Cyborg/CyborgMove/Cyborg_Move6" }));
-            animator.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "Cyborg/CyborgAttack/Cyborg_Attack1", "Cyborg/CyborgAttack/Cyborg_Attack2", "Cyborg/CyborgAttack/Cyborg_Attack3", "Cyborg/CyborgAttack/Cyborg_Attack4", "Cyborg/CyborgAttack/Cyborg_Attack5", "Cyborg/CyborgAttack/Cyborg_Attack6" }));
 
+            switch (type)
+            {
+
+                case TYPE.ORIGNIAL:
+
+                    go.Transform.Position = new Vector2(0, 0);
+                    sr.SetSprite("Cyborg/CyborgIdle/Cyborg_Idle1");
+                    go.Transform.Layer = 0.9f;
+                    go.AddComponent<Enemy>();
+                    go.AddComponent<Collider>();
+                    Animator animator = go.AddComponent<Animator>();
+                    animator.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "Cyborg/CyborgIdle/Cyborg_Idle1", "Cyborg/CyborgIdle/Cyborg_Idle2", "Cyborg/CyborgIdle/Cyborg_Idle3", "Cyborg/CyborgIdle/Cyborg_Idle4" }));
+                    animator.AddAnimation(BuildAnimation("CyborgMove", new string[] { "Cyborg/CyborgMove/Cyborg_Move1", "Cyborg/CyborgMove/Cyborg_Move2", "Cyborg/CyborgMove/Cyborg_Move3", "Cyborg/CyborgMove/Cyborg_Move4", "Cyborg/CyborgMove/Cyborg_Move5", "Cyborg/CyborgMove/Cyborg_Move6" }));
+                    animator.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "Cyborg/CyborgAttack/Cyborg_Attack1", "Cyborg/CyborgAttack/Cyborg_Attack2", "Cyborg/CyborgAttack/Cyborg_Attack3", "Cyborg/CyborgAttack/Cyborg_Attack4", "Cyborg/CyborgAttack/Cyborg_Attack5", "Cyborg/CyborgAttack/Cyborg_Attack6" }));
+                    break;
+
+                case TYPE.NEW:
+
+                    go.Transform.Position = new Vector2(100, 100);
+                    sr.SetSprite("robot-preview");
+                    go.Transform.Layer = 0.9f;
+                    go.AddComponent<Enemy>();
+                    go.AddComponent<Collider>();
+                    break;
+
+            }
             return go;
         }
+
 
         /// <summary>
         /// Bygger animationer, som enemies kan kører
@@ -71,5 +91,9 @@ namespace FactoryPattern
             return animation;
         }
 
+        public override GameObject Create()
+        {
+            return null;
+        }
     }
 }

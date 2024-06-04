@@ -105,7 +105,7 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
             InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
-            InputHandler.Instance.AddUpdateCommand(Keys.B, new ShowBestiaryCommand(ui));
+            //InputHandler.Instance.AddUpdateCommand(Keys.B, new ShowBestiaryCommand(ui));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));
@@ -119,7 +119,8 @@ namespace _2SemesterEksamen
             gameObjects.Add(armsDealerGo);
             gameObjects.Add(database);
 
-            gameObjects.Add(EnemyFactory.Instance.Create());
+            //gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
+            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.NEW));
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
 
             foreach (GameObject go in gameObjects)
@@ -127,7 +128,7 @@ namespace _2SemesterEksamen
                 go.Awake();
             }
 
-            CreateBestiaryButton();
+            //CreateBestiaryButton();
 
             _graphics.PreferredBackBufferWidth = 11 * 100 + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 11 * 100 + 1;   // set this value to the desired height of your window
@@ -297,7 +298,7 @@ namespace _2SemesterEksamen
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
-                    enemy.animator.PlayAnimation("CyborgMove");
+                    //enemy.animator.PlayAnimation("CyborgMove");
                     enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     Thread.Sleep(1000);
                 }
@@ -317,11 +318,11 @@ namespace _2SemesterEksamen
             Instantiate(specificButton);
         }
 
-        public void CreateBestiaryButton()
-        {
-            specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Show Bestiary", ui.Draw);
-            Instantiate(specificButton);
-        }
+        //public void CreateBestiaryButton()
+        //{
+        //    specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Show Bestiary", ui.Draw);
+        //    Instantiate(specificButton);
+        //}
 
         /// <summary>
         /// Respawn spilleren med deres componenter og inputs, da de også blev fjernet med spilleren
