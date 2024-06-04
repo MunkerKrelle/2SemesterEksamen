@@ -106,7 +106,6 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(player, new Vector2(0, 1)));
             InputHandler.Instance.AddUpdateCommand(Keys.P, new AttackCommand(player));
             InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
-            //InputHandler.Instance.AddUpdateCommand(Keys.B, new ShowBestiaryCommand(ui));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
             sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));
@@ -120,12 +119,12 @@ namespace _2SemesterEksamen
             gameObjects.Add(armsDealerGo);
             gameObjects.Add(database);
 
-            gameObjects.Add(EnemyFactory.Instance.Create());
-            gameObjects.Add(EnemyFactory.Instance.Create());
-            gameObjects.Add(EnemyFactory.Instance.Create());
-            gameObjects.Add(EnemyFactory.Instance.Create());
-            //gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
+            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
+            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
+            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
+            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
             gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.NEW));
+
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
 
             foreach (GameObject go in gameObjects)

@@ -13,6 +13,8 @@ namespace FactoryPattern
     {
         public enum TYPE { ORIGNIAL, NEW }
 
+        public bool enemyOriginal;
+
         private static EnemyFactory instance;
 
         private Random rnd = new Random();
@@ -46,6 +48,7 @@ namespace FactoryPattern
 
                 case TYPE.ORIGNIAL:
 
+                    enemyOriginal = true;
                     go.Transform.Position = new Vector2(0, 0);
                     sr.SetSprite("Cyborg/CyborgIdle/Cyborg_Idle1");
                     go.Transform.Layer = 0.9f;
@@ -59,6 +62,7 @@ namespace FactoryPattern
 
                 case TYPE.NEW:
 
+                    enemyOriginal = false;
                     go.Transform.Position = new Vector2(100, 100);
                     sr.SetSprite("robot-preview");
                     go.Transform.Layer = 0.9f;

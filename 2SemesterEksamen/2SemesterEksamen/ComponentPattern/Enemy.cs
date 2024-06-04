@@ -1,5 +1,6 @@
 ﻿using _2SemesterEksamen;
 using Algoritmer;
+using FactoryPattern;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
@@ -29,7 +30,7 @@ namespace ComponentPattern
 
         public Vector2 velocity = new Vector2(0, 1);
         static readonly object DamagePlayerLock = new object();
-   
+
 
         public List<Point> targetPointList = new List<Point>();
         public Enemy(GameObject gameObject) : base(gameObject)
@@ -42,15 +43,23 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            Health = 100;
-            GameObject.Transform.Scale = new Vector2(1f, 1f);
-            animator = GameObject.GetComponent<Animator>() as Animator;
-            //animator.PlayAnimation("CyborgIdle");
+            if (EnemyFactory.Instance.enemyOriginal == true)
+            {
+                Health = 100;
+                GameObject.Transform.Scale = new Vector2(1f, 1f);
+                animator = GameObject.GetComponent<Animator>() as Animator;
+                animator.PlayAnimation("CyborgIdle");
+            }
+            else if (EnemyFactory.Instance.enemyOriginal == false)
+            {
+                Health = 100;
+                GameObject.Transform.Scale = new Vector2(3f, 3f);
+            }
         }
         public override void Start()
         {
             Random rnd = new Random();
-            GameObject.Transform.Position = new Vector2(rnd.Next(100, 1000), rnd.Next(100,1000));
+            GameObject.Transform.Position = new Vector2(rnd.Next(100, 1000), rnd.Next(100, 1000));
         }
 
         public override void Update(GameTime gameTime)
@@ -73,7 +82,7 @@ namespace ComponentPattern
 
             //if (timeElapsed2 >= 1f)
             //{
-                SearchForPlayer();
+            SearchForPlayer();
             //    timeElapsed2 = 0;
             //}
 
@@ -125,12 +134,12 @@ namespace ComponentPattern
                     targetPointList.Clear();
                 }
 
-                if (targetPointList.Count < 2) 
+                if (targetPointList.Count < 2)
                 {
                     targetPointList.Add(enemy1);
                     targetPointList.Add(player1);
                 }
-                
+
                 Thread enemyThread = new Thread(RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
@@ -148,7 +157,7 @@ namespace ComponentPattern
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
             lock (DamagePlayerLock)
             {
-               //insert attack code here to remove health.
+                //insert attack code here to remove health.
             }
         }
 
@@ -162,7 +171,7 @@ namespace ComponentPattern
             Astar astar = new Astar(GameWorld.Instance.Cells);
             //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
             int index = 0;
-           
+
             if (index > targetPointList.Count - 1)
             {
                 return;
@@ -172,16 +181,26 @@ namespace ComponentPattern
             {
                 index++;
             }
-            
+
             if (index > 0 && index <= targetPointList.Count)
             {
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
-                    animator.PlayAnimation("CyborgMove");
-                    GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                    //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
-                    Thread.Sleep(1000);
+
+                    if (EnemyFactory.Instance.enemyOriginal == true)
+                    {
+                        animator.PlayAnimation("CyborgMove");
+                        GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                        //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
+                        Thread.Sleep(1000);
+                    }
+
+                    else if (EnemyFactory.Instance.enemyOriginal == false)
+                    {
+                        GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                        Thread.Sleep(1000);
+                    }
                 }
                 index++;
             }
