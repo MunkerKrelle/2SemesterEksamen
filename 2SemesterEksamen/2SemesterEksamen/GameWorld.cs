@@ -48,6 +48,8 @@ namespace _2SemesterEksamen
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
 
+        private UI ui;
+
 
         public List<GameObject> GameObjects
         {
@@ -93,7 +95,9 @@ namespace _2SemesterEksamen
             Player player = playerGo.GetComponent<Player>() as Player;
             ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
             GameObject database = new GameObject();
-            UI ui = new UI();
+            ui = new UI();
+            ui.Awake();
+
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(player, new Vector2(-1, 0)));
@@ -122,6 +126,8 @@ namespace _2SemesterEksamen
             {
                 go.Awake();
             }
+
+            CreateBestiaryButton();
 
             _graphics.PreferredBackBufferWidth = 11 * 100 + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 11 * 100 + 1;   // set this value to the desired height of your window
@@ -311,6 +317,12 @@ namespace _2SemesterEksamen
             Instantiate(specificButton);
         }
 
+        public void CreateBestiaryButton()
+        {
+            specificButton = ButtonFactory.Instance.Create(new Vector2(1000, 1000), "Show Bestiary", ui.Draw);
+            Instantiate(specificButton);
+        }
+
         /// <summary>
         /// Respawn spilleren med deres componenter og inputs, da de også blev fjernet med spilleren
         /// </summary>
@@ -412,6 +424,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
+            
             _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             _spriteBatch.End();

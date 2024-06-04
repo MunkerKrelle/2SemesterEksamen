@@ -9,7 +9,7 @@ namespace ComponentPattern
     /// <summary>
     /// Data fra Beastiary databasen, som kan skrives ud
     /// </summary>
-    internal class UI
+    public class UI
     {
         public SpriteFont font;
         private Database database = new Database();
@@ -37,7 +37,7 @@ namespace ComponentPattern
                 spriteBatch.DrawString(font, ("Name: " + value.name + "    " + "Health: " + value.health + "    " +
                 "Damage: " + value.damage + "    " + "Strengths: " + value.strengths + "    " + "Weaknesses: " + value.weaknesses
                 + "    " + "Scrap Dropped: " + value.scrap_dropped +
-                "    " + "Defeated: " + value.defeated), new Vector2(0, 500 + offset), Color.White);
+                "    " + "Defeated: " + value.defeated), new Vector2(0, 500 + offset), Color.Black);
 
             }
         }

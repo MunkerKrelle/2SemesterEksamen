@@ -25,7 +25,7 @@ namespace ComponentPattern
         /// </summary>
         /// <param name="buttonPosition">Knappens position på skærmen</param>
         /// <param name="buttonText">Tekst der bliver skrevet på knappen</param>
-        /// <param name="buttonFunction">Hvilken function der bliver kørt når knappen bliver trykket</param>
+        /// <param name="buttonAction">Hvilken function der bliver kørt når knappen bliver trykket</param>
         public Button(GameObject gameObject, Vector2 buttonPosition, string buttonText, Action buttonAction) : base(gameObject)
         {
             this.buttonPosition = buttonPosition;
