@@ -43,18 +43,12 @@ namespace ComponentPattern
 
         public override void Awake()
         {
-            if (EnemyFactory.Instance.enemyOriginal == true)
-            {
-                Health = 100;
-                GameObject.Transform.Scale = new Vector2(3f, 3f);
-                animator = GameObject.GetComponent<Animator>() as Animator;
-                animator.PlayAnimation("CyborgIdle");
-            }
-            else if (EnemyFactory.Instance.enemyOriginal == false)
-            {
-                Health = 100;
-                GameObject.Transform.Scale = new Vector2(1f, 1f);
-            }
+
+            Health = 100;
+            GameObject.Transform.Scale = new Vector2(3f, 3f);
+            animator = GameObject.GetComponent<Animator>() as Animator;
+            animator.PlayAnimation("CyborgIdle");
+
         }
         public override void Start()
         {
@@ -188,19 +182,12 @@ namespace ComponentPattern
                 foreach (var VARIABLE in path)
                 {
 
-                    if (EnemyFactory.Instance.enemyOriginal == true)
-                    {
-                        animator.PlayAnimation("CyborgMove");
-                        GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                        //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
-                        Thread.Sleep(1000);
-                    }
 
-                    else if (EnemyFactory.Instance.enemyOriginal == false)
-                    {
-                        GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                        Thread.Sleep(1000);
-                    }
+                    animator.PlayAnimation("CyborgMove");
+                    GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
+                    Thread.Sleep(1000);
+
                 }
                 index++;
             }

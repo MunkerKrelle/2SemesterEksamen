@@ -429,7 +429,7 @@ namespace _2SemesterEksamen
             {
                 go.Draw(_spriteBatch);
             }
-            
+
             _spriteBatch.DrawString(font, $"{mouseState}", new Vector2(300, 300), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             _spriteBatch.End();
