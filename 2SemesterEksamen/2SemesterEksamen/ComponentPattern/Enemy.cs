@@ -46,14 +46,14 @@ namespace ComponentPattern
             if (EnemyFactory.Instance.enemyOriginal == true)
             {
                 Health = 100;
-                GameObject.Transform.Scale = new Vector2(1f, 1f);
+                GameObject.Transform.Scale = new Vector2(3f, 3f);
                 animator = GameObject.GetComponent<Animator>() as Animator;
                 animator.PlayAnimation("CyborgIdle");
             }
             else if (EnemyFactory.Instance.enemyOriginal == false)
             {
                 Health = 100;
-                GameObject.Transform.Scale = new Vector2(3f, 3f);
+                GameObject.Transform.Scale = new Vector2(1f, 1f);
             }
         }
         public override void Start()
