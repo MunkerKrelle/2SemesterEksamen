@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace _2SemesterEksamen
@@ -47,7 +48,7 @@ namespace _2SemesterEksamen
         public ArmsDealer armsDealer;
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
-
+  
 
         public List<GameObject> GameObjects
         {
@@ -113,6 +114,9 @@ namespace _2SemesterEksamen
             gameObjects.Add(armsDealerGo);
             gameObjects.Add(database);
 
+            gameObjects.Add(EnemyFactory.Instance.Create());
+            gameObjects.Add(EnemyFactory.Instance.Create());
+            gameObjects.Add(EnemyFactory.Instance.Create());
             gameObjects.Add(EnemyFactory.Instance.Create());
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
 
@@ -272,36 +276,36 @@ namespace _2SemesterEksamen
         /// <summary>
         /// Starter AStar for enemy, så den begynder at lede efter spilleren, hvis de findes
         /// </summary>
-        public void RunAStar()
-        {
-            Astar astar = new Astar(Cells);
-            Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+        //public void RunAStar()
+        //{
+        //    Astar astar = new Astar(Cells);
+        //    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
 
-            if (index > targetPointList.Count - 1)
-            {
-                return;
-            }
+        //    if (index > targetPointList.Count - 1)
+        //    {
+        //        return;
+        //    }
 
-            if (index == 0)
-            {
-                index++;
-            }
+        //    if (index == 0)
+        //    {
+        //        index++;
+        //    }
 
-            if (index > 0 && index <= targetPointList.Count)
-            {
-                var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
-                foreach (var VARIABLE in path)
-                {
-                    enemy.animator.PlayAnimation("CyborgMove");
-                    enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                    Thread.Sleep(1000);
-                }
-                index++;
-            }
+        //    if (index > 0 && index <= targetPointList.Count)
+        //    {
+        //        var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
+        //        foreach (var VARIABLE in path)
+        //        {
+        //            enemy.animator.PlayAnimation("CyborgMove");
+        //            enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+        //            Thread.Sleep(1000);
+        //        }
+        //        index++;
+        //    }
 
-            index = 0;
-            enemy.startAstarBool = true;
-        }
+        //    index = 0;
+        //    enemy.startAstarBool = true;
+        //}
 
         /// <summary>
         /// Laver en knap der respawner spilleren

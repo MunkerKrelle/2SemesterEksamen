@@ -10,6 +10,7 @@ namespace Algoritmer
     class Astar
     {
         Dictionary<Point, Cell> cells;
+        static readonly object AStarLock = new object();
 
         public Astar(Dictionary<Point, Cell> cells)
         {
@@ -35,57 +36,62 @@ namespace Algoritmer
         public List<Cell> FindPath(Point startPoint, Point endPoint)
         {
             //Start punktet bliver tilføjet til open list, ikke undersøgt og er endnu ikke kandidater
-            openList.Add(cells[startPoint]);
-            while (openList.Count > 0)
+            lock (AStarLock)
             {
-                //Current cell bliver tilføjet på første plads på den åbne liste
-                Cell curCell = openList.First();
-                foreach (var t in openList)
+                openList.Add(cells[startPoint]);
+                while (openList.Count > 0)
                 {
-                    //Hvis cellens F værdi er mindre end currentCell || Hvis Cellens F værdi = Nuværende F && cellens H er mindre end nuværende H
-                    if (t.F < curCell.F ||
-                        t.F == curCell.F && t.H < curCell.H)
+                    //Current cell bliver tilføjet på første plads på den åbne liste
+                    Cell curCell = openList.First();
+                    foreach (var t in openList)
                     {
-                        curCell = t;
-                    }
-                }
-                //Og cellen bliver fjernet fra den åbne liste + tilføjet til den lukkede liste og er nu en kandidat, som er blevet undersøgt
-                openList.Remove(curCell);
-                closedList.Add(curCell);
-
-                //Hvis den nuværende celle er den samme som målets, så er vejen fundet og ruten returneres
-                if (curCell.Position.X == endPoint.X && curCell.Position.Y == endPoint.Y)
-                {
-                    //path found!
-                    return RetracePath(cells[startPoint], cells[endPoint]);
-                }
-
-                //Listen over naboer bliver skabt ud fra GetNeighbors metoden, til at finde naboerne til nuværende celle
-                List<Cell> neighbors = GetNeighbors(curCell);
-                foreach (var neighbor in neighbors)
-                {
-                    //Hvis naboen er på den lukkede liste i forvejen, skal den ikke undersøges
-                    if (closedList.Contains(neighbor))
-                    {
-                        continue;
-                    }
-                    //Værdien for at bevæge sig til en nabocelle instantieres
-                    int newMovementCostToNeighbor = curCell.G + GetDistance(curCell.Position, neighbor.Position);
-                    if (newMovementCostToNeighbor < neighbor.G || !openList.Contains(neighbor))
-                    {
-                        neighbor.G = newMovementCostToNeighbor;
-                        //calulate h using manhatten principle
-                        neighbor.H = ((Math.Abs(neighbor.Position.X - endPoint.X) + Math.Abs(endPoint.Y - neighbor.Position.Y)) * 10);
-                        neighbor.Parent = curCell;
-
-                        //Hvis naboen ikke findes på den åbne list, tilføjes den hertil
-                        if (!openList.Contains(neighbor))
+                        //Hvis cellens F værdi er mindre end currentCell || Hvis Cellens F værdi = Nuværende F && cellens H er mindre end nuværende H
+                        if (t.F < curCell.F ||
+                            t.F == curCell.F && t.H < curCell.H)
                         {
-                            openList.Add(neighbor);
+                            curCell = t;
+                        }
+                    }
+                    //Og cellen bliver fjernet fra den åbne liste + tilføjet til den lukkede liste og er nu en kandidat, som er blevet undersøgt
+                    openList.Remove(curCell);
+                    closedList.Add(curCell);
+
+                    //Hvis den nuværende celle er den samme som målets, så er vejen fundet og ruten returneres
+                    if (curCell.Position.X == endPoint.X && curCell.Position.Y == endPoint.Y)
+                    {
+                        //path found!
+                        return RetracePath(cells[startPoint], cells[endPoint]);
+                    }
+
+                    //Listen over naboer bliver skabt ud fra GetNeighbors metoden, til at finde naboerne til nuværende celle
+                    List<Cell> neighbors = GetNeighbors(curCell);
+                    foreach (var neighbor in neighbors)
+                    {
+                        //Hvis naboen er på den lukkede liste i forvejen, skal den ikke undersøges
+                        if (closedList.Contains(neighbor))
+                        {
+                            continue;
+                        }
+                        //Værdien for at bevæge sig til en nabocelle instantieres
+                        int newMovementCostToNeighbor = curCell.G + GetDistance(curCell.Position, neighbor.Position);
+                        if (newMovementCostToNeighbor < neighbor.G || !openList.Contains(neighbor))
+                        {
+                            neighbor.G = newMovementCostToNeighbor;
+                            //calulate h using manhatten principle
+                            neighbor.H = ((Math.Abs(neighbor.Position.X - endPoint.X) + Math.Abs(endPoint.Y - neighbor.Position.Y)) * 10);
+                            neighbor.Parent = curCell;
+
+                            //Hvis naboen ikke findes på den åbne list, tilføjes den hertil
+                            if (!openList.Contains(neighbor))
+                            {
+                                openList.Add(neighbor);
+                            }
                         }
                     }
                 }
             }
+
+            
 
             return null;
         }
