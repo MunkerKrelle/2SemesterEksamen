@@ -180,6 +180,7 @@ namespace ComponentPattern
                 {
                     animator.PlayAnimation("CyborgMove");
                     GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
+                    //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
                     Thread.Sleep(1000);
                 }
                 index++;
