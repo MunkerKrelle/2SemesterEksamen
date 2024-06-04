@@ -14,6 +14,7 @@ namespace ComponentPattern
         private List<Component> components = new List<Component>();
 
         public Transform Transform { get; private set; } = new Transform();
+        public bool IsActive { get; set; }
 
         public string Tag { get; set; }
 

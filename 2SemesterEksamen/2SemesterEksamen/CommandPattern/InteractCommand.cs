@@ -15,7 +15,7 @@ namespace CommandPattern
         }
         public void Execute()
         {
-            //player.Interact();
+
         }
 
         public void Undo()

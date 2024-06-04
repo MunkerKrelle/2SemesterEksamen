@@ -19,13 +19,7 @@ namespace RepositoryPattern
 
         bool TradeWeapon(Weapon weapon);
 
-       //void SortTables();
-
-        Tuple<string, int, int> ReturnValues(string weaponName);
-
-        Tuple<string, int, int> ReturnValuesWithID(int weaponID);
-
-        void ShowBestiary();
+        public Tuple<string, int, int> ReturnValues(string weaponName);
 
         string AddToInventory();
 

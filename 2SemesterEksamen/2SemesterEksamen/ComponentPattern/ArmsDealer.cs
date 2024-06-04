@@ -39,6 +39,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
+            GameObject.IsActive = true;
             inventory = GameObject.GetComponent<Inventory>() as Inventory;
             inventory.GenerateRandomItem(RandomItem());
             inventory.GenerateRandomItem(RandomItem());
@@ -52,6 +53,25 @@ namespace ComponentPattern
             }
         }
 
+        public override void Update(GameTime gametime)
+        {
+            if (GameObject.IsActive == true)
+            {
+                foreach (var i in inventory.weaponsList)
+                {
+                    i.GameObject.IsActive = false;
+                    i.button.IsActive = false;
+                }
+            }
+            if (GameObject.IsActive == false)
+            {
+                foreach (var i in inventory.weaponsList)
+                {
+                    i.GameObject.IsActive = true;
+                    i.button.IsActive = true;
+                }
+            }
+        }
         /// <summary>
         /// Generere 4 nye våben, som shopkeeper kan sælge
         /// </summary>
