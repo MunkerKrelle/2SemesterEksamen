@@ -6,13 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 using (var reader = new StreamReader(""))
 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
 {
     var records = csv.GetRecord<Weapon>();
 }
-    
+
 
 namespace RepositoryPattern
 {
@@ -54,75 +55,49 @@ namespace RepositoryPattern
         /// </summary>
         public void CreateTables()
         {
-            var player = new Player { name = "Lars", health = 1000, speed = 100, scrap_amount = 1000 };
-            using (var writer = new StreamWriter(@"\Projects\CSVFiles\player.csv"))
+            var player = new Player { };
+            using (var writer = new StreamWriter(@"CSVFiles\player.csv"))
 
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecord(player);
             }
 
-                NpgsqlCommand cmdCreatePlayerTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS player (
-                    name VARCHAR(255) PRIMARY KEY,
-                    health INT NOT NULL,
-                    speed FLOAT NOT NULL,
-                    scrap_amount int
-                );");
+            var inventory = new Inventory { };
+            using (var writer = new StreamWriter(@"CSVFiles\inventory.csv"))
 
-            NpgsqlCommand cmdCreateInventoryTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS inventory (
-                    item_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                    weapon_name VARCHAR(255),
-                    damage INT NOT NULL,
-                    price INT NOT NULL
-                );");
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecord(inventory);
+            }
 
-            NpgsqlCommand cmdCreateWeaponTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS weapon (
-                    weapon_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL UNIQUE,
-                    damage INT NOT NULL,
-                    price INT NOT NULL
-                );");
+            var weapon = new Weapon { };
+            using (var writer = new StreamWriter(@"CSVFiles\weapon.csv"))
 
-            NpgsqlCommand cmdCreateBestiaryTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS bestiary (
-                    enemy_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL UNIQUE,
-                    health INT NOT NULL,
-                    damage INT NOT NULL,
-                    speed FLOAT NOT NULL,
-                    strengths VARCHAR(255) NOT NULL,
-                    weaknesses VARCHAR(255) NOT NULL,
-                    scrap_dropped INT NOT NULL,
-                    defeated INT NOT NULL
-                );");
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecord(weapon);
+            }
 
-            NpgsqlCommand cmdCreateArmsDealerTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS arms_dealer (
-                    name VARCHAR(255) PRIMARY KEY
-                );");
+            var beatiary = new BestiaryInfo { };
+            using (var writer = new StreamWriter(@"CSVFiles\bestiary.csv"))
 
-            NpgsqlCommand cmdCreateHasTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS has (
-                    name VARCHAR(255) REFERENCES player(name),
-                    weapon_ID INT REFERENCES weapon(weapon_id)
-                );");
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecord(beatiary);
+            }
 
-            NpgsqlCommand cmdCreateTradesTable = dataSource.CreateCommand(@"
-                CREATE TABLE IF NOT EXISTS trades (
-                    name VARCHAR(255) REFERENCES arms_dealer(name),
-                    weapon_ID INT REFERENCES weapon(weapon_id)
-                );");
+            //NpgsqlCommand cmdCreateHasTable = dataSource.CreateCommand(@"
+            //    CREATE TABLE IF NOT EXISTS has (
+            //        name VARCHAR(255) REFERENCES player(name),
+            //        weapon_ID INT REFERENCES weapon(weapon_id)
+            //    );");
 
-            cmdCreatePlayerTable.ExecuteNonQuery();
-            cmdCreateWeaponTable.ExecuteNonQuery();
-            cmdCreateBestiaryTable.ExecuteNonQuery();
-            cmdCreateArmsDealerTable.ExecuteNonQuery();
-            cmdCreateInventoryTable.ExecuteNonQuery();
-            cmdCreateHasTable.ExecuteNonQuery();
-            cmdCreateTradesTable.ExecuteNonQuery();
+            //NpgsqlCommand cmdCreateTradesTable = dataSource.CreateCommand(@"
+            //    CREATE TABLE IF NOT EXISTS trades (
+            //        name VARCHAR(255) REFERENCES arms_dealer(name),
+            //        weapon_ID INT REFERENCES weapon(weapon_id)
+            //    );");
         }
 
         /// <summary>
@@ -130,23 +105,6 @@ namespace RepositoryPattern
         /// </summary>
         public void DropTables()
         {
-            try
-            {
-                NpgsqlCommand cmdDropTables = dataSource.CreateCommand(@"
-            DROP TABLE has;
-            DROP TABLE trades;
-            DROP TABLE player;
-            DROP TABLE bestiary;
-            DROP TABLE arms_dealer;
-            DROP TABLE weapon;
-            DROP TABLE inventory;
-            ");
-                cmdDropTables.ExecuteNonQuery();
-            }
-
-            catch (Exception)
-            {
-            }
         }
 
         /// <summary>
@@ -154,41 +112,52 @@ namespace RepositoryPattern
         /// </summary>
         public void Insert()
         //VALUES SKAL VÆRE PLAYER/ENEMY.X
-
         {
-            NpgsqlCommand cmdInsertPlayerValues = dataSource.CreateCommand($@"
-        INSERT INTO player (name, health, speed, scrap_amount)
+            var player = new Player
+            {
+                name = "TestPlayer",
+                health = 1000,
+                speed = 50,
+                scrap_amount = 1000
+            };
+            using (var writer = new StreamWriter(@"CSVFiles\player.csv"))
 
-        VALUES('TestPlayer', 100, 50, 1000)
-        ");
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecord(player);
+            }
 
-            NpgsqlCommand cmdInsertWeaponValues = dataSource.CreateCommand($@"
-        INSERT INTO weapon (name, damage, price)
+            var weapon = new List<Weapon> {
+                new Weapon {weapon_id = 1, name = "Butterflyknife", damage = 2, price = 10},
+                new Weapon {weapon_id = 2, name = "Bat", damage = 5, price = 20},
+                new Weapon {weapon_id = 3, name = "Katana", damage = 10, price = 50},
+                new Weapon {weapon_id = 4, name = "Chainsword", damage = 25, price = 100},
+                new Weapon {weapon_id = 5, name = "Hammer", damage = 8, price = 25},
+                new Weapon {weapon_id = 6, name = "Crimsonblade", damage = 50, price = 300},
+                new Weapon {weapon_id = 7, name = "Nunchaku", damage = 30, price = 150},
+                new Weapon {weapon_id = 8, name = "Annihilator", damage = 100, price = 500},
+            };
 
-        VALUES('Butterflyknife', 2, 10),
-              ('Bat', 5, 20),
-              ('Katana', 10, 50),
-              ('Chainsword', 25, 100),
-              ('Hammer', 8, 25),
-              ('Crimsonblade', 50, 300),
-              ('Nunchaku', 30, 150),
-              ('Annihilator', 100, 500)
+            using (var writer = new StreamWriter(@"CSVFiles\weapon.csv"))
 
-        ");
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(weapon);
+            }
 
-            NpgsqlCommand cmdInsertBestiaryValues = dataSource.CreateCommand($@"
-        INSERT INTO bestiary (name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated)
+            var beatiary = new List<BestiaryInfo> {
+            new BestiaryInfo {name = "Drone", health = 5, damage = 1, speed = 1, strengths = "none", weaknesses = "everything", scrap_dropped = 1, defeated = 0},
+            new BestiaryInfo {name = "Android", health = 10, damage = 2, speed = 2, strengths = "none", weaknesses = "melee", scrap_dropped = 2, defeated = 0},
+            new BestiaryInfo {name = "Sentinel", health = 25, damage = 5, speed = 4, strengths = "ranged", weaknesses = "melee", scrap_dropped = 5, defeated = 0},
+            new BestiaryInfo {name = "Enforcer", health = 100, damage = 25, speed = 1, strengths = "close combat", weaknesses = "ranged", scrap_dropped = 20, defeated = 0},
+            new BestiaryInfo {name = "Cyborg", health = 75, damage = 50, speed = 10, strengths = "bio regeneration", weaknesses = "emp grenades", scrap_dropped = 50, defeated = 0}
+            };
+            using (var writer = new StreamWriter(@"CSVFiles\bestiary.csv"))
 
-        VALUES('Drone', 5, 1, 1,'none', 'everything', 1, 0),
-              ('Android', 10, 2, 2, 'none', 'melee', 2, 0),
-              ('Sentinel', 25, 5, 4, 'ranged', 'melee', 5, 0),
-              ('Enforcer', 100, 25, 1, 'close combat', 'ranged weaponsList', 20, 0),
-              ('Cyborg', 75, 50, 10, 'bio regeneration', 'emp grenades', 50, 0)
-        ");
-
-            cmdInsertPlayerValues.ExecuteNonQuery();
-            cmdInsertWeaponValues.ExecuteNonQuery();
-            cmdInsertBestiaryValues.ExecuteNonQuery();
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(beatiary);
+            }
         }
 
         /// <summary>
@@ -198,6 +167,13 @@ namespace RepositoryPattern
         /// <returns>våbnes data</returns>
         public Tuple<string, int, int> ReturnValues(string weaponName)
         {
+            using (var streamReader = new StreamReader(@"CSVFiles\weapon.csv"))
+            {
+                using (var csvReader = new CsvReader (streamReader, CultureInfo.InvariantCulture))
+                {
+                    var records = csvReader.GetRecords<dynamic>().ToList();
+                }
+            }
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
@@ -395,6 +371,11 @@ namespace RepositoryPattern
                 scrapAmount = (int)reader.GetValue(0);
             }
             return scrapAmount;
+        }
+
+        public bool TradeWeapon(ComponentPattern.Weapon weapon)
+        {
+            throw new NotImplementedException();
         }
 
         private class Player
