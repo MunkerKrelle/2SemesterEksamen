@@ -95,9 +95,14 @@ namespace ComponentPattern
         {
             UpdatePixelCollider();
         }
+        public override void Awake()
+        {
+            IsEnabled = true;
+        }
 
         public override void Start()
         {
+
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();
             texture = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
             rectangles= new Lazy<List<RectangleData>>(()=> CreateRectangles());

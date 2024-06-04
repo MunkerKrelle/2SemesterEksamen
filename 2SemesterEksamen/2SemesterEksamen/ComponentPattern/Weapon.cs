@@ -25,10 +25,14 @@
                 this.price = price;
             }
 
-            /// <summary>
-            /// Lav knapper som kan trykkes på for at købe våben
-            /// </summary>
-            public void CreateButtons()
+        public override void Awake()
+        {
+
+        }
+        /// <summary>
+        /// Lav knapper som kan trykkes på for at købe våben
+        /// </summary>
+        public void CreateButtons()
             {
                 button = ButtonFactory.Instance.Create(GameObject.Transform.Position, Name, () => Buy());
                 GameWorld.Instance.Instantiate(button);

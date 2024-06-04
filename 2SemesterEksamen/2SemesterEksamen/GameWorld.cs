@@ -44,7 +44,7 @@ namespace _2SemesterEksamen
         private GameState _state;
 
         public static SpriteFont font;
-
+        public ArmsDealer armsDealer;
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
 
@@ -91,7 +91,7 @@ namespace _2SemesterEksamen
             GameObject playerGo = director.Construct();
             GameObject armsDealerGo = director1.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
-            ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
+            armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
             GameObject database = new GameObject();
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
@@ -124,7 +124,7 @@ namespace _2SemesterEksamen
             _graphics.PreferredBackBufferWidth = 11 * 100 + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 11 * 100 + 1;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
-
+            
             base.Initialize();
         }
 
@@ -205,10 +205,14 @@ namespace _2SemesterEksamen
                 Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                 enemy.startAstarBool = false;
                 enemy.GameObject.Transform.Position = new Vector2(2000, 2000);
+                armsDealer.GameObject.IsActive = false;
+                //Inventory inventory = armsDealer.GameObject.GetComponent<Inventory>() as Inventory;
+                //foreach (var i in inventory.weaponsList)
+                //{
+                //    i.GameObject.IsActive = true;
+                //    i.button.IsActive = true;
+                //}
 
-                // Activate inventory
-                Player player = gameObjects[0].GetComponent<Player>() as Player;
-                player.inventory.SetActive(true);
             }
         }
 
@@ -235,9 +239,8 @@ namespace _2SemesterEksamen
                     enemy.startAstarBool = true;
                     enemy.GameObject.Transform.Position = new Vector2(500, 500);
 
-                    // Deactivate inventory
-                    Player player = gameObjects[0].GetComponent<Player>() as Player;
-                    player.inventory.SetActive(false);
+
+                    armsDealer.GameObject.IsActive = true;
                 }
             }
         }

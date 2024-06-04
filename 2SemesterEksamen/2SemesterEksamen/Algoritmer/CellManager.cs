@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 namespace Algoritmer
 {
     public class CellManager
-{
+    {
         public void SetUpCells(int cellCountA, int cellCountB) //flyttes over til Cells
         {
             for (int y = 1; y < cellCountA; y++)
@@ -17,6 +17,7 @@ namespace Algoritmer
                     GameWorld.Instance.Cells.Add(new Point(x, y), cell);
                     SpriteRenderer sr = cellGrid.AddComponent<SpriteRenderer>();
                     GameWorld.Instance.Instantiate(cellGrid);
+                    cellGrid.IsActive = true;
                     if (x == 9 && y == 1)
                     {
                         sr.SetSprite("EnterShop");
@@ -29,7 +30,7 @@ namespace Algoritmer
                         cellGrid.Transform.Transformer(cellGrid.Transform.Position, 0, new Vector2(1, 1), Color.White, 0.3f);
                     }
 
-                    else 
+                    else
                     {
                         sr.SetSprite("cellGrid");
                         cellGrid.Transform.Transformer(cellGrid.Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);

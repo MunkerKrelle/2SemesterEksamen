@@ -21,10 +21,7 @@ namespace ComponentPattern
         {
             Active = false;
         }
-        public void SetActive(bool isActive)
-        {
-            Active = isActive;
-        }
+
 
         public void RemoveItem(Weapon weapon)
         {
@@ -59,6 +56,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
+            GameObject.IsActive = true;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

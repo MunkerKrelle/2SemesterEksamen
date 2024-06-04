@@ -90,6 +90,7 @@ namespace ComponentPattern
         /// </summary>
         public override void Awake()
         {
+            GameObject.IsActive = true;
             speed = 100;
             health = 10000;
             scraps = database.UpdateScraps();

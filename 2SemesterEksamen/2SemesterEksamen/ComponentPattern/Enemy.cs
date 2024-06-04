@@ -34,6 +34,7 @@ namespace ComponentPattern
 
         public override void Awake()
         {
+            GameObject.IsActive = true;
             Health = 100;
             GameObject.Transform.Scale = new Vector2(3f, 3f);
             animator = GameObject.GetComponent<Animator>() as Animator;
