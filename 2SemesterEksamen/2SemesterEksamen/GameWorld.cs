@@ -108,8 +108,8 @@ namespace _2SemesterEksamen
             InputHandler.Instance.AddUpdateCommand(Keys.C, new InventoryCommand(player));
 
             sprites.Add("cellGrid", Content.Load<Texture2D>("cellGrid"));
-            sprites.Add("1fwd", Content.Load<Texture2D>("Robot1"));
-            sprites.Add("Robot1", Content.Load<Texture2D>("Robot1"));
+            sprites.Add("1fwd", Content.Load<Texture2D>("Robot"));
+            sprites.Add("Robot1", Content.Load<Texture2D>("Robot"));
             sprites.Add("EnterShop", Content.Load<Texture2D>("EnterShop"));
             sprites.Add("ExitShop", Content.Load<Texture2D>("ExitShop"));
             CellManager cellManager = new CellManager();

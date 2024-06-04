@@ -64,14 +64,14 @@ namespace FactoryPattern
 
                     //enemyOriginal = false;
                     go.Transform.Position = new Vector2(100, 100);
-                    sr.SetSprite("robot-preview");
+                    sr.SetSprite("robot");
                     go.Transform.Layer = 0.9f;
-                    go.AddComponent<Enemy>();
+                    go.AddComponent<NewEnemy>();
                     go.AddComponent<Collider>();
                     Animator animator2 = go.AddComponent<Animator>();
-                    animator2.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "Cyborg/CyborgMove/Cyborg_Move2", "Cyborg/CyborgIdle/Cyborg_Idle2", "Cyborg/CyborgIdle/Cyborg_Idle3", "Cyborg/CyborgIdle/Cyborg_Idle4" }));
-                    animator2.AddAnimation(BuildAnimation("CyborgMove", new string[] { "Cyborg/CyborgMove/Cyborg_Move1", "Cyborg/CyborgMove/Cyborg_Move2", "Cyborg/CyborgMove/Cyborg_Move3", "Cyborg/CyborgMove/Cyborg_Move4", "Cyborg/CyborgMove/Cyborg_Move5", "Cyborg/CyborgMove/Cyborg_Move6" }));
-                    animator2.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "Cyborg/CyborgAttack/Cyborg_Attack1", "Cyborg/CyborgAttack/Cyborg_Attack2", "Cyborg/CyborgAttack/Cyborg_Attack3", "Cyborg/CyborgAttack/Cyborg_Attack4", "Cyborg/CyborgAttack/Cyborg_Attack5", "Cyborg/CyborgAttack/Cyborg_Attack6" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "robot" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgMove", new string[] { "robot" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "robot" }));
                     break;
 
             }
