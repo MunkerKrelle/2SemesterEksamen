@@ -22,7 +22,7 @@ namespace FactoryPattern
             }
         }
 
-        private Database database = new Database();
+        private IRepository database = IRepository.currentRepository;
 
 
         private GameObject prototype;

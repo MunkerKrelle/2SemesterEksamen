@@ -84,8 +84,17 @@ namespace _2SemesterEksamen
 
         protected override void Initialize()
         {
-            IRepository repository = new Database();
-            new Database(repository).CreateDatabase();
+            try
+            {
+                IRepository.currentRepository = new Database();
+                new Database(IRepository.currentRepository).CreateDatabase();
+            }
+            catch
+            {
+                IRepository.currentRepository = new CSV();
+                new CSV(IRepository.currentRepository).CreateDatabase();
+            }
+
 
             Director director = new Director(new PlayerBuilder());
             Director director1 = new Director(new ArmsDealerBuilder());

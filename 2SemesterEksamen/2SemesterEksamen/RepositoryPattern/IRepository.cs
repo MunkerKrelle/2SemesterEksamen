@@ -12,6 +12,8 @@ namespace RepositoryPattern
     /// </summary>
     public interface IRepository
     {
+        public static IRepository currentRepository;
+
         void DropTables();
         void CreateTables();
 

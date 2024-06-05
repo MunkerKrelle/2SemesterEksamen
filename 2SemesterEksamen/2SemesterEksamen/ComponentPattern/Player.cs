@@ -17,7 +17,7 @@ namespace ComponentPattern
         private int scraps;
         Animator animator;
         public Inventory inventory;
-        Database database = new Database();
+        IRepository database = IRepository.currentRepository;
 
         bool isAlive = true;
 
