@@ -38,9 +38,9 @@ namespace FactoryPattern
             var itemValues = database.ReturnValues(weaponType);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(itemValues.Item1);
+            sr.SetSprite(itemValues.name);
             go.Transform.Layer = 0.7f;
-            go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
+            go.AddComponent<Weapon>(itemValues.name, itemValues.damage, itemValues.price);
 
             return go;
         }
@@ -56,9 +56,9 @@ namespace FactoryPattern
             var itemValues = database.ReturnValuesWithID(weaponID);
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.SetSprite(itemValues.Item1);
+            sr.SetSprite(itemValues.name);
             go.Transform.Layer = 0.7f;
-            go.AddComponent<Weapon>(itemValues.Item1, itemValues.Item2, itemValues.Item3);
+            go.AddComponent<Weapon>(itemValues.name, itemValues.damage, itemValues.price);
 
             return go;
         }

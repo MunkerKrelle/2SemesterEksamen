@@ -1,8 +1,10 @@
 ﻿using _2SemesterEksamen;
 using ComponentPattern;
 using Npgsql;
+using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("TestProjectV6")]
 
@@ -184,22 +186,22 @@ namespace RepositoryPattern
         /// </summary>
         /// <param name="weaponName">Hvilket våben navn databasen skal lede efter</param>
         /// <returns>våbnes data</returns>
-        public Tuple<string, int, int> ReturnValues(string weaponName)
+        public WeaponDB ReturnValues(string weaponName)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
-            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, damage, price FROM weapon " +
+            NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT weapon_id, name, damage, price FROM weapon " +
                                                      $"WHERE (name = '{weaponName}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            Tuple<string, int, int> list = null;
+            WeaponDB result = new WeaponDB();
 
             while (reader.Read())
             {
-                list = (new Tuple<string, int, int>(reader.GetValue(0).ToString(), (int)reader.GetValue(1), (int)reader.GetValue(2)));
+                result = new WeaponDB { weapon_id = (int)reader.GetValue(0), name = reader.GetValue(1).ToString(), damage = (int)reader.GetValue(2), price = (int)reader.GetValue(3) };
 
             }
             reader.Close();
 
-            return list;
+            return result;
         }
 
         /// <summary>
@@ -207,22 +209,22 @@ namespace RepositoryPattern
         /// </summary>
         /// <param name="weaponID">Våbnes ID databasen skal lede efter</param>
         /// <returns>Våbnes data</returns>
-        public Tuple<string, int, int> ReturnValuesWithID(int weaponID)
+        public WeaponDB ReturnValuesWithID(int weaponID)
         {
             dataSource = NpgsqlDataSource.Create(connectionString);
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT weapon_id, name, damage, price FROM weapon " +
                                                      $"WHERE (weapon_id = '{weaponID}')");
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            Tuple<string, int, int> list = null;
+            WeaponDB result = new WeaponDB();
 
             while (reader.Read())
             {
-                list = (new Tuple<string, int, int>(reader.GetValue(1).ToString(), (int)reader.GetValue(2), (int)reader.GetValue(3)));
+                result = new WeaponDB { weapon_id = (int)reader.GetValue(0), name = reader.GetValue(1).ToString(), damage = (int)reader.GetValue(2), price = (int)reader.GetValue(3) };
 
             }
             reader.Close();
 
-            return list;
+            return result;
         }
 
         /// <summary>
