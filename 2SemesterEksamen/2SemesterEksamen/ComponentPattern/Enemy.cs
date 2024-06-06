@@ -181,13 +181,10 @@ namespace ComponentPattern
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
                 foreach (var VARIABLE in path)
                 {
-
-
                     animator.PlayAnimation("CyborgMove");
                     GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
                     //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
                     Thread.Sleep(1000);
-
                 }
                 index++;
             }
