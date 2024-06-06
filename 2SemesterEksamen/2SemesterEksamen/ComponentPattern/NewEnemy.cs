@@ -46,7 +46,7 @@ namespace ComponentPattern
         {
 
             Health = 100;
-            GameObject.Transform.Scale = new Vector2(1f, 1f);
+            GameObject.Transform.Scale = new Vector2(2f, 2f);
             animator = GameObject.GetComponent<Animator>() as Animator;
             animator.PlayAnimation("CyborgIdle");
 

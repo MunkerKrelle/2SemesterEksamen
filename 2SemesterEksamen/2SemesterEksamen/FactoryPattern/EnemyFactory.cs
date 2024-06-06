@@ -63,15 +63,17 @@ namespace FactoryPattern
                 case TYPE.NEW:
 
                     //enemyOriginal = false;
-                    go.Transform.Position = new Vector2(100, 100);
-                    sr.SetSprite("robot");
-                    go.Transform.Layer = 0.9f;
+                    //go.Transform.Position = new Vector2(100, 100);
+                    sr.SetSprite("cyborg");
+                    //go.Transform.Layer = 0.9f;
+                    //go.Transform.Scale = new Vector2(100f, 100f);
+                    go.Transform.Transformer(new Vector2(100, 100), 0, new Vector2(3f, 3f), Color.White, 0.9f);
                     go.AddComponent<NewEnemy>();
                     go.AddComponent<Collider>();
                     Animator animator2 = go.AddComponent<Animator>();
-                    animator2.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "robot" }));
-                    animator2.AddAnimation(BuildAnimation("CyborgMove", new string[] { "robot" }));
-                    animator2.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "robot" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgIdle", new string[] { "cyborg" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgMove", new string[] { "cyborg" }));
+                    animator2.AddAnimation(BuildAnimation("CyborgAttack", new string[] { "cyborg" }));
                     break;
 
             }

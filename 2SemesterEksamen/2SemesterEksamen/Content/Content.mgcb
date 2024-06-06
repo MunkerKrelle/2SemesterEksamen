@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Annihilator.png
 
+#begin backdrop.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:backdrop.png
+
 #begin Bat.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,6 +108,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Crimsonblade.png
+
+#begin cyborg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:cyborg.png
 
 #begin Cyborg/CyborgAttack/Cyborg_attack1.png
 /importer:TextureImporter
@@ -288,6 +312,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Cyborg/CyborgMove/Cyborg_Move6.png
+
+#begin drone.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:drone.png
 
 #begin EnterShop.png
 /importer:TextureImporter
@@ -559,6 +595,18 @@
 /processorParam:TextureFormat=Color
 /build:Player/Run/Run6.png
 
+#begin robo-spider.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:robo-spider.png
+
 #begin robot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -582,6 +630,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ShopKeeper.png
+
+#begin skull-robot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:skull-robot.png
 
 #begin text2.spritefont
 /importer:FontDescriptionImporter
