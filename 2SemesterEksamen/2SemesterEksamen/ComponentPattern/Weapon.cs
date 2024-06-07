@@ -11,7 +11,7 @@
         public class Weapon : Component
         {
             public GameObject button;
-            private Database database = new Database();
+        private IRepository database = IRepository.currentRepository;
             private string name;
             private int damage, price;
             public string Name { get { return name; } }
