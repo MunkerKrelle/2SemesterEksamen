@@ -14,7 +14,6 @@ namespace _2SemesterEksamen
         public string name;
         public int health;
         public int damage;
-        public int speed;
         public string strengths;
         public string weaknesses;
         public int scrap_dropped;

@@ -17,7 +17,7 @@ namespace ComponentPattern
         private int scraps;
         Animator animator;
         public Inventory inventory;
-        IRepository database = IRepository.currentRepository;
+        Database database = new Database();
 
         bool isAlive = true;
 
@@ -47,7 +47,7 @@ namespace ComponentPattern
 
         }
 
-
+        bool isMoving;
 
         /// <summary>
         /// Flytter spilleren i henhold til den angivne hastighedsvektor.
@@ -58,7 +58,7 @@ namespace ComponentPattern
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
-
+                isMoving = true;
             }
 
             velocity *= speed;
@@ -90,7 +90,6 @@ namespace ComponentPattern
         /// </summary>
         public override void Awake()
         {
-            GameObject.IsActive = true;
             speed = 100;
             health = 10000;
             scraps = database.UpdateScraps();

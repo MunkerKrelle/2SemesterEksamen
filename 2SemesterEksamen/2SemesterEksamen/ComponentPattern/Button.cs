@@ -50,10 +50,6 @@ namespace ComponentPattern
             maxPosition.X = GameObject.Transform.Position.X + (sr.Sprite.Width / 2 * GameObject.Transform.Scale.X);
             maxPosition.Y = GameObject.Transform.Position.Y + (sr.Sprite.Height / 2 * GameObject.Transform.Scale.Y);
         }
-        public override void Awake()
-        {
-            GameObject.IsActive = true;
-        }
         public override void Start()
         {
             Debug.WriteLine("button started");
