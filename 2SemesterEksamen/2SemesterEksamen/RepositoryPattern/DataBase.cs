@@ -18,13 +18,12 @@ namespace RepositoryPattern
         private readonly IRepository repository;
         public static bool playerItemsUpdated = false;
         private NpgsqlDataSource dataSource;
-        private string connectionString = "Host=localhost;Username=postgres;Password=sargon;Database=eksamen";
+        private string connectionString = "Host=localhost;Username=postgres;Password=Cqw52and;Database=postgres";
 
         //Nogle af disse er ikke blevet brugt endnu
-        private string charName, weaponName;
-        private int health, scrapAmount, damage, price, scrapDropped, defeated;
-        private float speed;
-        private bool buy, sell, enemyKilled;
+        private string weaponName;
+        private int scrapAmount;
+
 
         public Database()
         {
@@ -314,34 +313,34 @@ namespace RepositoryPattern
         }
 
         //VIRKER IKKE SORTER_______________________________________________________________________________________
-        //public void SortTables()
-        //{
-        //    NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
-        //SELECT * 
+        public void SortTables()
+        {
+            NpgsqlCommand cmdSortInventoryTable = dataSource.CreateCommand($@"
+        SELECT * 
 
-        //FROM inventory
+        FROM inventory
 
-        //ORDER BY damage ASC
-        //");
+        ORDER BY damage ASC
+        ");
 
-        //    NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
-        //SELECT * 
+            NpgsqlCommand cmdSortWeaponTable = dataSource.CreateCommand($@"
+        SELECT * 
 
-        //FROM weapon
+        FROM weapon
 
-        //ORDER BY price ASC
-        //");
+        ORDER BY price ASC
+        ");
 
-        //    cmdSortInventoryTable.ExecuteNonQuery();
-        //    cmdSortWeaponTable.ExecuteNonQuery();
+            cmdSortInventoryTable.ExecuteNonQuery();
+            cmdSortWeaponTable.ExecuteNonQuery();
 
-        //    Console.WriteLine("You've been sorted mate");
-        //}
+            Console.WriteLine("You've been sorted mate");
+        }
 
         /// <summary>
         /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
         /// </summary>
-        public void ShowBestiary()
+        private void ShowBestiary()
         {
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
             NpgsqlDataReader reader = cmd.ExecuteReader();

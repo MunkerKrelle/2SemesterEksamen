@@ -24,6 +24,10 @@ namespace ComponentPattern
         {
         }
 
+        public override void Awake()
+        {
+            IsEnabled = true;
+        }
         public override void Start()
         {
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent<SpriteRenderer>();

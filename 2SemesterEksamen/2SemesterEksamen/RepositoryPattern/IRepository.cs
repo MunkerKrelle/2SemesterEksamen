@@ -29,6 +29,7 @@ namespace RepositoryPattern
 
         void ShowBestiary();
 
+
         string AddToInventory();
 
         int UpdateScraps();

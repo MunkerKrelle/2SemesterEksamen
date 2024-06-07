@@ -45,7 +45,7 @@ namespace _2SemesterEksamen
         private GameState _state;
 
         public static SpriteFont font;
-
+        public ArmsDealer armsDealer;
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
   
@@ -101,7 +101,7 @@ namespace _2SemesterEksamen
             GameObject playerGo = director.Construct();
             GameObject armsDealerGo = director1.Construct();
             Player player = playerGo.GetComponent<Player>() as Player;
-            ArmsDealer armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
+            armsDealer = armsDealerGo.GetComponent<ArmsDealer>() as ArmsDealer;
             GameObject database = new GameObject();
 
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(player, new Vector2(1, 0)));
@@ -137,7 +137,7 @@ namespace _2SemesterEksamen
             _graphics.PreferredBackBufferWidth = 11 * 100 + 200;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 11 * 100 + 1;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
-
+            
             base.Initialize();
         }
 
@@ -209,21 +209,22 @@ namespace _2SemesterEksamen
             if (gameObjects[0].Transform.Position == new Vector2(900, 100))
             {
                 _state = GameState.Shop;
-                //background change (Done)
-
-                //add entry and exit doors (do it in setup cells)
 
                 for (int i = 5; i < Cells.Count + 5; i++)
                 {
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
 
-                //UI elements come up
-
-                //Astar stops
                 Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                 enemy.startAstarBool = false;
                 enemy.GameObject.Transform.Position = new Vector2(2000, 2000);
+                armsDealer.GameObject.IsActive = false;
+                //Inventory inventory = armsDealer.GameObject.GetComponent<Inventory>() as Inventory;
+                //foreach (var i in inventory.weaponsList)
+                //{
+                //    i.GameObject.IsActive = true;
+                //    i.button.IsActive = true;
+                //}
 
             }
         }
@@ -244,13 +245,15 @@ namespace _2SemesterEksamen
                         gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
 
-                    //UI elements goes away
+                    // UI elements go away
 
-                    //Astar starts again
+                    // Astar starts again
                     Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
                     enemy.startAstarBool = true;
                     enemy.GameObject.Transform.Position = new Vector2(500, 500);
 
+
+                    armsDealer.GameObject.IsActive = true;
                 }
             }
         }

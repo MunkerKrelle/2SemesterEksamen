@@ -21,7 +21,7 @@ namespace ComponentPattern
         // Metode der kaldes når komponenten bliver oprettet
         public virtual void Awake()
         {
-
+            
         }
 
         // Metode der kaldes når spillet starter
