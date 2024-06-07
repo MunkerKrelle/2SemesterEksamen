@@ -340,7 +340,7 @@ namespace RepositoryPattern
         /// <summary>
         /// VIS OVERSIGT OVER FEJNDER_______________________________________________________________________________________
         /// </summary>
-        private void ShowBestiary()
+        public void ShowBestiary()
         {
             NpgsqlCommand cmd = dataSource.CreateCommand($"SELECT name, health, damage, speed, strengths, weaknesses, scrap_dropped, defeated FROM bestiary");
             NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -385,5 +385,6 @@ namespace RepositoryPattern
             }
             return scrapAmount;
         }
+
     }
 }
