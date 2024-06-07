@@ -1,6 +1,7 @@
 ﻿using _2SemesterEksamen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using RepositoryPattern;
 using System.Collections.Generic;
 
@@ -42,26 +43,30 @@ namespace ComponentPattern
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            KeyboardState keyState = Keyboard.GetState();
 
             int offset = 0;
-
-            spriteBatch.Draw(sprite, new Vector2(0, 700), null, Color.White, 0f, new Vector2(0, 0), scale, SpriteEffects.None, .9f);
-
-            foreach (BestiaryInfo value in bestiaryInfo)
+            if (keyState.IsKeyDown(Keys.B))
             {
-                offset += 70;
+                spriteBatch.Draw(sprite, new Vector2(0, 700), null, Color.White, 0f, new Vector2(0, 0), scale, SpriteEffects.None, .9f);
 
-                spriteBatch.DrawString(font, ("Name: " + value.name + "    " + "Health: " + value.health + "    " +
-                "Damage: " + value.damage + "    " + "Strengths: " + value.strengths + "    " + "Weaknesses: " + value.weaknesses
-                + "    " + "Scrap Dropped: " + value.scrap_dropped +
-                "    " + "Defeated: " + value.defeated), new Vector2(120, 680 + offset), Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+                foreach (BestiaryInfo value in bestiaryInfo)
+                {
+                    offset += 65;
+
+                    spriteBatch.DrawString(font, ("Name: " + value.name + "    " + "Health: " + value.health + "    " +
+                    "Damage: " + value.damage + "    " + "Strengths: " + value.strengths + "    " + "Weaknesses: " + value.weaknesses
+                    + "    " + "Scrap Dropped: " + value.scrap_dropped +
+                    "    " + "Defeated: " + value.defeated), new Vector2(120, 680 + offset), Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+                }
+
+                spriteBatch.Draw(sprites[0], new Vector2(10, 710), null, Color.White, 0, new Vector2(0, 0), 0.8f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprites[1], new Vector2(30, 790), null, Color.White, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprites[2], new Vector2(15, 830), null, Color.White, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprites[3], new Vector2(20, 910), null, Color.White, 0, new Vector2(0, 0), 2f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprites[4], new Vector2(20, 980), null, Color.White, 0, new Vector2(0, 0), 1.2f, SpriteEffects.None, 1f);
+
             }
-
-            spriteBatch.Draw(sprites[0], new Vector2(10, 730), null, Color.White, 0, new Vector2(0, 0), 0.8f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(sprites[1], new Vector2(30, 810), null, Color.White, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(sprites[2], new Vector2(15, 850), null, Color.White, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(sprites[3], new Vector2(20, 930), null, Color.White, 0, new Vector2(0, 0), 2f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(sprites[4], new Vector2(20, 1000), null, Color.White, 0, new Vector2(0, 0), 1.2f, SpriteEffects.None, 1f);
 
 
 

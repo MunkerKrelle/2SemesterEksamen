@@ -121,9 +121,6 @@ namespace _2SemesterEksamen
 
             gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
             gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
-            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
-            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.ORIGNIAL));
-            gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.NEW));
             gameObjects.Add(EnemyFactory.Instance.Create(EnemyFactory.TYPE.NEW));
 
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
