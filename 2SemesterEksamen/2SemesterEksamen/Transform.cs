@@ -9,7 +9,6 @@ namespace _2SemesterEksamen
     public class Transform
     {
         public Vector2 Position { get; set; }
-        public Point PosOnCell { get; set; }
         public float Rotation { get; set; } = 0f;
         public Vector2 Scale { get; set; } = new Vector2(1, 1);
         public Color Color { get; set; } = Color.White;
