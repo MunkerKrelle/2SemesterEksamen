@@ -23,7 +23,7 @@ namespace ComponentPattern
         public override void Awake()
         {
             IsEnabled = true;
-            base.Awake();
+            //base.Awake();
             font = GameWorld.Instance.Content.Load<SpriteFont>("text2");
             bestiaryInfo = database.ShowBestiaryInfo();
         }

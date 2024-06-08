@@ -128,6 +128,8 @@ namespace _2SemesterEksamen
             gameObjects.Add(EnemyFactory.Instance.Create());
             gameObjects.Add(EnemyFactory.Instance.Create());
             gameObjects.Add(ButtonFactory.Instance.Create(new Vector2(800, 200), "GenerateShop", armsDealer.UpdateItems));
+            
+            //player = .GetComponent<UI>() as UI;
 
             foreach (GameObject go in gameObjects)
             {
