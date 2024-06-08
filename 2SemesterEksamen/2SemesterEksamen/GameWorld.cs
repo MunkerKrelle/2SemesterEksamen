@@ -204,7 +204,7 @@ namespace _2SemesterEksamen
 
                 //add entry and exit doors (do it in setup cells)
 
-                for (int i = 5; i < Cells.Count + 5; i++)
+                for (int i = 8; i < Cells.Count + 8; i++)
                 {
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
@@ -230,7 +230,7 @@ namespace _2SemesterEksamen
                 {
                     _state = GameState.Combat;
 
-                    for (int i = 5; i < Cells.Count + 5; i++)
+                    for (int i = 8; i < Cells.Count + 8; i++)
                     {
                         gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
@@ -269,40 +269,6 @@ namespace _2SemesterEksamen
                 _state = GameState.Shop;
             }
         }
-
-        /// <summary>
-        /// Starter AStar for enemy, så den begynder at lede efter spilleren, hvis de findes
-        /// </summary>
-        //public void RunAStar()
-        //{
-        //    Astar astar = new Astar(Cells);
-        //    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
-
-        //    if (index > targetPointList.Count - 1)
-        //    {
-        //        return;
-        //    }
-
-        //    if (index == 0)
-        //    {
-        //        index++;
-        //    }
-
-        //    if (index > 0 && index <= targetPointList.Count)
-        //    {
-        //        var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
-        //        foreach (var VARIABLE in path)
-        //        {
-        //            enemy.animator.PlayAnimation("CyborgMove");
-        //            enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-        //            Thread.Sleep(1000);
-        //        }
-        //        index++;
-        //    }
-
-        //    index = 0;
-        //    enemy.startAstarBool = true;
-        //}
 
         /// <summary>
         /// Laver en knap der respawner spilleren
