@@ -13,11 +13,12 @@ using System.Threading;
 
 namespace _2SemesterEksamen
 {
-    enum GameState
+    public enum GameState
     {
         Shop,
         Combat
     }
+   
 
     public class GameWorld : Game
     {
@@ -42,13 +43,13 @@ namespace _2SemesterEksamen
 
 
         private float timeElapsed;
-        private GameState _state;
+        public GameState _state = GameState.Combat;
 
         public static SpriteFont font;
         public ArmsDealer armsDealer;
+        public Enemy enemy;
         private int index = 0;
         public List<Point> targetPointList = new List<Point>();
-  
 
         public List<GameObject> GameObjects
         {
@@ -153,12 +154,13 @@ namespace _2SemesterEksamen
 
             switch (_state)
             {
-                case GameState.Shop:
-                    SceneShop();
-                    break;
                 case GameState.Combat:
                     SceneCombat();
                     break;
+                case GameState.Shop:
+                    SceneShop();
+                    break;
+
             }
 
             if (timeElapsed >= 0.3f)
@@ -206,16 +208,12 @@ namespace _2SemesterEksamen
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
 
-                Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
-                enemy.startAstarBool = false;
-                enemy.GameObject.Transform.Position = new Vector2(2000, 2000);
+                Director director = new Director(new PlayerBuilder());
+                GameObject playerGo = director.Construct();
+                Player player = playerGo.GetComponent<Player>() as Player;
+                player.Health = 10000;
                 armsDealer.GameObject.IsActive = false;
-                //Inventory inventory = armsDealer.GameObject.GetComponent<Inventory>() as Inventory;
-                //foreach (var i in inventory.weaponsList)
-                //{
-                //    i.GameObject.IsActive = true;
-                //    i.button.IsActive = true;
-                //}
+
 
             }
         }
@@ -239,10 +237,11 @@ namespace _2SemesterEksamen
                     // UI elements go away
 
                     // Astar starts again
-                    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
-                    enemy.startAstarBool = true;
-                    enemy.GameObject.Transform.Position = new Vector2(500, 500);
 
+                    //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
+                    //enemy.startAstarBool = true;
+                    //enemy.GameObject.Transform.Position = new Vector2(500, 500);
+                    enemy.RespawnEnemy();
 
                     armsDealer.GameObject.IsActive = true;
                 }
@@ -273,39 +272,7 @@ namespace _2SemesterEksamen
             }
         }
 
-        /// <summary>
-        /// Starter AStar for enemy, så den begynder at lede efter spilleren, hvis de findes
-        /// </summary>
-        //public void RunAStar()
-        //{
-        //    Astar astar = new Astar(Cells);
-        //    Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
 
-        //    if (index > targetPointList.Count - 1)
-        //    {
-        //        return;
-        //    }
-
-        //    if (index == 0)
-        //    {
-        //        index++;
-        //    }
-
-        //    if (index > 0 && index <= targetPointList.Count)
-        //    {
-        //        var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
-        //        foreach (var VARIABLE in path)
-        //        {
-        //            enemy.animator.PlayAnimation("CyborgMove");
-        //            enemy.GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-        //            Thread.Sleep(1000);
-        //        }
-        //        index++;
-        //    }
-
-        //    index = 0;
-        //    enemy.startAstarBool = true;
-        //}
 
         /// <summary>
         /// Laver en knap der respawner spilleren

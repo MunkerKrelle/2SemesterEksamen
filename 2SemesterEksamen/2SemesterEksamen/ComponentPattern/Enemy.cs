@@ -29,7 +29,7 @@ namespace ComponentPattern
 
         public Vector2 velocity = new Vector2(0, 1);
         static readonly object DamagePlayerLock = new object();
-   
+
 
         public List<Point> targetPointList = new List<Point>();
         public Enemy(GameObject gameObject) : base(gameObject)
@@ -51,37 +51,29 @@ namespace ComponentPattern
         public override void Start()
         {
             Random rnd = new Random();
-            GameObject.Transform.Position = new Vector2(rnd.Next(100, 1000), rnd.Next(100,1000));
+            GameObject.Transform.Position = new Vector2(rnd.Next(100, 1000), rnd.Next(100, 1000));
         }
 
         public override void Update(GameTime gameTime)
         {
-            //if (Player is dead)
-            //{
-            //    ChangeState(new IdleState());
-            //}
-            //else if (Player is not close)
-            //{
-            //    ChangeState(new MoveState());
-            //}
-            //else if (Player is close)
-            //{
-            //    ChangeState(new AttackState());
-            //}
+
 
             enemyTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeElapsed2 += enemyTimer;
 
-            //if (timeElapsed2 >= 1f)
-            //{
-                SearchForPlayer();
-            //    timeElapsed2 = 0;
-            //}
+
+            SearchForPlayer();
+
 
             if (Health <= 0)
             {
                 GameWorld.Instance.Destroy(GameObject);
             }
+            if (GameWorld.Instance._state == GameState.Shop) ;
+            {
+                GameWorld.Instance.Destroy(GameObject);
+            }
+
         }
 
         public override void OnCollisionEnter(Collider col)
@@ -109,14 +101,13 @@ namespace ComponentPattern
 
         public void SearchForPlayer()
         {
-            //RUN ASTAR
             KeyboardState keyState = Keyboard.GetState();
 
             if (startAstarBool == true)
             {
                 startAstarBool = false;
                 EnemyPointPosition = GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position);
-                //Thread.Sleep(100);
+
                 GetPlayerPosition(GameWorld.Instance.GameObjects[0].Transform.VectorToPointConverter(GameWorld.Instance.GameObjects[0].Transform.Position));
                 Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
                 Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
@@ -126,22 +117,19 @@ namespace ComponentPattern
                     targetPointList.Clear();
                 }
 
-                if (targetPointList.Count < 2) 
+                if (targetPointList.Count < 2)
                 {
                     targetPointList.Add(enemy1);
                     targetPointList.Add(player1);
                 }
-                
+
                 Thread enemyThread = new Thread(RunAStar);
                 enemyThread.IsBackground = true;
                 enemyThread.Start();
-
-                //Thread.Sleep(1000);
             }
-            //IF DISTANCE < WHATEVER
-            //{
+
             AttackPlayer();
-            //}
+
         }
 
         private void AttackPlayer()
@@ -149,7 +137,7 @@ namespace ComponentPattern
             //HVERT TREDJE ISH SEKUND, PLAYER.HEALTH - 2
             lock (DamagePlayerLock)
             {
-               //insert attack code here to remove health.
+                //insert attack code here to remove health.
             }
         }
 
@@ -163,7 +151,7 @@ namespace ComponentPattern
             Astar astar = new Astar(GameWorld.Instance.Cells);
             //Enemy enemy = gameObjects[3].GetComponent<Enemy>() as Enemy;
             int index = 0;
-           
+
             if (index > targetPointList.Count - 1)
             {
                 return;
@@ -173,7 +161,7 @@ namespace ComponentPattern
             {
                 index++;
             }
-            
+
             if (index > 0 && index <= targetPointList.Count)
             {
                 var path = astar.FindPath(targetPointList[index - 1], targetPointList[index]);
@@ -190,6 +178,15 @@ namespace ComponentPattern
             index = 0;
             startAstarBool = true;
         }
+        public void RespawnEnemy()
+        {
+            if (GameWorld.Instance._state == GameState.Combat) ;
+            {
+                Health = 100;
+                GameWorld.Instance.Instantiate(GameObject);
+            }
+        }
+
     }
 }
 
