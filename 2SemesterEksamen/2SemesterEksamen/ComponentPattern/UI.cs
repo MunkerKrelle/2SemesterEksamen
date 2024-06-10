@@ -35,7 +35,7 @@ namespace ComponentPattern
         public void Start()
         {
             sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("drone"));
-            sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("robot"));
+            sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("Cyborg/CyborgIdle/Cyborg_Idle1"));
             sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("robo-spider"));
             sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("skull-robot"));
             sprites.Add(GameWorld.Instance.Content.Load<Texture2D>("cyborg"));
@@ -61,7 +61,7 @@ namespace ComponentPattern
                 }
 
                 spriteBatch.Draw(sprites[0], new Vector2(10, 710), null, Color.White, 0, new Vector2(0, 0), 0.8f, SpriteEffects.None, 1f);
-                spriteBatch.Draw(sprites[1], new Vector2(30, 790), null, Color.White, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprites[1], new Vector2(30, 780), null, Color.White, 0, new Vector2(0, 0), 2.3f, SpriteEffects.None, 1f);
                 spriteBatch.Draw(sprites[2], new Vector2(15, 830), null, Color.White, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 1f);
                 spriteBatch.Draw(sprites[3], new Vector2(20, 910), null, Color.White, 0, new Vector2(0, 0), 2f, SpriteEffects.None, 1f);
                 spriteBatch.Draw(sprites[4], new Vector2(20, 980), null, Color.White, 0, new Vector2(0, 0), 1.2f, SpriteEffects.None, 1f);
