@@ -121,7 +121,7 @@ namespace ComponentPattern
                 Point enemy1 = new Point(EnemyPointPosition.X, EnemyPointPosition.Y);
                 Point player1 = new Point(targetPointPos.X, targetPointPos.Y);
 
-                if (targetPointList.Count == 2)
+                if (targetPointList.Count >= 2)
                 {
                     targetPointList.Clear();
                 }
@@ -181,7 +181,6 @@ namespace ComponentPattern
                 {
                     animator.PlayAnimation("CyborgMove");
                     GameObject.Transform.Position = new Vector2(VARIABLE.Position.X * 100, VARIABLE.Position.Y * 100);
-                    //var test = GameWorld.Instance.Cells[GameObject.Transform.VectorToPointConverter(GameObject.Transform.Position)];
                     Thread.Sleep(1000);
                 }
                 index++;

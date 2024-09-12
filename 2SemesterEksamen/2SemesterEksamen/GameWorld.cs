@@ -212,7 +212,7 @@ namespace _2SemesterEksamen
             {
                 _state = GameState.Shop;
 
-                for (int i = 5; i < Cells.Count + 5; i++)
+                for (int i = 8; i < Cells.Count + 8; i++)
                 {
                     gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.SaddleBrown, 0f);
                 }
@@ -242,7 +242,7 @@ namespace _2SemesterEksamen
                 {
                     _state = GameState.Combat;
 
-                    for (int i = 5; i < Cells.Count + 5; i++)
+                    for (int i = 8; i < Cells.Count + 8; i++)
                     {
                         gameObjects[i].Transform.Transformer(gameObjects[i].Transform.Position, 0, new Vector2(1, 1), Color.White, 0f);
                     }
